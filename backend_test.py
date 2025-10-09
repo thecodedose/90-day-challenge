@@ -439,6 +439,9 @@ class BackendTester:
         # Test project CRUD validation
         test_results['project_crud_validation'] = self.test_project_crud_validation()
         
+        # Test database operations
+        test_results['database_operations'] = self.test_database_operations()
+        
         # Summary
         self.log("=" * 60)
         self.log("TEST RESULTS SUMMARY")
