@@ -321,10 +321,10 @@ async def delete_project(project_id: str, user: User = Depends(require_auth)):
 # Dashboard route
 @api_router.get("/dashboard")
 async def get_dashboard_data(user: User = Depends(require_auth)):
-    # Calculate days since challenge started
-    days_elapsed = 0
+    # Calculate days since challenge started (starting from Day 1)
+    days_elapsed = 1  # Default to Day 1
     if user.challenge_start_date:
-        days_elapsed = (datetime.now(timezone.utc) - user.challenge_start_date).days
+        days_elapsed = (datetime.now(timezone.utc) - user.challenge_start_date).days + 1
     
     # Get user's projects
     projects = await db.projects.find({"user_id": user.id}, {"_id": 0}).to_list(1000)
