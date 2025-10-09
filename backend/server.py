@@ -118,6 +118,11 @@ def parse_from_mongo(item):
                     item[key] = datetime.fromisoformat(value)
     return item
 
+# Health check route
+@api_router.get("/")
+async def root():
+    return {"message": "90-Day Lock-In Challenge API", "status": "healthy"}
+
 # Authentication routes
 @api_router.post("/auth/session")
 async def create_session(request: Request, response: Response):
