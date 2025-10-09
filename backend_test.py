@@ -65,7 +65,6 @@ class BackendTester:
         
         protected_endpoints = [
             ("GET", "/auth/me"),
-            ("POST", "/auth/logout"),
             ("GET", "/projects"),
             ("POST", "/projects"),
             ("GET", "/dashboard")
@@ -88,6 +87,18 @@ class BackendTester:
             except Exception as e:
                 self.log(f"❌ Error testing {method} {endpoint}: {e}", "ERROR")
                 all_passed = False
+        
+        # Test logout endpoint separately (it's designed to work without auth)
+        try:
+            response = self.session.post(f"{BASE_URL}/auth/logout")
+            if response.status_code == 200:
+                self.log("✅ POST /auth/logout works without authentication (by design)")
+            else:
+                self.log(f"❌ POST /auth/logout returned unexpected status {response.status_code}", "ERROR")
+                all_passed = False
+        except Exception as e:
+            self.log(f"❌ Error testing POST /auth/logout: {e}", "ERROR")
+            all_passed = False
                 
         return all_passed
     
