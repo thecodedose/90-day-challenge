@@ -273,6 +273,126 @@ class BackendTester:
             self.log(f"❌ Error testing CORS: {e}", "ERROR")
             return False
     
+    def test_database_operations(self):
+        """Test database operations by directly inserting test data"""
+        self.log("Testing database operations...")
+        
+        try:
+            import asyncio
+            from motor.motor_asyncio import AsyncIOMotorClient
+            import os
+            from dotenv import load_dotenv
+            from datetime import datetime, timezone, timedelta
+            
+            # Load environment
+            load_dotenv('/app/backend/.env')
+            mongo_url = os.environ['MONGO_URL']
+            db_name = os.environ['DB_NAME']
+            
+            async def test_db_operations():
+                client = AsyncIOMotorClient(mongo_url)
+                db = client[db_name]
+                
+                # Create test user
+                test_user = {
+                    "id": "test_user_123",
+                    "email": "test@example.com",
+                    "name": "Test User",
+                    "picture": "https://example.com/pic.jpg",
+                    "session_token": "test_token_123",
+                    "expires_at": (datetime.now(timezone.utc) + timedelta(days=1)).isoformat(),
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                    "challenge_start_date": datetime.now(timezone.utc).isoformat()
+                }
+                
+                # Insert test user
+                await db.users.insert_one(test_user)
+                
+                # Create test project
+                test_project = {
+                    "id": "test_project_123",
+                    "user_id": "test_user_123",
+                    "title": "Test Project",
+                    "description": "A test project for validation",
+                    "tech_stack": ["Python", "FastAPI", "MongoDB"],
+                    "deployed_link": "https://example.com",
+                    "github_link": "https://github.com/test/project",
+                    "status": "in-progress",
+                    "month": 1,
+                    "created_at": datetime.now(timezone.utc).isoformat(),
+                    "updated_at": datetime.now(timezone.utc).isoformat()
+                }
+                
+                # Insert test project
+                await db.projects.insert_one(test_project)
+                
+                # Verify data was inserted
+                user_count = await db.users.count_documents({"id": "test_user_123"})
+                project_count = await db.projects.count_documents({"id": "test_project_123"})
+                
+                # Test authenticated API calls
+                success = True
+                if user_count == 1 and project_count == 1:
+                    # Test dashboard API with mock auth
+                    headers = {"Authorization": f"Bearer test_token_123"}
+                    
+                    # Test dashboard
+                    dashboard_response = requests.get(f"{BASE_URL}/dashboard", headers=headers)
+                    if dashboard_response.status_code == 200:
+                        dashboard_data = dashboard_response.json()
+                        required_fields = ['days_elapsed', 'days_remaining', 'challenge_progress', 'projects', 'month_stats']
+                        if all(field in dashboard_data for field in required_fields):
+                            self.log("✅ Dashboard API returns correct structure")
+                        else:
+                            self.log("❌ Dashboard API missing required fields", "ERROR")
+                            success = False
+                    else:
+                        self.log(f"❌ Dashboard API failed with status {dashboard_response.status_code}", "ERROR")
+                        success = False
+                    
+                    # Test user projects
+                    projects_response = requests.get(f"{BASE_URL}/projects", headers=headers)
+                    if projects_response.status_code == 200:
+                        projects_data = projects_response.json()
+                        if isinstance(projects_data, list) and len(projects_data) >= 1:
+                            self.log("✅ User projects API working correctly")
+                        else:
+                            self.log("❌ User projects API returned unexpected data", "ERROR")
+                            success = False
+                    else:
+                        self.log(f"❌ User projects API failed with status {projects_response.status_code}", "ERROR")
+                        success = False
+                    
+                    # Test /auth/me
+                    me_response = requests.get(f"{BASE_URL}/auth/me", headers=headers)
+                    if me_response.status_code == 200:
+                        me_data = me_response.json()
+                        required_fields = ['id', 'email', 'name', 'picture']
+                        if all(field in me_data for field in required_fields):
+                            self.log("✅ /auth/me API returns correct user data")
+                        else:
+                            self.log("❌ /auth/me API missing required fields", "ERROR")
+                            success = False
+                    else:
+                        self.log(f"❌ /auth/me API failed with status {me_response.status_code}", "ERROR")
+                        success = False
+                else:
+                    self.log("❌ Failed to insert test data", "ERROR")
+                    success = False
+                
+                # Clean up test data
+                await db.users.delete_one({"id": "test_user_123"})
+                await db.projects.delete_one({"id": "test_project_123"})
+                
+                client.close()
+                return success
+            
+            return asyncio.run(test_db_operations())
+            
+        except Exception as e:
+            self.log(f"❌ Database operations test failed: {e}", "ERROR")
+            return False
+    
     def test_server_health(self):
         """Test if server is running and responding"""
         self.log("Testing server health...")
