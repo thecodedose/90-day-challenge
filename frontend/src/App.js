@@ -394,6 +394,18 @@ const Dashboard = () => {
           }} 
         />
       )}
+
+      {/* Edit Project Modal */}
+      {editingProject && (
+        <EditProjectModal 
+          project={editingProject}
+          onClose={() => setEditingProject(null)} 
+          onSuccess={() => {
+            setEditingProject(null);
+            fetchDashboardData();
+          }} 
+        />
+      )}
     </div>
   );
 };
