@@ -302,16 +302,49 @@ const Dashboard = () => {
                   {monthProjects.length > 0 ? (
                     monthProjects.map(project => (
                       <div key={project.id} className="bg-slate-700/50 rounded-lg p-3">
-                        <h4 className="font-medium text-white text-sm">{project.title}</h4>
+                        <div className="flex justify-between items-start mb-2">
+                          <h4 className="font-medium text-white text-sm">{project.title}</h4>
+                          <button
+                            onClick={() => setEditingProject(project)}
+                            className="text-purple-400 hover:text-purple-300 text-xs"
+                          >
+                            Edit
+                          </button>
+                        </div>
                         <p className="text-xs text-gray-400 mt-1">{project.description}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className={`text-xs px-2 py-1 rounded-full ${
                             project.status === 'completed' ? 'bg-green-600/20 text-green-400' :
                             project.status === 'in-progress' ? 'bg-yellow-600/20 text-yellow-400' :
+                            project.status === 'paused' ? 'bg-red-600/20 text-red-400' :
                             'bg-gray-600/20 text-gray-400'
                           }`}>
                             {project.status}
                           </span>
+                          {(project.deployed_link || project.github_link) && (
+                            <div className="flex space-x-2">
+                              {project.deployed_link && (
+                                <a 
+                                  href={project.deployed_link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-blue-400 hover:text-blue-300 text-xs"
+                                >
+                                  Demo
+                                </a>
+                              )}
+                              {project.github_link && (
+                                <a 
+                                  href={project.github_link} 
+                                  target="_blank" 
+                                  rel="noopener noreferrer"
+                                  className="text-green-400 hover:text-green-300 text-xs"
+                                >
+                                  Code
+                                </a>
+                              )}
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))
