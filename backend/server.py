@@ -126,10 +126,11 @@ async def create_session(request: Request, response: Response):
         raise HTTPException(status_code=400, detail="Session ID required")
     
     # Call Emergent auth service to get user data
+    auth_service_url = os.environ.get('AUTH_SERVICE_URL', 'https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data')
     async with httpx.AsyncClient() as client:
         try:
             auth_response = await client.get(
-                "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data",
+                auth_service_url,
                 headers={"X-Session-ID": session_id}
             )
             if auth_response.status_code != 200:
