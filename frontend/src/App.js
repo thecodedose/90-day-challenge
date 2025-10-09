@@ -799,9 +799,13 @@ const ExplorePage = () => {
                   <span className={`text-xs px-2 py-1 rounded-full ${
                     project.status === 'completed' ? 'bg-green-600/20 text-green-400' :
                     project.status === 'in-progress' ? 'bg-yellow-600/20 text-yellow-400' :
+                    project.status === 'paused' ? 'bg-red-600/20 text-red-400' :
                     'bg-gray-600/20 text-gray-400'
                   }`}>
-                    {project.status}
+                    {project.status === 'completed' ? '✅ Completed' :
+                     project.status === 'in-progress' ? '🚧 In Progress' :
+                     project.status === 'paused' ? '⏸️ Paused' :
+                     '📋 Planning'}
                   </span>
                   <button className="text-purple-400 hover:text-purple-300 text-sm">
                     {expandedProject === project.id ? 'Less' : 'More'}
