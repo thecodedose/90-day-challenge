@@ -320,7 +320,10 @@ const Dashboard = () => {
                             project.status === 'paused' ? 'bg-red-600/20 text-red-400' :
                             'bg-gray-600/20 text-gray-400'
                           }`}>
-                            {project.status}
+                            {project.status === 'completed' ? '✅ Completed' :
+                             project.status === 'in-progress' ? '🚧 In Progress' :
+                             project.status === 'paused' ? '⏸️ Paused' :
+                             '📋 Planning'}
                           </span>
                           {(project.deployed_link || project.github_link) && (
                             <div className="flex space-x-2">
