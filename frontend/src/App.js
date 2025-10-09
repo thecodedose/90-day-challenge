@@ -813,9 +813,9 @@ const ExplorePage = () => {
                 </div>
                 
                 {expandedProject === project.id && (
-                  <div className="mt-4 pt-4 border-t border-slate-600 space-y-3">
+                  <div className="mt-4 pt-4 border-t border-slate-600 space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-300 mb-1">Tech Stack:</p>
+                      <p className="text-sm font-medium text-gray-300 mb-2">Tech Stack:</p>
                       <div className="flex flex-wrap gap-1">
                         {project.tech_stack?.map((tech, index) => (
                           <span key={index} className="bg-purple-600/20 text-purple-300 text-xs px-2 py-1 rounded">
@@ -825,35 +825,52 @@ const ExplorePage = () => {
                       </div>
                     </div>
                     
-                    {project.deployed_link && (
-                      <div>
-                        <p className="text-sm font-medium text-gray-300 mb-1">Live Demo:</p>
-                        <a 
-                          href={project.deployed_link} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-400 hover:text-blue-300 text-sm break-all"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {project.deployed_link}
-                        </a>
-                      </div>
-                    )}
-                    
-                    {project.github_link && (
-                      <div>
-                        <p className="text-sm font-medium text-gray-300 mb-1">GitHub:</p>
-                        <a 
-                          href={project.github_link} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-400 hover:text-blue-300 text-sm break-all"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          {project.github_link}
-                        </a>
-                      </div>
-                    )}
+                    {/* Links Section */}
+                    <div className="space-y-3">
+                      {project.deployed_link && (
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">🔗</span>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-300 mb-1">Live Demo:</p>
+                            <a 
+                              href={project.deployed_link} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center bg-blue-600/20 text-blue-400 hover:text-blue-300 hover:bg-blue-600/30 text-sm px-3 py-1 rounded-lg transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <span className="mr-1">🚀</span>
+                              View Live Demo
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {project.github_link && (
+                        <div className="flex items-center space-x-2">
+                          <span className="text-lg">📁</span>
+                          <div className="flex-1">
+                            <p className="text-sm font-medium text-gray-300 mb-1">Source Code:</p>
+                            <a 
+                              href={project.github_link} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center bg-green-600/20 text-green-400 hover:text-green-300 hover:bg-green-600/30 text-sm px-3 py-1 rounded-lg transition-colors"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <span className="mr-1">💻</span>
+                              View Code on GitHub
+                            </a>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {!project.deployed_link && !project.github_link && (
+                        <div className="text-center py-2">
+                          <p className="text-gray-500 text-sm">No links available yet</p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 )}
               </div>
