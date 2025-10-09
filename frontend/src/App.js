@@ -1,53 +1,701 @@
-import { useEffect } from "react";
-import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import axios from "axios";
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import { BrowserRouter, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+import './App.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
-const Home = () => {
-  const helloWorldApi = async () => {
+// Auth Context
+const AuthContext = createContext();
+
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+};
+
+const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const checkAuth = async () => {
     try {
-      const response = await axios.get(`${API}/`);
-      console.log(response.data.message);
-    } catch (e) {
-      console.error(e, `errored out requesting / api`);
+      const response = await axios.get(`${API}/auth/me`, {
+        withCredentials: true
+      });
+      setUser(response.data);
+    } catch (error) {
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await axios.post(`${API}/auth/logout`, {}, {
+        withCredentials: true
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      setUser(null);
     }
   };
 
   useEffect(() => {
-    helloWorldApi();
+    checkAuth();
   }, []);
 
   return (
-    <div>
-      <header className="App-header">
-        <a
-          className="App-link"
-          href="https://emergent.sh"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="https://avatars.githubusercontent.com/in/1201222?s=120&u=2686cf91179bbafbc7a71bfbc43004cf9ae1acea&v=4" />
-        </a>
-        <p className="mt-5">Building something incredible ~!</p>
-      </header>
+    <AuthContext.Provider value={{ user, loading, checkAuth, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+// Auth handler component
+const AuthHandler = () => {
+  const { checkAuth } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [processing, setProcessing] = useState(false);
+
+  useEffect(() => {
+    const processAuth = async () => {
+      const hash = location.hash;
+      const sessionIdMatch = hash.match(/session_id=([^&]+)/);
+      
+      if (sessionIdMatch && !processing) {
+        setProcessing(true);
+        const sessionId = sessionIdMatch[1];
+        
+        try {
+          await axios.post(`${API}/auth/session`, {}, {
+            headers: {
+              'X-Session-ID': sessionId
+            },
+            withCredentials: true
+          });
+          
+          // Clean URL and check auth
+          window.history.replaceState({}, document.title, location.pathname);
+          await checkAuth();
+          navigate('/dashboard');
+        } catch (error) {
+          console.error('Authentication failed:', error);
+          navigate('/');
+        } finally {
+          setProcessing(false);
+        }
+      }
+    };
+
+    processAuth();
+  }, [location.hash, navigate, checkAuth, processing]);
+
+  if (processing) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400 mx-auto mb-4"></div>
+          <p className="text-white text-lg">Authenticating...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
+// Landing Page
+const LandingPage = () => {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
+      </div>
+    );
+  }
+  
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  const handleLogin = () => {
+    const redirectUrl = encodeURIComponent(`${window.location.origin}/dashboard`);
+    window.location.href = `https://auth.emergentagent.com/?redirect=${redirectUrl}`;
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="container mx-auto px-6 py-12">
+        <div className="text-center mb-16">
+          <h1 className="text-6xl font-bold text-white mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            90-Day Lock-In Challenge
+          </h1>
+          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Build 3 real projects in 90 days. Join web developers worldwide in this intensive coding challenge.
+          </p>
+        </div>
+        
+        <div className="grid md:grid-cols-3 gap-8 mb-16">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 text-center">
+            <div className="text-4xl mb-4">📱</div>
+            <h3 className="text-xl font-semibold text-white mb-3">Month 1</h3>
+            <p className="text-gray-400">Real-World Mini App</p>
+            <p className="text-sm text-gray-500 mt-2">Build a functional mini application</p>
+          </div>
+          
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 text-center">
+            <div className="text-4xl mb-4">🤖</div>
+            <h3 className="text-xl font-semibold text-white mb-3">Month 2</h3>
+            <p className="text-gray-400">AI-Integrated Project</p>
+            <p className="text-sm text-gray-500 mt-2">Integrate AI/ML into your project</p>
+          </div>
+          
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 text-center">
+            <div className="text-4xl mb-4">🚀</div>
+            <h3 className="text-xl font-semibold text-white mb-3">Month 3</h3>
+            <p className="text-gray-400">Open Source / Dev Tools</p>
+            <p className="text-sm text-gray-500 mt-2">Contribute or build development tools</p>
+          </div>
+        </div>
+        
+        <div className="text-center">
+          <button
+            onClick={handleLogin}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-200 transform hover:scale-105"
+          >
+            Start Your Challenge
+          </button>
+          <p className="text-sm text-gray-400 mt-4">Sign in with Google to begin</p>
+        </div>
+      </div>
     </div>
   );
 };
 
+// Dashboard Component
+const Dashboard = () => {
+  const { user, logout } = useAuth();
+  const [dashboardData, setDashboardData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [showAddProject, setShowAddProject] = useState(false);
+  const navigate = useNavigate();
+
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.get(`${API}/dashboard`, {
+        withCredentials: true
+      });
+      setDashboardData(response.data);
+    } catch (error) {
+      console.error('Failed to fetch dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Header */}
+      <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-white">90-Day Challenge</h1>
+          <nav className="flex items-center space-x-6">
+            <button 
+              onClick={() => navigate('/dashboard')}
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => navigate('/explore')}
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Explore
+            </button>
+            <div className="flex items-center space-x-3">
+              <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full" />
+              <span className="text-white">{user?.name}</span>
+              <button 
+                onClick={logout}
+                className="text-gray-400 hover:text-red-400 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-6 py-8">
+        {/* Progress Section */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-2">Challenge Progress</h3>
+            <div className="text-3xl font-bold text-purple-400 mb-2">
+              Day {dashboardData?.days_elapsed || 0}
+            </div>
+            <p className="text-gray-400 text-sm">{dashboardData?.days_remaining || 90} days remaining</p>
+            <div className="mt-4 bg-slate-700 rounded-full h-2">
+              <div 
+                className="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${dashboardData?.challenge_progress || 0}%` }}
+              ></div>
+            </div>
+          </div>
+          
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-2">Total Projects</h3>
+            <div className="text-3xl font-bold text-green-400 mb-2">
+              {dashboardData?.total_projects || 0}
+            </div>
+            <p className="text-gray-400 text-sm">Projects created</p>
+          </div>
+          
+          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+            <h3 className="text-lg font-semibold text-white mb-2">Completed</h3>
+            <div className="text-3xl font-bold text-blue-400 mb-2">
+              {(dashboardData?.month_stats?.month_1?.completed || 0) + 
+               (dashboardData?.month_stats?.month_2?.completed || 0) + 
+               (dashboardData?.month_stats?.month_3?.completed || 0)}
+            </div>
+            <p className="text-gray-400 text-sm">Projects finished</p>
+          </div>
+        </div>
+
+        {/* Projects by Month */}
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          {[1, 2, 3].map(month => {
+            const monthData = dashboardData?.month_stats?.[`month_${month}`] || {};
+            const monthProjects = dashboardData?.projects?.filter(p => p.month === month) || [];
+            
+            return (
+              <div key={month} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  Month {month} 
+                  {month === 1 && ' - Mini App'}
+                  {month === 2 && ' - AI Project'}
+                  {month === 3 && ' - Open Source'}
+                </h3>
+                
+                <div className="space-y-3">
+                  {monthProjects.length > 0 ? (
+                    monthProjects.map(project => (
+                      <div key={project.id} className="bg-slate-700/50 rounded-lg p-3">
+                        <h4 className="font-medium text-white text-sm">{project.title}</h4>
+                        <p className="text-xs text-gray-400 mt-1">{project.description}</p>
+                        <div className="flex items-center justify-between mt-2">
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            project.status === 'completed' ? 'bg-green-600/20 text-green-400' :
+                            project.status === 'in-progress' ? 'bg-yellow-600/20 text-yellow-400' :
+                            'bg-gray-600/20 text-gray-400'
+                          }`}>
+                            {project.status}
+                          </span>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-4">
+                      <p className="text-gray-400 text-sm mb-3">No projects yet</p>
+                      <button 
+                        onClick={() => setShowAddProject(true)}
+                        className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-3 py-1 rounded transition-colors"
+                      >
+                        Add Project
+                      </button>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-4 pt-3 border-t border-slate-600">
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>Total: {monthData.total || 0}</span>
+                    <span>Completed: {monthData.completed || 0}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Add Project Button */}
+        <div className="text-center">
+          <button 
+            onClick={() => setShowAddProject(true)}
+            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-200"
+          >
+            Add New Project
+          </button>
+        </div>
+      </div>
+
+      {/* Add Project Modal */}
+      {showAddProject && (
+        <AddProjectModal 
+          onClose={() => setShowAddProject(false)} 
+          onSuccess={() => {
+            setShowAddProject(false);
+            fetchDashboardData();
+          }} 
+        />
+      )}
+    </div>
+  );
+};
+
+// Add Project Modal
+const AddProjectModal = ({ onClose, onSuccess }) => {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    tech_stack: '',
+    deployed_link: '',
+    github_link: '',
+    month: 1
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const projectData = {
+        ...formData,
+        tech_stack: formData.tech_stack.split(',').map(tech => tech.trim()).filter(tech => tech)
+      };
+
+      await axios.post(`${API}/projects`, projectData, {
+        withCredentials: true
+      });
+
+      onSuccess();
+    } catch (error) {
+      console.error('Failed to create project:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 w-full max-w-md">
+        <h2 className="text-xl font-bold text-white mb-4">Add New Project</h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Title</label>
+            <input
+              type="text"
+              required
+              value={formData.title}
+              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+            <textarea
+              required
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              rows={3}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Tech Stack (comma separated)</label>
+            <input
+              type="text"
+              required
+              value={formData.tech_stack}
+              onChange={(e) => setFormData({...formData, tech_stack: e.target.value})}
+              placeholder="React, Node.js, MongoDB"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Month</label>
+            <select
+              value={formData.month}
+              onChange={(e) => setFormData({...formData, month: parseInt(e.target.value)})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value={1}>Month 1 - Real-World Mini App</option>
+              <option value={2}>Month 2 - AI-Integrated Project</option>
+              <option value={3}>Month 3 - Open Source / Dev Tools</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Deployed Link (optional)</label>
+            <input
+              type="url"
+              value={formData.deployed_link}
+              onChange={(e) => setFormData({...formData, deployed_link: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">GitHub Link (optional)</label>
+            <input
+              type="url"
+              value={formData.github_link}
+              onChange={(e) => setFormData({...formData, github_link: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div className="flex justify-end space-x-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              {loading ? 'Creating...' : 'Create Project'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Explore Page
+const ExplorePage = () => {
+  const { user, logout } = useAuth();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expandedProject, setExpandedProject] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get(`${API}/projects/explore`);
+        setProjects(response.data);
+      } catch (error) {
+        console.error('Failed to fetch projects:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Header */}
+      <header className="bg-slate-800/50 backdrop-blur-sm border-b border-slate-700">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-white">90-Day Challenge</h1>
+          <nav className="flex items-center space-x-6">
+            <button 
+              onClick={() => navigate('/dashboard')}
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Dashboard
+            </button>
+            <button 
+              onClick={() => navigate('/explore')}
+              className="text-purple-400 font-medium"
+            >
+              Explore
+            </button>
+            <div className="flex items-center space-x-3">
+              <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full" />
+              <span className="text-white">{user?.name}</span>
+              <button 
+                onClick={logout}
+                className="text-gray-400 hover:text-red-400 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-6 py-8">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-white mb-4">Project Showcase</h2>
+          <p className="text-gray-400">Discover what others are building in their 90-day challenge</p>
+        </div>
+
+        {projects.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-gray-400 text-lg">No projects shared yet. Be the first to add one!</p>
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {projects.map(project => (
+              <div 
+                key={project.id} 
+                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-purple-500 transition-colors cursor-pointer"
+                onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
+              >
+                <div className="flex items-center space-x-3 mb-4">
+                  <img 
+                    src={project.creator_picture} 
+                    alt={project.creator_name} 
+                    className="w-10 h-10 rounded-full"
+                  />
+                  <div>
+                    <p className="text-white font-medium">{project.creator_name}</p>
+                    <p className="text-gray-400 text-sm">Month {project.month}</p>
+                  </div>
+                </div>
+                
+                <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
+                <p className="text-gray-400 text-sm mb-4">{project.description}</p>
+                
+                <div className="flex items-center justify-between">
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    project.status === 'completed' ? 'bg-green-600/20 text-green-400' :
+                    project.status === 'in-progress' ? 'bg-yellow-600/20 text-yellow-400' :
+                    'bg-gray-600/20 text-gray-400'
+                  }`}>
+                    {project.status}
+                  </span>
+                  <button className="text-purple-400 hover:text-purple-300 text-sm">
+                    {expandedProject === project.id ? 'Less' : 'More'}
+                  </button>
+                </div>
+                
+                {expandedProject === project.id && (
+                  <div className="mt-4 pt-4 border-t border-slate-600 space-y-3">
+                    <div>
+                      <p className="text-sm font-medium text-gray-300 mb-1">Tech Stack:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {project.tech_stack?.map((tech, index) => (
+                          <span key={index} className="bg-purple-600/20 text-purple-300 text-xs px-2 py-1 rounded">
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    {project.deployed_link && (
+                      <div>
+                        <p className="text-sm font-medium text-gray-300 mb-1">Live Demo:</p>
+                        <a 
+                          href={project.deployed_link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300 text-sm break-all"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {project.deployed_link}
+                        </a>
+                      </div>
+                    )}
+                    
+                    {project.github_link && (
+                      <div>
+                        <p className="text-sm font-medium text-gray-300 mb-1">GitHub:</p>
+                        <a 
+                          href={project.github_link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300 text-sm break-all"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {project.github_link}
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Protected Route wrapper
+const ProtectedRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-400"></div>
+      </div>
+    );
+  }
+  
+  if (!user) {
+    return <Navigate to="/" replace />;
+  }
+  
+  return children;
+};
+
+// Main App
 function App() {
   return (
-    <div className="App">
+    <AuthProvider>
       <BrowserRouter>
+        <AuthHandler />
         <Routes>
-          <Route path="/" element={<Home />}>
-            <Route index element={<Home />} />
-          </Route>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/explore" element={
+            <ProtectedRoute>
+              <ExplorePage />
+            </ProtectedRoute>
+          } />
         </Routes>
       </BrowserRouter>
-    </div>
+    </AuthProvider>
   );
 }
 
