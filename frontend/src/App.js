@@ -539,6 +539,162 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
   );
 };
 
+// Edit Project Modal
+const EditProjectModal = ({ project, onClose, onSuccess }) => {
+  const [formData, setFormData] = useState({
+    title: project.title || '',
+    description: project.description || '',
+    tech_stack: Array.isArray(project.tech_stack) ? project.tech_stack.join(', ') : '',
+    deployed_link: project.deployed_link || '',
+    github_link: project.github_link || '',
+    status: project.status || 'planning'
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const updateData = {
+        ...formData,
+        tech_stack: formData.tech_stack.split(',').map(tech => tech.trim()).filter(tech => tech)
+      };
+
+      await axios.put(`${API}/projects/${project.id}`, updateData, {
+        withCredentials: true
+      });
+
+      onSuccess();
+    } catch (error) {
+      console.error('Failed to update project:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('Are you sure you want to delete this project? This action cannot be undone.')) {
+      setLoading(true);
+      try {
+        await axios.delete(`${API}/projects/${project.id}`, {
+          withCredentials: true
+        });
+        onSuccess();
+      } catch (error) {
+        console.error('Failed to delete project:', error);
+        setLoading(false);
+      }
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-slate-800 border border-slate-700 rounded-xl p-6 w-full max-w-md">
+        <h2 className="text-xl font-bold text-white mb-4">Edit Project</h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Title</label>
+            <input
+              type="text"
+              required
+              value={formData.title}
+              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Description</label>
+            <textarea
+              required
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              rows={3}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Status</label>
+            <select
+              value={formData.status}
+              onChange={(e) => setFormData({...formData, status: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="planning">📋 Planning</option>
+              <option value="in-progress">🚧 In Progress</option>
+              <option value="completed">✅ Completed</option>
+              <option value="paused">⏸️ Paused</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Tech Stack (comma separated)</label>
+            <input
+              type="text"
+              required
+              value={formData.tech_stack}
+              onChange={(e) => setFormData({...formData, tech_stack: e.target.value})}
+              placeholder="React, Node.js, MongoDB"
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Deployed Link (optional)</label>
+            <input
+              type="url"
+              value={formData.deployed_link}
+              onChange={(e) => setFormData({...formData, deployed_link: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">GitHub Link (optional)</label>
+            <input
+              type="url"
+              value={formData.github_link}
+              onChange={(e) => setFormData({...formData, github_link: e.target.value})}
+              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+            />
+          </div>
+          
+          <div className="flex justify-between items-center pt-4">
+            <button
+              type="button"
+              onClick={handleDelete}
+              disabled={loading}
+              className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              Delete Project
+            </button>
+            
+            <div className="flex space-x-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors"
+              >
+                {loading ? 'Updating...' : 'Update Project'}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // Explore Page
 const ExplorePage = () => {
   const { user, logout } = useAuth();
