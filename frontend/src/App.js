@@ -689,7 +689,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors"
+                className="glass-strong disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-all duration-300 hover-lift"
               >
                 {loading ? 'Updating...' : 'Update Project'}
               </button>
