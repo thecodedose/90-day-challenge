@@ -796,21 +796,21 @@ const ExplorePage = () => {
                 </div>
                 
                 <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
-                <p className="text-gray-400 text-sm mb-4">{project.description}</p>
+                <p className="text-gray-300 text-sm mb-4">{project.description}</p>
                 
                 <div className="flex items-center justify-between">
                   <span className={`text-xs px-2 py-1 rounded-full ${
-                    project.status === 'completed' ? 'bg-green-600/20 text-green-400' :
-                    project.status === 'in-progress' ? 'bg-yellow-600/20 text-yellow-400' :
-                    project.status === 'paused' ? 'bg-red-600/20 text-red-400' :
-                    'bg-gray-600/20 text-gray-400'
+                    project.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                    project.status === 'in-progress' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
+                    project.status === 'paused' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
+                    'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                   }`}>
                     {project.status === 'completed' ? '✅ Completed' :
                      project.status === 'in-progress' ? '🚧 In Progress' :
                      project.status === 'paused' ? '⏸️ Paused' :
                      '📋 Planning'}
                   </span>
-                  <button className="text-purple-400 hover:text-purple-300 text-sm">
+                  <button className="text-gray-200 hover:text-white text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors">
                     {expandedProject === project.id ? 'Less' : 'More'}
                   </button>
                 </div>
