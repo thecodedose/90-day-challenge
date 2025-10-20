@@ -315,13 +315,13 @@ const Dashboard = () => {
                             Edit
                           </button>
                         </div>
-                        <p className="text-xs text-gray-400 mt-1">{project.description}</p>
+                        <p className="text-xs text-gray-300 mt-1">{project.description}</p>
                         <div className="flex items-center justify-between mt-2">
                           <span className={`text-xs px-2 py-1 rounded-full ${
-                            project.status === 'completed' ? 'bg-green-600/20 text-green-400' :
-                            project.status === 'in-progress' ? 'bg-yellow-600/20 text-yellow-400' :
-                            project.status === 'paused' ? 'bg-red-600/20 text-red-400' :
-                            'bg-gray-600/20 text-gray-400'
+                            project.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                            project.status === 'in-progress' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
+                            project.status === 'paused' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
+                            'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                           }`}>
                             {project.status === 'completed' ? '✅ Completed' :
                              project.status === 'in-progress' ? '🚧 In Progress' :
@@ -335,7 +335,7 @@ const Dashboard = () => {
                                   href={project.deployed_link} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-blue-400 hover:text-blue-300 text-xs"
+                                  className="text-blue-300 hover:text-blue-200 text-xs px-2 py-1 rounded hover:bg-blue-500/20"
                                 >
                                   Demo
                                 </a>
@@ -345,7 +345,7 @@ const Dashboard = () => {
                                   href={project.github_link} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-green-400 hover:text-green-300 text-xs"
+                                  className="text-green-300 hover:text-green-200 text-xs px-2 py-1 rounded hover:bg-green-500/20"
                                 >
                                   Code
                                 </a>
