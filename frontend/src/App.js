@@ -294,7 +294,7 @@ const Dashboard = () => {
             const monthProjects = dashboardData?.projects?.filter(p => p.month === month) || [];
             
             return (
-              <div key={month} className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+              <div key={month} className="glass-card p-6 hover-lift">
                 <h3 className="text-lg font-semibold text-white mb-4">
                   Month {month} 
                   {month === 1 && ' - Mini App'}
