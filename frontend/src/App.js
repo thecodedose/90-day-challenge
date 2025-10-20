@@ -816,12 +816,12 @@ const ExplorePage = () => {
                 </div>
                 
                 {expandedProject === project.id && (
-                  <div className="mt-4 pt-4 border-t border-slate-600 space-y-4">
+                  <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
                     <div>
-                      <p className="text-sm font-medium text-gray-300 mb-2">Tech Stack:</p>
+                      <p className="text-sm font-medium text-gray-200 mb-2">Tech Stack:</p>
                       <div className="flex flex-wrap gap-1">
                         {project.tech_stack?.map((tech, index) => (
-                          <span key={index} className="bg-purple-600/20 text-purple-300 text-xs px-2 py-1 rounded">
+                          <span key={index} className="bg-white/10 text-gray-200 text-xs px-2 py-1 rounded border border-white/20">
                             {tech}
                           </span>
                         ))}
