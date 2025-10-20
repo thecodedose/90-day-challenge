@@ -839,7 +839,7 @@ const ExplorePage = () => {
                               href={project.deployed_link} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="inline-flex items-center bg-blue-600/20 text-blue-400 hover:text-blue-300 hover:bg-blue-600/30 text-sm px-3 py-1 rounded-lg transition-colors"
+                              className="inline-flex items-center glass text-blue-300 hover:text-blue-200 hover:bg-blue-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <span className="mr-1">🚀</span>
