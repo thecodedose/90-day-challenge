@@ -205,16 +205,25 @@ select:focus {
   gap: 1.5rem;
 }
 
-/* Dark theme optimizations */
+/* Dark glassmorphism cards */
 .dark-card {
-  background: rgba(30, 41, 59, 0.5);
-  border: 1px solid #475569;
-  backdrop-filter: blur(10px);
+  background: rgba(25, 25, 25, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 12px;
+  box-shadow: 
+    0 6px 28px 0 rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .dark-card:hover {
-  border-color: #a855f7;
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(35, 35, 35, 0.5);
+  box-shadow: 
+    0 8px 35px 0 rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
 }
 
 /* Typography */
