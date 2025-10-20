@@ -305,12 +305,12 @@ const Dashboard = () => {
                 <div className="space-y-3">
                   {monthProjects.length > 0 ? (
                     monthProjects.map(project => (
-                      <div key={project.id} className="bg-slate-700/50 rounded-lg p-3">
+                      <div key={project.id} className="glass rounded-lg p-3 hover:bg-white/5 transition-colors">
                         <div className="flex justify-between items-start mb-2">
                           <h4 className="font-medium text-white text-sm">{project.title}</h4>
                           <button
                             onClick={() => setEditingProject(project)}
-                            className="text-purple-400 hover:text-purple-300 text-xs"
+                            className="text-gray-300 hover:text-white text-xs px-2 py-1 rounded hover:bg-white/10 transition-colors"
                           >
                             Edit
                           </button>
