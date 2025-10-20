@@ -463,7 +463,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
               required
               value={formData.title}
               onChange={(e) => setFormData({...formData, title: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -474,7 +474,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})}
               rows={3}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -486,7 +486,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
               value={formData.tech_stack}
               onChange={(e) => setFormData({...formData, tech_stack: e.target.value})}
               placeholder="React, Node.js, MongoDB"
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -495,7 +495,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
             <select
               value={formData.month}
               onChange={(e) => setFormData({...formData, month: parseInt(e.target.value)})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             >
               <option value={1}>Month 1 - Real-World Mini App</option>
               <option value={2}>Month 2 - AI-Integrated Project</option>
@@ -509,7 +509,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
               type="url"
               value={formData.deployed_link}
               onChange={(e) => setFormData({...formData, deployed_link: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -519,7 +519,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
               type="url"
               value={formData.github_link}
               onChange={(e) => setFormData({...formData, github_link: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -607,7 +607,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               required
               value={formData.title}
               onChange={(e) => setFormData({...formData, title: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -618,7 +618,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})}
               rows={3}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -627,7 +627,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
             <select
               value={formData.status}
               onChange={(e) => setFormData({...formData, status: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             >
               <option value="planning">📋 Planning</option>
               <option value="in-progress">🚧 In Progress</option>
@@ -644,7 +644,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               value={formData.tech_stack}
               onChange={(e) => setFormData({...formData, tech_stack: e.target.value})}
               placeholder="React, Node.js, MongoDB"
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -654,7 +654,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               type="url"
               value={formData.deployed_link}
               onChange={(e) => setFormData({...formData, deployed_link: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
@@ -664,7 +664,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               type="url"
               value={formData.github_link}
               onChange={(e) => setFormData({...formData, github_link: e.target.value})}
-              className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
           
