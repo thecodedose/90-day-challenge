@@ -673,7 +673,7 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
               type="button"
               onClick={handleDelete}
               disabled={loading}
-              className="bg-red-600 hover:bg-red-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-colors"
+              className="bg-red-500/30 hover:bg-red-500/50 disabled:opacity-50 text-red-200 border border-red-500/40 px-4 py-2 rounded-lg transition-all duration-300 backdrop-blur-sm"
             >
               Delete Project
             </button>
