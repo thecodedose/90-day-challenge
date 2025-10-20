@@ -780,7 +780,7 @@ const ExplorePage = () => {
             {projects.map(project => (
               <div 
                 key={project.id} 
-                className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6 hover:border-purple-500 transition-colors cursor-pointer"
+                className="glass-card p-6 hover-lift cursor-pointer"
                 onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
               >
                 <div className="flex items-center space-x-3 mb-4">
