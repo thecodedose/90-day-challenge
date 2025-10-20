@@ -321,10 +321,12 @@ async def delete_project(project_id: str, user: User = Depends(require_auth)):
 # Dashboard route
 @api_router.get("/dashboard")
 async def get_dashboard_data(user: User = Depends(require_auth)):
-    # Calculate days since challenge started (starting from Day 1)
-    days_elapsed = 1  # Default to Day 1
-    if user.challenge_start_date:
-        days_elapsed = (datetime.now(timezone.utc) - user.challenge_start_date).days + 1
+    # Calculate days since challenge started (fixed start date: October 9, 2024)
+    challenge_start_date = datetime(2024, 10, 9, tzinfo=timezone.utc)
+    days_elapsed = (datetime.now(timezone.utc) - challenge_start_date).days + 1
+    
+    # Ensure we don't show negative days if someone joins before the start
+    days_elapsed = max(1, days_elapsed)
     
     # Get user's projects
     projects = await db.projects.find({"user_id": user.id}, {"_id": 0}).to_list(1000)
