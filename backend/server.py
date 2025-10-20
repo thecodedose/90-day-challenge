@@ -162,9 +162,9 @@ async def create_session(request: Request, response: Response):
         user.session_token = user_data["session_token"]
         user.expires_at = expires_at
     else:
-        # Create new user with challenge start date
+        # Create new user with fixed challenge start date
         expires_at = datetime.now(timezone.utc) + timedelta(days=7)
-        challenge_start_date = datetime.now(timezone.utc)
+        challenge_start_date = datetime(2024, 10, 9, tzinfo=timezone.utc)
         
         user = User(
             email=user_data["email"],
