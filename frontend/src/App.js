@@ -134,48 +134,48 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen">
       <div className="container mx-auto px-6 py-12">
         <div className="text-center mb-16">
-          <h1 className="text-6xl font-bold text-white mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+          <h1 className="text-6xl font-bold text-white mb-6 gradient-text">
             90-Day Lock-In Challenge
           </h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-200 mb-8 max-w-3xl mx-auto">
             Build 3 real projects in 90 days. Join web developers worldwide in this intensive coding challenge.
           </p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 text-center">
+          <div className="glass-card p-8 text-center hover-lift">
             <div className="text-4xl mb-4">📱</div>
             <h3 className="text-xl font-semibold text-white mb-3">Month 1</h3>
-            <p className="text-gray-400">Real-World Mini App</p>
-            <p className="text-sm text-gray-500 mt-2">Build a functional mini application</p>
+            <p className="text-gray-300">Real-World Mini App</p>
+            <p className="text-sm text-gray-400 mt-2">Build a functional mini application</p>
           </div>
           
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 text-center">
+          <div className="glass-card p-8 text-center hover-lift">
             <div className="text-4xl mb-4">🤖</div>
             <h3 className="text-xl font-semibold text-white mb-3">Month 2</h3>
-            <p className="text-gray-400">AI-Integrated Project</p>
-            <p className="text-sm text-gray-500 mt-2">Integrate AI/ML into your project</p>
+            <p className="text-gray-300">AI-Integrated Project</p>
+            <p className="text-sm text-gray-400 mt-2">Integrate AI/ML into your project</p>
           </div>
           
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-8 text-center">
+          <div className="glass-card p-8 text-center hover-lift">
             <div className="text-4xl mb-4">🚀</div>
             <h3 className="text-xl font-semibold text-white mb-3">Month 3</h3>
-            <p className="text-gray-400">Open Source / Dev Tools</p>
-            <p className="text-sm text-gray-500 mt-2">Contribute or build development tools</p>
+            <p className="text-gray-300">Open Source / Dev Tools</p>
+            <p className="text-sm text-gray-400 mt-2">Contribute or build development tools</p>
           </div>
         </div>
         
         <div className="text-center">
           <button
             onClick={handleLogin}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-200 transform hover:scale-105"
+            className="glass-strong text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 hover-lift"
           >
             Start Your Challenge
           </button>
-          <p className="text-sm text-gray-400 mt-4">Sign in with Google to begin</p>
+          <p className="text-sm text-gray-300 mt-4">Sign in with Google to begin</p>
         </div>
       </div>
     </div>
