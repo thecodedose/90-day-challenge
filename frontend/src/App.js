@@ -254,36 +254,36 @@ const Dashboard = () => {
       <div className="container mx-auto px-6 py-8">
         {/* Progress Section */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+          <div className="glass-card p-6 hover-lift">
             <h3 className="text-lg font-semibold text-white mb-2">Challenge Progress</h3>
-            <div className="text-3xl font-bold text-purple-400 mb-2">
+            <div className="text-3xl font-bold text-gray-100 mb-2">
               Day {dashboardData?.days_elapsed || 0}
             </div>
-            <p className="text-gray-400 text-sm">{dashboardData?.days_remaining || 90} days remaining</p>
-            <div className="mt-4 bg-slate-700 rounded-full h-2">
+            <p className="text-gray-300 text-sm">{dashboardData?.days_remaining || 90} days remaining</p>
+            <div className="mt-4 bg-black/30 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-purple-400 to-pink-400 h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-gray-300 to-white h-2 rounded-full transition-all duration-300"
                 style={{ width: `${dashboardData?.challenge_progress || 0}%` }}
               ></div>
             </div>
           </div>
           
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+          <div className="glass-card p-6 hover-lift">
             <h3 className="text-lg font-semibold text-white mb-2">Total Projects</h3>
-            <div className="text-3xl font-bold text-green-400 mb-2">
+            <div className="text-3xl font-bold text-gray-100 mb-2">
               {dashboardData?.total_projects || 0}
             </div>
-            <p className="text-gray-400 text-sm">Projects created</p>
+            <p className="text-gray-300 text-sm">Projects created</p>
           </div>
           
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-slate-700 rounded-xl p-6">
+          <div className="glass-card p-6 hover-lift">
             <h3 className="text-lg font-semibold text-white mb-2">Completed</h3>
-            <div className="text-3xl font-bold text-blue-400 mb-2">
+            <div className="text-3xl font-bold text-gray-100 mb-2">
               {(dashboardData?.month_stats?.month_1?.completed || 0) + 
                (dashboardData?.month_stats?.month_2?.completed || 0) + 
                (dashboardData?.month_stats?.month_3?.completed || 0)}
             </div>
-            <p className="text-gray-400 text-sm">Projects finished</p>
+            <p className="text-gray-300 text-sm">Projects finished</p>
           </div>
         </div>
 
