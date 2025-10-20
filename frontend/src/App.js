@@ -858,7 +858,7 @@ const ExplorePage = () => {
                               href={project.github_link} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="inline-flex items-center bg-green-600/20 text-green-400 hover:text-green-300 hover:bg-green-600/30 text-sm px-3 py-1 rounded-lg transition-colors"
+                              className="inline-flex items-center glass text-green-300 hover:text-green-200 hover:bg-green-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <span className="mr-1">💻</span>
