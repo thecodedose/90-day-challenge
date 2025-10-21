@@ -653,7 +653,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
 };
 
 // Journal Heatmap Component
-const JournalHeatmap = ({ userId, isPublic = false }) => {
+const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
   const [heatmapData, setHeatmapData] = useState([]);
   const [loading, setLoading] = useState(true);
 
