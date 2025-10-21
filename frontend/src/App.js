@@ -192,6 +192,7 @@ const Dashboard = () => {
   const [showAddProject, setShowAddProject] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
   const [showJournalModal, setShowJournalModal] = useState(false);
+  const [selectedJournalDay, setSelectedJournalDay] = useState(null);
   const [todayJournal, setTodayJournal] = useState(null);
   const navigate = useNavigate();
 
