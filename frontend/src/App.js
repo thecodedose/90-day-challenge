@@ -746,29 +746,29 @@ const JournalHeatmap = ({ userId, isPublic = false }) => {
       </div>
 
       {/* Mood Legend */}
-      <div className="mt-3 flex flex-wrap gap-2 text-xs">
+      <div className="mt-3 heatmap-legend flex flex-wrap gap-2 text-xs">
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-yellow-500/60"></div>
+          <div className="w-3 h-3 rounded bg-yellow-500/60 border border-yellow-400/50"></div>
           <span className="text-gray-400">😊 Happy</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-orange-500/60"></div>
+          <div className="w-3 h-3 rounded bg-orange-500/60 border border-orange-400/50"></div>
           <span className="text-gray-400">🚀 Excited</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-blue-500/60"></div>
+          <div className="w-3 h-3 rounded bg-blue-500/60 border border-blue-400/50"></div>
           <span className="text-gray-400">🎯 Focused</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-green-500/60"></div>
+          <div className="w-3 h-3 rounded bg-green-500/60 border border-green-400/50"></div>
           <span className="text-gray-400">😌 Neutral</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-gray-500/60"></div>
+          <div className="w-3 h-3 rounded bg-gray-500/60 border border-gray-400/50"></div>
           <span className="text-gray-400">😴 Tired</span>
         </div>
         <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-red-500/60"></div>
+          <div className="w-3 h-3 rounded bg-red-500/60 border border-red-400/50"></div>
           <span className="text-gray-400">😤 Frustrated</span>
         </div>
       </div>
