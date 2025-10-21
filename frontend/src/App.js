@@ -750,7 +750,7 @@ const JournalHeatmap = ({ userId, isPublic = false }) => {
           
           return (
             <div key={monthIndex} className="space-y-3">
-              <div className="flex items-center justify-between">
+              <div className="month-header flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <span className="text-lg">{month.icon}</span>
                   <div>
