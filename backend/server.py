@@ -318,6 +318,59 @@ async def delete_project(project_id: str, user: User = Depends(require_auth)):
     
     return {"message": "Project deleted successfully"}
 
+# User profile route (public)
+@api_router.get("/users/{user_id}")
+async def get_user_profile(user_id: str):
+    # Get user info
+    user_data = await db.users.find_one({"id": user_id}, {"_id": 0, "session_token": 0, "expires_at": 0})
+    if not user_data:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    parse_from_mongo(user_data)
+    
+    # Get user's projects
+    projects = await db.projects.find({"user_id": user_id}, {"_id": 0}).to_list(1000)
+    
+    for project in projects:
+        parse_from_mongo(project)
+    
+    # Calculate user stats
+    total_projects = len(projects)
+    completed_projects = len([p for p in projects if p.get("status") == "completed"])
+    in_progress_projects = len([p for p in projects if p.get("status") == "in-progress"])
+    
+    # Projects by month
+    projects_by_month = {
+        1: [p for p in projects if p.get("month") == 1],
+        2: [p for p in projects if p.get("month") == 2],
+        3: [p for p in projects if p.get("month") == 3]
+    }
+    
+    # Calculate days since user joined (challenge progress)
+    days_elapsed = 1
+    if user_data.get("challenge_start_date"):
+        challenge_start_date = datetime(2025, 10, 9, tzinfo=timezone.utc)
+        days_elapsed = (datetime.now(timezone.utc) - challenge_start_date).days + 1
+        days_elapsed = max(1, days_elapsed)
+    
+    return {
+        "user": {
+            "id": user_data["id"],
+            "name": user_data["name"],
+            "email": user_data["email"],
+            "picture": user_data["picture"],
+            "challenge_start_date": user_data.get("challenge_start_date")
+        },
+        "stats": {
+            "total_projects": total_projects,
+            "completed_projects": completed_projects,
+            "in_progress_projects": in_progress_projects,
+            "days_elapsed": days_elapsed
+        },
+        "projects": projects,
+        "projects_by_month": projects_by_month
+    }
+
 # Dashboard route
 @api_router.get("/dashboard")
 async def get_dashboard_data(user: User = Depends(require_auth)):
