@@ -394,6 +394,58 @@ const Dashboard = () => {
           })}
         </div>
 
+        {/* Daily Journal Section */}
+        <div className="glass-card p-6 mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-white">Daily Journal - Day {dashboardData?.days_elapsed || 0}</h3>
+            {!todayJournal && (
+              <button 
+                onClick={() => setShowJournalModal(true)}
+                className="glass text-white text-sm px-4 py-2 rounded-lg hover-lift"
+              >
+                Write Today's Entry
+              </button>
+            )}
+          </div>
+          
+          {todayJournal ? (
+            <div className="glass p-4 rounded-lg">
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-medium text-white">{todayJournal.title}</h4>
+                <div className="flex items-center space-x-2">
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    todayJournal.mood === 'happy' ? 'bg-yellow-500/20 text-yellow-300' :
+                    todayJournal.mood === 'excited' ? 'bg-orange-500/20 text-orange-300' :
+                    todayJournal.mood === 'focused' ? 'bg-blue-500/20 text-blue-300' :
+                    todayJournal.mood === 'tired' ? 'bg-gray-500/20 text-gray-300' :
+                    todayJournal.mood === 'frustrated' ? 'bg-red-500/20 text-red-300' :
+                    'bg-green-500/20 text-green-300'
+                  }`}>
+                    {todayJournal.mood === 'happy' ? '😊 Happy' :
+                     todayJournal.mood === 'excited' ? '🚀 Excited' :
+                     todayJournal.mood === 'focused' ? '🎯 Focused' :
+                     todayJournal.mood === 'tired' ? '😴 Tired' :
+                     todayJournal.mood === 'frustrated' ? '😤 Frustrated' :
+                     '😌 Neutral'}
+                  </span>
+                  <button
+                    onClick={() => setShowJournalModal(true)}
+                    className="text-gray-300 hover:text-white text-xs px-2 py-1 rounded hover:bg-white/10"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </div>
+              <p className="text-gray-300 text-sm">{todayJournal.content}</p>
+            </div>
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-gray-400 mb-4">No journal entry for today yet</p>
+              <p className="text-gray-500 text-sm">Document your challenge journey, thoughts, and progress</p>
+            </div>
+          )}
+        </div>
+
         {/* Add Project Button */}
         <div className="text-center">
           <button 
