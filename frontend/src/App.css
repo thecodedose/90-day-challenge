@@ -320,6 +320,20 @@ select:focus {
   background: rgba(255, 255, 255, 0.5);
 }
 
+/* Month separator styles */
+.month-separator {
+  border-left: 2px solid rgba(255, 255, 255, 0.1);
+  padding-left: 12px;
+  margin-left: 8px;
+}
+
+.month-header {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 /* Heatmap responsive design */
 @media (max-width: 768px) {
   .heatmap-cell {
@@ -330,5 +344,14 @@ select:focus {
   .heatmap-legend {
     flex-wrap: wrap;
     gap: 8px;
+  }
+  
+  .month-header {
+    padding: 6px 8px;
+  }
+  
+  .month-separator {
+    padding-left: 8px;
+    margin-left: 4px;
   }
 }
