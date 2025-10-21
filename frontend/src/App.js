@@ -967,28 +967,40 @@ const ExplorePage = () => {
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold text-white gradient-text">90-Day Challenge</h1>
           <nav className="flex items-center space-x-6">
-            <button 
-              onClick={() => navigate('/dashboard')}
-              className="text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10"
-            >
-              Dashboard
-            </button>
-            <button 
-              onClick={() => navigate('/explore')}
-              className="text-white font-medium bg-white/10 px-3 py-1 rounded-lg"
-            >
-              Explore
-            </button>
-            <div className="flex items-center space-x-3">
-              <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/20" />
-              <span className="text-white">{user?.name}</span>
+            {user && (
+              <>
+                <button 
+                  onClick={() => navigate('/dashboard')}
+                  className="text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10"
+                >
+                  Dashboard
+                </button>
+                <button 
+                  onClick={() => navigate('/explore')}
+                  className="text-white font-medium bg-white/10 px-3 py-1 rounded-lg"
+                >
+                  Explore
+                </button>
+                <div className="flex items-center space-x-3">
+                  <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/20" />
+                  <span className="text-white">{user?.name}</span>
+                  <button 
+                    onClick={logout}
+                    className="text-gray-300 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-500/10"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
+            {!user && (
               <button 
-                onClick={logout}
-                className="text-gray-300 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-500/10"
+                onClick={() => navigate('/')}
+                className="glass-strong text-white px-4 py-2 rounded-lg hover-lift"
               >
-                Logout
+                Sign In
               </button>
-            </div>
+            )}
           </nav>
         </div>
       </header>
