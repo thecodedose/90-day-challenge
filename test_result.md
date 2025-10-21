@@ -265,6 +265,18 @@ frontend:
         agent: "main"
         comment: "Enhanced status display with emojis (📋 Planning, 🚧 In Progress, ✅ Completed, ⏸️ Paused) and status editing capability"
 
+  - task: "Public Profile Pages"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added public profile pages accessible via /profile/{userId} showing user info, stats, and all projects organized by month. Includes clickable profile links in explore page."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
