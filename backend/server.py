@@ -340,6 +340,114 @@ async def delete_project(project_id: str, user: User = Depends(require_auth)):
         raise HTTPException(status_code=404, detail="Project not found")
     
     return {"message": "Project deleted successfully"}
+# Journal routes
+@api_router.post("/journal", response_model=JournalEntry)
+async def create_journal_entry(entry_data: JournalEntryCreate, user: User = Depends(require_auth)):
+    # Calculate current challenge day
+    challenge_start_date = datetime(2025, 10, 9, tzinfo=timezone.utc)
+    challenge_day = (datetime.now(timezone.utc) - challenge_start_date).days + 1
+    challenge_day = max(1, challenge_day)
+    
+    # Check if user already has an entry for today
+    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    today_end = today_start + timedelta(days=1)
+    
+    existing_entry = await db.journal_entries.find_one({
+        "user_id": user.id,
+        "created_at": {
+            "$gte": today_start.isoformat(),
+            "$lt": today_end.isoformat()
+        }
+    })
+    
+    if existing_entry:
+        raise HTTPException(status_code=400, detail="Journal entry already exists for today")
+    
+    journal_entry = JournalEntry(
+        user_id=user.id,
+        challenge_day=challenge_day,
+        **entry_data.model_dump()
+    )
+    
+    entry_dict = prepare_for_mongo(journal_entry.model_dump())
+    await db.journal_entries.insert_one(entry_dict)
+    
+    return journal_entry
+
+@api_router.get("/journal", response_model=List[JournalEntry])
+async def get_user_journal_entries(user: User = Depends(require_auth)):
+    entries = await db.journal_entries.find(
+        {"user_id": user.id}, 
+        {"_id": 0}
+    ).sort("created_at", -1).to_list(1000)
+    
+    for entry in entries:
+        parse_from_mongo(entry)
+    
+    return [JournalEntry(**entry) for entry in entries]
+
+@api_router.get("/journal/today")
+async def get_today_journal_entry(user: User = Depends(require_auth)):
+    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    today_end = today_start + timedelta(days=1)
+    
+    entry = await db.journal_entries.find_one({
+        "user_id": user.id,
+        "created_at": {
+            "$gte": today_start.isoformat(),
+            "$lt": today_end.isoformat()
+        }
+    }, {"_id": 0})
+    
+    if not entry:
+        return None
+    
+    parse_from_mongo(entry)
+    return JournalEntry(**entry)
+
+@api_router.put("/journal/{entry_id}", response_model=JournalEntry)
+async def update_journal_entry(entry_id: str, update_data: JournalEntryUpdate, user: User = Depends(require_auth)):
+    # Find entry and verify ownership
+    entry_data = await db.journal_entries.find_one({"id": entry_id, "user_id": user.id})
+    if not entry_data:
+        raise HTTPException(status_code=404, detail="Journal entry not found")
+    
+    # Update entry
+    update_dict = {k: v for k, v in update_data.model_dump().items() if v is not None}
+    update_dict["updated_at"] = datetime.now(timezone.utc).isoformat()
+    
+    await db.journal_entries.update_one(
+        {"id": entry_id},
+        {"$set": update_dict}
+    )
+    
+    # Return updated entry
+    updated_entry = await db.journal_entries.find_one({"id": entry_id}, {"_id": 0})
+    parse_from_mongo(updated_entry)
+    
+    return JournalEntry(**updated_entry)
+
+@api_router.delete("/journal/{entry_id}")
+async def delete_journal_entry(entry_id: str, user: User = Depends(require_auth)):
+    result = await db.journal_entries.delete_one({"id": entry_id, "user_id": user.id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Journal entry not found")
+    
+    return {"message": "Journal entry deleted successfully"}
+
+# Public journal entries for profile page
+@api_router.get("/users/{user_id}/journal")
+async def get_user_public_journal_entries(user_id: str):
+    entries = await db.journal_entries.find(
+        {"user_id": user_id}, 
+        {"_id": 0}
+    ).sort("created_at", -1).limit(10).to_list(10)  # Last 10 entries for profile
+    
+    for entry in entries:
+        parse_from_mongo(entry)
+    
+    return [JournalEntry(**entry) for entry in entries]
 
 # User profile route (public)
 @api_router.get("/users/{user_id}")
