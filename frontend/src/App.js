@@ -305,7 +305,13 @@ const Dashboard = () => {
 
         {/* Journal Heatmap */}
         <div className="mb-8">
-          <JournalHeatmap userId={user?.id} />
+          <JournalHeatmap 
+            userId={user?.id} 
+            onDayClick={(day) => {
+              setSelectedJournalDay(day);
+              setShowJournalModal(true);
+            }}
+          />
         </div>
 
         {/* Projects by Month */}
