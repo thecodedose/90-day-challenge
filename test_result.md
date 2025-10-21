@@ -192,6 +192,18 @@ backend:
         agent: "main"
         comment: "Added public user profile endpoint /api/users/{user_id} that returns user info, stats, and all projects organized by month for public profile pages"
 
+  - task: "Daily Journal API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented complete journal system with CRUD operations: create daily entries, get user entries, update/delete entries, and public journal display on profiles. Includes mood tracking and challenge day calculation."
+
 frontend:
   - task: "Authentication System"
     implemented: true
