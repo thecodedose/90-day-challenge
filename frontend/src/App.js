@@ -895,7 +895,8 @@ const JournalModal = ({ existingEntry, onClose, onSuccess, selectedDay = null })
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="glass-strong rounded-2xl p-6 w-full max-w-lg">
         <h2 className="text-xl font-bold text-white mb-4">
-          {existingEntry ? 'Edit Today\'s Journal' : 'Today\'s Journal Entry'}
+          {existingEntry ? 'Edit Journal Entry' : 'New Journal Entry'}
+          {selectedDay && ` - Day ${selectedDay}`}
         </h2>
         
         <form onSubmit={handleSubmit} className="space-y-4">
