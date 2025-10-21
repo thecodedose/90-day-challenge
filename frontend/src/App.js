@@ -703,6 +703,230 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
   );
 };
 
+// Profile Page
+const ProfilePage = () => {
+  const { user: currentUser, logout } = useAuth();
+  const { userId } = useParams();
+  const [profileData, setProfileData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(`${API}/users/${userId}`);
+        setProfileData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch profile:', error);
+        if (error.response?.status === 404) {
+          navigate('/explore');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [userId, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="glass-card p-8 rounded-2xl">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-300 mx-auto"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profileData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="glass-card p-8 rounded-2xl text-center">
+          <h2 className="text-xl text-white mb-4">User not found</h2>
+          <button 
+            onClick={() => navigate('/explore')}
+            className="glass-strong text-white px-4 py-2 rounded-lg hover-lift"
+          >
+            Back to Explore
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen">
+      {/* Header */}
+      <header className="glass border-b border-white/10">
+        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-white gradient-text">90-Day Challenge</h1>
+          <nav className="flex items-center space-x-6">
+            {currentUser && (
+              <>
+                <button 
+                  onClick={() => navigate('/dashboard')}
+                  className="text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10"
+                >
+                  Dashboard
+                </button>
+                <button 
+                  onClick={() => navigate('/explore')}
+                  className="text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10"
+                >
+                  Explore
+                </button>
+                <div className="flex items-center space-x-3">
+                  <img src={currentUser?.picture} alt={currentUser?.name} className="w-8 h-8 rounded-full border border-white/20" />
+                  <span className="text-white">{currentUser?.name}</span>
+                  <button 
+                    onClick={logout}
+                    className="text-gray-300 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-500/10"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </>
+            )}
+            {!currentUser && (
+              <button 
+                onClick={() => navigate('/')}
+                className="glass-strong text-white px-4 py-2 rounded-lg hover-lift"
+              >
+                Sign In
+              </button>
+            )}
+          </nav>
+        </div>
+      </header>
+
+      <div className="container mx-auto px-6 py-8">
+        {/* Profile Header */}
+        <div className="glass-card p-8 mb-8 text-center hover-lift">
+          <img 
+            src={profileData.user.picture} 
+            alt={profileData.user.name}
+            className="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-white/20"
+          />
+          <h1 className="text-3xl font-bold text-white mb-2">{profileData.user.name}</h1>
+          <p className="text-gray-300 mb-4">90-Day Challenge Participant</p>
+          
+          {/* Stats */}
+          <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-white">{profileData.stats.total_projects}</div>
+              <div className="text-sm text-gray-300">Projects</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-300">{profileData.stats.completed_projects}</div>
+              <div className="text-sm text-gray-300">Completed</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-gray-200">Day {profileData.stats.days_elapsed}</div>
+              <div className="text-sm text-gray-300">Challenge</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Projects by Month */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {[1, 2, 3].map(month => {
+            const monthProjects = profileData.projects_by_month[month] || [];
+            
+            return (
+              <div key={month} className="glass-card p-6 hover-lift">
+                <h3 className="text-lg font-semibold text-white mb-4">
+                  Month {month}
+                  {month === 1 && ' - Mini App'}
+                  {month === 2 && ' - AI Project'}
+                  {month === 3 && ' - Open Source'}
+                </h3>
+                
+                <div className="space-y-3">
+                  {monthProjects.length > 0 ? (
+                    monthProjects.map(project => (
+                      <div key={project.id} className="glass rounded-lg p-3 hover:bg-white/5 transition-colors">
+                        <h4 className="font-medium text-white text-sm mb-1">{project.title}</h4>
+                        <p className="text-xs text-gray-300 mb-2">{project.description}</p>
+                        
+                        {/* Status */}
+                        <div className="flex items-center justify-between mb-2">
+                          <span className={`text-xs px-2 py-1 rounded-full ${
+                            project.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
+                            project.status === 'in-progress' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
+                            project.status === 'paused' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
+                            'bg-gray-500/20 text-gray-300 border border-gray-500/30'
+                          }`}>
+                            {project.status === 'completed' ? '✅ Completed' :
+                             project.status === 'in-progress' ? '🚧 In Progress' :
+                             project.status === 'paused' ? '⏸️ Paused' :
+                             '📋 Planning'}
+                          </span>
+                        </div>
+
+                        {/* Tech Stack */}
+                        <div className="mb-3">
+                          <p className="text-xs text-gray-400 mb-1">Tech Stack:</p>
+                          <div className="flex flex-wrap gap-1">
+                            {project.tech_stack?.map((tech, index) => (
+                              <span key={index} className="bg-white/10 text-gray-200 text-xs px-2 py-1 rounded border border-white/20">
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Links */}
+                        {(project.deployed_link || project.github_link) && (
+                          <div className="flex flex-wrap gap-2">
+                            {project.deployed_link && (
+                              <a 
+                                href={project.deployed_link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center glass text-blue-300 hover:text-blue-200 hover:bg-blue-500/20 text-xs px-2 py-1 rounded transition-all duration-300"
+                              >
+                                <span className="mr-1">🚀</span>
+                                Demo
+                              </a>
+                            )}
+                            {project.github_link && (
+                              <a 
+                                href={project.github_link} 
+                                target="_blank" 
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center glass text-green-300 hover:text-green-200 hover:bg-green-500/20 text-xs px-2 py-1 rounded transition-all duration-300"
+                              >
+                                <span className="mr-1">💻</span>
+                                Code
+                              </a>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <p className="text-gray-400 text-sm">No projects yet</p>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="mt-4 pt-3 border-t border-white/10">
+                  <div className="flex justify-between text-xs text-gray-400">
+                    <span>Total: {monthProjects.length}</span>
+                    <span>Completed: {monthProjects.filter(p => p.status === 'completed').length}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Explore Page
 const ExplorePage = () => {
   const { user, logout } = useAuth();
