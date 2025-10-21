@@ -69,6 +69,28 @@ class ProjectUpdate(BaseModel):
     github_link: Optional[str] = None
     status: Optional[str] = None
 
+class JournalEntry(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    title: str
+    content: str
+    mood: Optional[str] = "neutral"  # happy, excited, focused, tired, frustrated, neutral
+    challenge_day: int
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class JournalEntryCreate(BaseModel):
+    title: str
+    content: str
+    mood: Optional[str] = "neutral"
+
+class JournalEntryUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+    mood: Optional[str] = None
+
 # Authentication helpers
 async def get_current_user(request: Request) -> Optional[User]:
     # Check session_token from cookie first, then Authorization header
