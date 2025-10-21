@@ -624,6 +624,151 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
   );
 };
 
+// Journal Heatmap Component
+const JournalHeatmap = ({ userId, isPublic = false }) => {
+  const [heatmapData, setHeatmapData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchHeatmapData = async () => {
+      try {
+        const endpoint = isPublic 
+          ? `${API}/users/${userId}/journal/heatmap`
+          : `${API}/journal/heatmap`;
+        
+        const config = isPublic ? {} : { withCredentials: true };
+        const response = await axios.get(endpoint, config);
+        setHeatmapData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch heatmap data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHeatmapData();
+  }, [userId, isPublic]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-4">
+        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-300"></div>
+      </div>
+    );
+  }
+
+  const getCellColor = (dayData) => {
+    if (dayData.is_future) {
+      return 'bg-gray-800/30 border-gray-700/50';
+    }
+    
+    if (!dayData.has_entry) {
+      return 'bg-gray-700/40 border-gray-600/50 hover:bg-gray-600/50';
+    }
+
+    // Color based on mood
+    const moodColors = {
+      'happy': 'bg-yellow-500/60 border-yellow-400/50',
+      'excited': 'bg-orange-500/60 border-orange-400/50', 
+      'focused': 'bg-blue-500/60 border-blue-400/50',
+      'tired': 'bg-gray-500/60 border-gray-400/50',
+      'frustrated': 'bg-red-500/60 border-red-400/50',
+      'neutral': 'bg-green-500/60 border-green-400/50'
+    };
+
+    return moodColors[dayData.mood] || 'bg-green-500/60 border-green-400/50';
+  };
+
+  const getTooltipText = (dayData) => {
+    if (dayData.is_future) {
+      return `Day ${dayData.day} (${dayData.date}) - Future`;
+    }
+    
+    if (!dayData.has_entry) {
+      return `Day ${dayData.day} (${dayData.date}) - No entry`;
+    }
+
+    const moodEmoji = {
+      'happy': '😊',
+      'excited': '🚀', 
+      'focused': '🎯',
+      'tired': '😴',
+      'frustrated': '😤',
+      'neutral': '😌'
+    };
+
+    return `Day ${dayData.day} (${dayData.date}) - ${moodEmoji[dayData.mood] || '😌'} ${dayData.content_length} characters`;
+  };
+
+  // Group data into weeks (7 days each)
+  const weeks = [];
+  for (let i = 0; i < heatmapData.length; i += 7) {
+    weeks.push(heatmapData.slice(i, i + 7));
+  }
+
+  return (
+    <div className="glass-card p-6">
+      <h3 className="text-lg font-semibold text-white mb-4">
+        90-Day Journal Activity
+      </h3>
+      
+      <div className="space-y-1">
+        {weeks.map((week, weekIndex) => (
+          <div key={weekIndex} className="flex space-x-1">
+            {week.map((day) => (
+              <div
+                key={day.day}
+                className={`w-4 h-4 rounded border transition-all duration-200 cursor-pointer ${getCellColor(day)}`}
+                title={getTooltipText(day)}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Legend */}
+      <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
+        <span>Less</span>
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-gray-700/40 border border-gray-600/50"></div>
+          <div className="w-3 h-3 rounded bg-green-500/30 border border-green-400/50"></div>
+          <div className="w-3 h-3 rounded bg-green-500/60 border border-green-400/50"></div>
+          <div className="w-3 h-3 rounded bg-green-500/90 border border-green-400/50"></div>
+        </div>
+        <span>More</span>
+      </div>
+
+      {/* Mood Legend */}
+      <div className="mt-3 flex flex-wrap gap-2 text-xs">
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-yellow-500/60"></div>
+          <span className="text-gray-400">😊 Happy</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-orange-500/60"></div>
+          <span className="text-gray-400">🚀 Excited</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-blue-500/60"></div>
+          <span className="text-gray-400">🎯 Focused</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-green-500/60"></div>
+          <span className="text-gray-400">😌 Neutral</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-gray-500/60"></div>
+          <span className="text-gray-400">😴 Tired</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <div className="w-3 h-3 rounded bg-red-500/60"></div>
+          <span className="text-gray-400">😤 Frustrated</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Journal Modal
 const JournalModal = ({ existingEntry, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
