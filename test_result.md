@@ -204,6 +204,18 @@ backend:
         agent: "main"
         comment: "Implemented complete journal system with CRUD operations: create daily entries, get user entries, update/delete entries, and public journal display on profiles. Includes mood tracking and challenge day calculation."
 
+  - task: "Journal Heatmap API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added heatmap endpoints for 90-day journal activity visualization. Provides both authenticated (/api/journal/heatmap) and public (/api/users/{user_id}/journal/heatmap) endpoints with mood-based coloring and activity tracking."
+
 frontend:
   - task: "Authentication System"
     implemented: true
