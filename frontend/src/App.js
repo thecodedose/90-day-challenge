@@ -404,14 +404,28 @@ const Dashboard = () => {
         <div className="glass-card p-6 mb-8">
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-white">Daily Journal - Day {dashboardData?.days_elapsed || 0}</h3>
-            {!todayJournal && (
+            <div className="flex space-x-2">
+              {!todayJournal && (
+                <button 
+                  onClick={() => {
+                    setSelectedJournalDay(null);
+                    setShowJournalModal(true);
+                  }}
+                  className="glass text-white text-sm px-4 py-2 rounded-lg hover-lift"
+                >
+                  Write Today's Entry
+                </button>
+              )}
               <button 
-                onClick={() => setShowJournalModal(true)}
-                className="glass text-white text-sm px-4 py-2 rounded-lg hover-lift"
+                onClick={() => {
+                  setSelectedJournalDay(null);
+                  setShowJournalModal(true);
+                }}
+                className="glass text-white text-sm px-3 py-2 rounded-lg hover-lift"
               >
-                Write Today's Entry
+                + Add Entry
               </button>
-            )}
+            </div>
           </div>
           
           {todayJournal ? (
