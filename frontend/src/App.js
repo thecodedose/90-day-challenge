@@ -832,13 +832,36 @@ const JournalHeatmap = ({ userId, isPublic = false }) => {
 };
 
 // Journal Modal
-const JournalModal = ({ existingEntry, onClose, onSuccess }) => {
+const JournalModal = ({ existingEntry, onClose, onSuccess, selectedDay = null }) => {
   const [formData, setFormData] = useState({
     title: existingEntry?.title || '',
     content: existingEntry?.content || '',
-    mood: existingEntry?.mood || 'neutral'
+    mood: existingEntry?.mood || 'neutral',
+    entry_date: selectedDay ? getChallengeDate(selectedDay) : getTodayDate()
   });
   const [loading, setLoading] = useState(false);
+
+  // Helper function to get today's date in YYYY-MM-DD format
+  function getTodayDate() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  // Helper function to convert challenge day to date
+  function getChallengeDate(challengeDay) {
+    const challengeStart = new Date('2025-10-09');
+    const entryDate = new Date(challengeStart);
+    entryDate.setDate(challengeStart.getDate() + challengeDay - 1);
+    return entryDate.toISOString().split('T')[0];
+  }
+
+  // Helper function to convert date to challenge day
+  function getChallengeDayFromDate(dateStr) {
+    const challengeStart = new Date('2025-10-09');
+    const entryDate = new Date(dateStr);
+    const diffTime = entryDate - challengeStart;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays + 1;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
