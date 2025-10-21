@@ -180,6 +180,18 @@ backend:
         agent: "testing"
         comment: "✅ Explore API working correctly: Public endpoint returns projects with user info (creator_name, creator_picture), proper aggregation pipeline, sorted by creation date. All required fields present in response."
 
+  - task: "User Profile API"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Added public user profile endpoint /api/users/{user_id} that returns user info, stats, and all projects organized by month for public profile pages"
+
 frontend:
   - task: "Authentication System"
     implemented: true
