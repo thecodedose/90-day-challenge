@@ -484,6 +484,15 @@ async def get_user_profile(user_id: str):
         days_elapsed = (datetime.now(timezone.utc) - challenge_start_date).days + 1
         days_elapsed = max(1, days_elapsed)
     
+    # Get user's recent journal entries
+    journal_entries = await db.journal_entries.find(
+        {"user_id": user_id}, 
+        {"_id": 0}
+    ).sort("created_at", -1).limit(10).to_list(10)
+    
+    for entry in journal_entries:
+        parse_from_mongo(entry)
+
     return {
         "user": {
             "id": user_data["id"],
@@ -496,10 +505,12 @@ async def get_user_profile(user_id: str):
             "total_projects": total_projects,
             "completed_projects": completed_projects,
             "in_progress_projects": in_progress_projects,
-            "days_elapsed": days_elapsed
+            "days_elapsed": days_elapsed,
+            "journal_entries": len(journal_entries)
         },
         "projects": projects,
-        "projects_by_month": projects_by_month
+        "projects_by_month": projects_by_month,
+        "journal_entries": journal_entries
     }
 
 # Dashboard route
