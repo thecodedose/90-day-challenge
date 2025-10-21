@@ -323,7 +323,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Added comprehensive journal functionality: daily entry creation/editing in dashboard, mood selection (happy, excited, focused, tired, frustrated, neutral), journal display on profile pages, and challenge day tracking. Prevents duplicate daily entries."
+        comment: "Added comprehensive journal functionality: daily entry creation/editing in dashboard, mood selection (happy, excited, focused, tired, frustrated, neutral), journal display on profile pages, and challenge day tracking. Enhanced with date picker to allow entries for any day (1-90), clickable heatmap cells for day selection, and backfill missed days capability."
 
   - task: "Journal Heatmap Visualization"
     implemented: true
