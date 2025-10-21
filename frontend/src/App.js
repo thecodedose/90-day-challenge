@@ -1166,6 +1166,11 @@ const ProfilePage = () => {
           </div>
         </div>
 
+        {/* Journal Heatmap */}
+        <div className="mb-8">
+          <JournalHeatmap userId={userId} isPublic={true} />
+        </div>
+
         {/* Recent Journal Entries */}
         {profileData.journal_entries && profileData.journal_entries.length > 0 && (
           <div className="glass-card p-6 mb-8">
