@@ -325,6 +325,18 @@ frontend:
         agent: "main"
         comment: "Added comprehensive journal functionality: daily entry creation/editing in dashboard, mood selection (happy, excited, focused, tired, frustrated, neutral), journal display on profile pages, and challenge day tracking. Prevents duplicate daily entries."
 
+  - task: "Journal Heatmap Visualization"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Implemented GitHub-style heatmap showing 90-day journal activity with mood-based colors, hover tooltips, responsive design, and interactive elements. Displays on both dashboard and profile pages. Includes activity legend and mood indicators."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
