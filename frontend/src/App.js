@@ -506,10 +506,15 @@ const Dashboard = () => {
       {/* Journal Modal */}
       {showJournalModal && (
         <JournalModal 
-          existingEntry={todayJournal}
-          onClose={() => setShowJournalModal(false)} 
+          existingEntry={selectedJournalDay ? null : todayJournal}
+          selectedDay={selectedJournalDay}
+          onClose={() => {
+            setShowJournalModal(false);
+            setSelectedJournalDay(null);
+          }} 
           onSuccess={() => {
             setShowJournalModal(false);
+            setSelectedJournalDay(null);
             fetchDashboardData();
           }} 
         />
