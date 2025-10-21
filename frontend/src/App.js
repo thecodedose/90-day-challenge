@@ -1016,6 +1016,46 @@ const ProfilePage = () => {
           </div>
         </div>
 
+        {/* Recent Journal Entries */}
+        {profileData.journal_entries && profileData.journal_entries.length > 0 && (
+          <div className="glass-card p-6 mb-8">
+            <h3 className="text-lg font-semibold text-white mb-4">Recent Journal Entries</h3>
+            <div className="space-y-3 max-h-96 overflow-y-auto">
+              {profileData.journal_entries.map(entry => (
+                <div key={entry.id} className="glass rounded-lg p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center space-x-2">
+                      <h4 className="font-medium text-white text-sm">{entry.title}</h4>
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        entry.mood === 'happy' ? 'bg-yellow-500/20 text-yellow-300' :
+                        entry.mood === 'excited' ? 'bg-orange-500/20 text-orange-300' :
+                        entry.mood === 'focused' ? 'bg-blue-500/20 text-blue-300' :
+                        entry.mood === 'tired' ? 'bg-gray-500/20 text-gray-300' :
+                        entry.mood === 'frustrated' ? 'bg-red-500/20 text-red-300' :
+                        'bg-green-500/20 text-green-300'
+                      }`}>
+                        {entry.mood === 'happy' ? '😊' :
+                         entry.mood === 'excited' ? '🚀' :
+                         entry.mood === 'focused' ? '🎯' :
+                         entry.mood === 'tired' ? '😴' :
+                         entry.mood === 'frustrated' ? '😤' :
+                         '😌'}
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-400">
+                      Day {entry.challenge_day}
+                    </div>
+                  </div>
+                  <p className="text-gray-300 text-sm">{entry.content}</p>
+                  <div className="text-xs text-gray-500 mt-2">
+                    {new Date(entry.created_at).toLocaleDateString()}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Projects by Month */}
         <div className="grid md:grid-cols-3 gap-6">
           {[1, 2, 3].map(month => {
