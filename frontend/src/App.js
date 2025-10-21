@@ -240,8 +240,13 @@ const Dashboard = () => {
               Explore
             </button>
             <div className="flex items-center space-x-3">
-              <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/20" />
-              <span className="text-white">{user?.name}</span>
+              <button
+                onClick={() => navigate(`/profile/${user?.id}`)}
+                className="flex items-center space-x-2 hover:bg-white/10 rounded-lg px-2 py-1 transition-colors"
+              >
+                <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/20" />
+                <span className="text-white">{user?.name}</span>
+              </button>
               <button 
                 onClick={logout}
                 className="text-gray-300 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-500/10"
