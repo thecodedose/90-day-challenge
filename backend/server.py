@@ -449,6 +449,74 @@ async def get_user_public_journal_entries(user_id: str):
     
     return [JournalEntry(**entry) for entry in entries]
 
+# Journal heatmap data
+@api_router.get("/journal/heatmap")
+async def get_journal_heatmap(user: User = Depends(require_auth)):
+    # Get all journal entries for the user
+    entries = await db.journal_entries.find(
+        {"user_id": user.id}, 
+        {"_id": 0, "challenge_day": 1, "mood": 1, "content": 1, "created_at": 1}
+    ).to_list(1000)
+    
+    # Create heatmap data for 90 days
+    challenge_start_date = datetime(2025, 10, 9, tzinfo=timezone.utc)
+    heatmap_data = []
+    
+    for day in range(1, 91):  # 90 days
+        current_date = challenge_start_date + timedelta(days=day-1)
+        
+        # Find entry for this day
+        day_entry = None
+        for entry in entries:
+            if entry.get("challenge_day") == day:
+                day_entry = entry
+                break
+        
+        heatmap_data.append({
+            "day": day,
+            "date": current_date.strftime("%Y-%m-%d"),
+            "has_entry": day_entry is not None,
+            "mood": day_entry.get("mood") if day_entry else None,
+            "content_length": len(day_entry.get("content", "")) if day_entry else 0,
+            "is_future": current_date > datetime.now(timezone.utc)
+        })
+    
+    return heatmap_data
+
+# Public journal heatmap for profile page
+@api_router.get("/users/{user_id}/journal/heatmap")
+async def get_user_public_journal_heatmap(user_id: str):
+    # Get all journal entries for the user
+    entries = await db.journal_entries.find(
+        {"user_id": user_id}, 
+        {"_id": 0, "challenge_day": 1, "mood": 1, "content": 1, "created_at": 1}
+    ).to_list(1000)
+    
+    # Create heatmap data for 90 days
+    challenge_start_date = datetime(2025, 10, 9, tzinfo=timezone.utc)
+    heatmap_data = []
+    
+    for day in range(1, 91):  # 90 days
+        current_date = challenge_start_date + timedelta(days=day-1)
+        
+        # Find entry for this day
+        day_entry = None
+        for entry in entries:
+            if entry.get("challenge_day") == day:
+                day_entry = entry
+                break
+        
+        heatmap_data.append({
+            "day": day,
+            "date": current_date.strftime("%Y-%m-%d"),
+            "has_entry": day_entry is not None,
+            "mood": day_entry.get("mood") if day_entry else None,
+            "content_length": len(day_entry.get("content", "")) if day_entry else 0,
+            "is_future": current_date > datetime.now(timezone.utc)
+        })
+    
+    return heatmap_data
+
 # User profile route (public)
 @api_router.get("/users/{user_id}")
 async def get_user_profile(user_id: str):
