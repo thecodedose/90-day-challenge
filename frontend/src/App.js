@@ -201,6 +201,12 @@ const Dashboard = () => {
         withCredentials: true
       });
       setDashboardData(response.data);
+      
+      // Check if there's a journal entry for today
+      const journalResponse = await axios.get(`${API}/journal/today`, {
+        withCredentials: true
+      });
+      setTodayJournal(journalResponse.data);
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
     } finally {
