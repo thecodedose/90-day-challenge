@@ -796,6 +796,11 @@ const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
                           key={day.day}
                           className={`heatmap-cell w-4 h-4 rounded border cursor-pointer ${getCellColor(day)}`}
                           title={getTooltipText(day)}
+                          onClick={() => {
+                            if (!day.is_future && onDayClick) {
+                              onDayClick(day.day);
+                            }
+                          }}
                         />
                       ))}
                       {/* Fill empty cells if the week is incomplete */}
