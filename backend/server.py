@@ -273,6 +273,7 @@ async def get_all_projects():
                 "status": 1,
                 "month": 1,
                 "created_at": 1,
+                "user_id": 1,
                 "creator_name": "$user.name",
                 "creator_picture": "$user.picture"
             }
