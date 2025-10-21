@@ -705,32 +705,87 @@ const JournalHeatmap = ({ userId, isPublic = false }) => {
     return `Day ${dayData.day} (${dayData.date}) - ${moodEmoji[dayData.mood] || '😌'} ${dayData.content_length} characters`;
   };
 
-  // Group data into weeks (7 days each)
-  const weeks = [];
-  for (let i = 0; i < heatmapData.length; i += 7) {
-    weeks.push(heatmapData.slice(i, i + 7));
-  }
+  // Group data into 3 months of 30 days each
+  const months = [
+    { 
+      title: "Month 1 - Mini App", 
+      days: heatmapData.slice(0, 30), 
+      icon: "📱",
+      description: "Real-World Mini Application"
+    },
+    { 
+      title: "Month 2 - AI Project", 
+      days: heatmapData.slice(30, 60), 
+      icon: "🤖",
+      description: "AI-Integrated Project"
+    },
+    { 
+      title: "Month 3 - Open Source", 
+      days: heatmapData.slice(60, 90), 
+      icon: "🚀",
+      description: "Open Source / Dev Tools"
+    }
+  ];
+
+  // Helper function to group days into weeks
+  const groupIntoWeeks = (days) => {
+    const weeks = [];
+    for (let i = 0; i < days.length; i += 7) {
+      weeks.push(days.slice(i, i + 7));
+    }
+    return weeks;
+  };
 
   return (
     <div className="glass-card p-6">
-      <h3 className="text-lg font-semibold text-white mb-4">
+      <h3 className="text-lg font-semibold text-white mb-6">
         90-Day Journal Activity
       </h3>
       
-      <div className="heatmap-container">
-        <div className="space-y-1 min-w-max">
-          {weeks.map((week, weekIndex) => (
-            <div key={weekIndex} className="flex space-x-1">
-              {week.map((day) => (
-                <div
-                  key={day.day}
-                  className={`heatmap-cell w-4 h-4 rounded border cursor-pointer ${getCellColor(day)}`}
-                  title={getTooltipText(day)}
-                />
-              ))}
+      <div className="space-y-6">
+        {months.map((month, monthIndex) => {
+          const weeks = groupIntoWeeks(month.days);
+          const completedDays = month.days.filter(day => day.has_entry && !day.is_future).length;
+          const totalPastDays = month.days.filter(day => !day.is_future).length;
+          
+          return (
+            <div key={monthIndex} className="space-y-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">{month.icon}</span>
+                  <div>
+                    <h4 className="text-sm font-medium text-white">{month.title}</h4>
+                    <p className="text-xs text-gray-400">{month.description}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="text-sm text-white">{completedDays}/{totalPastDays}</div>
+                  <div className="text-xs text-gray-400">entries</div>
+                </div>
+              </div>
+              
+              <div className="heatmap-container">
+                <div className="space-y-1 min-w-max">
+                  {weeks.map((week, weekIndex) => (
+                    <div key={weekIndex} className="flex space-x-1">
+                      {week.map((day) => (
+                        <div
+                          key={day.day}
+                          className={`heatmap-cell w-4 h-4 rounded border cursor-pointer ${getCellColor(day)}`}
+                          title={getTooltipText(day)}
+                        />
+                      ))}
+                      {/* Fill empty cells if the week is incomplete */}
+                      {week.length < 7 && Array.from({ length: 7 - week.length }).map((_, emptyIndex) => (
+                        <div key={`empty-${weekIndex}-${emptyIndex}`} className="w-4 h-4" />
+                      ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
 
       {/* Legend */}
