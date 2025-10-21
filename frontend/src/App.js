@@ -714,12 +714,14 @@ const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
   };
 
   const getTooltipText = (dayData) => {
+    const baseText = `Day ${dayData.day} (${dayData.date})`;
+    
     if (dayData.is_future) {
-      return `Day ${dayData.day} (${dayData.date}) - Future`;
+      return `${baseText} - Future`;
     }
     
     if (!dayData.has_entry) {
-      return `Day ${dayData.day} (${dayData.date}) - No entry`;
+      return `${baseText} - No entry${!isPublic ? ' (click to add)' : ''}`;
     }
 
     const moodEmoji = {
@@ -731,7 +733,7 @@ const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
       'neutral': '😌'
     };
 
-    return `Day ${dayData.day} (${dayData.date}) - ${moodEmoji[dayData.mood] || '😌'} ${dayData.content_length} characters`;
+    return `${baseText} - ${moodEmoji[dayData.mood] || '😌'} ${dayData.content_length} characters${!isPublic ? ' (click to edit)' : ''}`;
   };
 
   // Group data into 3 months of 30 days each
