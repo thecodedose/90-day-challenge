@@ -996,7 +996,7 @@ const ProfilePage = () => {
           <p className="text-gray-300 mb-4">90-Day Challenge Participant</p>
           
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 max-w-md mx-auto">
+          <div className="grid grid-cols-4 gap-4 max-w-lg mx-auto">
             <div className="text-center">
               <div className="text-2xl font-bold text-white">{profileData.stats.total_projects}</div>
               <div className="text-sm text-gray-300">Projects</div>
@@ -1008,6 +1008,10 @@ const ProfilePage = () => {
             <div className="text-center">
               <div className="text-2xl font-bold text-gray-200">Day {profileData.stats.days_elapsed}</div>
               <div className="text-sm text-gray-300">Challenge</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-300">{profileData.stats.journal_entries || 0}</div>
+              <div className="text-sm text-gray-300">Journal</div>
             </div>
           </div>
         </div>
