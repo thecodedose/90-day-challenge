@@ -344,30 +344,45 @@ async def delete_project(project_id: str, user: User = Depends(require_auth)):
 # Journal routes
 @api_router.post("/journal", response_model=JournalEntry)
 async def create_journal_entry(entry_data: JournalEntryCreate, user: User = Depends(require_auth)):
-    # Calculate current challenge day
     challenge_start_date = datetime(2025, 10, 9, tzinfo=timezone.utc)
-    challenge_day = (datetime.now(timezone.utc) - challenge_start_date).days + 1
-    challenge_day = max(1, challenge_day)
     
-    # Check if user already has an entry for today
-    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-    today_end = today_start + timedelta(days=1)
+    # Determine the entry date
+    if entry_data.entry_date:
+        try:
+            entry_date = datetime.strptime(entry_data.entry_date, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        except ValueError:
+            raise HTTPException(status_code=400, detail="Invalid date format. Use YYYY-MM-DD")
+    else:
+        entry_date = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    
+    # Calculate challenge day for the entry date
+    challenge_day = (entry_date - challenge_start_date).days + 1
+    
+    # Validate challenge day is within the 90-day range
+    if challenge_day < 1 or challenge_day > 90:
+        raise HTTPException(status_code=400, detail="Entry date must be within the 90-day challenge period")
+    
+    # Check if user already has an entry for this specific date
+    day_start = entry_date.replace(hour=0, minute=0, second=0, microsecond=0)
+    day_end = day_start + timedelta(days=1)
     
     existing_entry = await db.journal_entries.find_one({
         "user_id": user.id,
-        "created_at": {
-            "$gte": today_start.isoformat(),
-            "$lt": today_end.isoformat()
-        }
+        "challenge_day": challenge_day
     })
     
     if existing_entry:
-        raise HTTPException(status_code=400, detail="Journal entry already exists for today")
+        raise HTTPException(status_code=400, detail=f"Journal entry already exists for day {challenge_day}")
     
+    # Create journal entry with the specified date
     journal_entry = JournalEntry(
         user_id=user.id,
         challenge_day=challenge_day,
-        **entry_data.model_dump()
+        title=entry_data.title,
+        content=entry_data.content,
+        mood=entry_data.mood,
+        created_at=day_start,
+        updated_at=datetime.now(timezone.utc)
     )
     
     entry_dict = prepare_for_mongo(journal_entry.model_dump())
