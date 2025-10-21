@@ -479,6 +479,18 @@ const Dashboard = () => {
           }} 
         />
       )}
+
+      {/* Journal Modal */}
+      {showJournalModal && (
+        <JournalModal 
+          existingEntry={todayJournal}
+          onClose={() => setShowJournalModal(false)} 
+          onSuccess={() => {
+            setShowJournalModal(false);
+            fetchDashboardData();
+          }} 
+        />
+      )}
     </div>
   );
 };
