@@ -1152,6 +1152,7 @@ function App() {
               <ExplorePage />
             </ProtectedRoute>
           } />
+          <Route path="/profile/:userId" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
