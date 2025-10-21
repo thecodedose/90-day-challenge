@@ -1155,11 +1155,7 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path="/explore" element={
-            <ProtectedRoute>
-              <ExplorePage />
-            </ProtectedRoute>
-          } />
+          <Route path="/explore" element={<ExplorePage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
