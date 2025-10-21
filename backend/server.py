@@ -404,15 +404,32 @@ async def get_user_journal_entries(user: User = Depends(require_auth)):
 
 @api_router.get("/journal/today")
 async def get_today_journal_entry(user: User = Depends(require_auth)):
-    today_start = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
-    today_end = today_start + timedelta(days=1)
+    challenge_start_date = datetime(2025, 10, 9, tzinfo=timezone.utc)
+    today = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    challenge_day = (today - challenge_start_date).days + 1
+    
+    if challenge_day < 1 or challenge_day > 90:
+        return None
     
     entry = await db.journal_entries.find_one({
         "user_id": user.id,
-        "created_at": {
-            "$gte": today_start.isoformat(),
-            "$lt": today_end.isoformat()
-        }
+        "challenge_day": challenge_day
+    }, {"_id": 0})
+    
+    if not entry:
+        return None
+    
+    parse_from_mongo(entry)
+    return JournalEntry(**entry)
+
+@api_router.get("/journal/day/{challenge_day}")
+async def get_journal_entry_by_day(challenge_day: int, user: User = Depends(require_auth)):
+    if challenge_day < 1 or challenge_day > 90:
+        raise HTTPException(status_code=400, detail="Challenge day must be between 1 and 90")
+    
+    entry = await db.journal_entries.find_one({
+        "user_id": user.id,
+        "challenge_day": challenge_day
     }, {"_id": 0})
     
     if not entry:
