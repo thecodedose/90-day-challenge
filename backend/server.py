@@ -85,6 +85,7 @@ class JournalEntryCreate(BaseModel):
     title: str
     content: str
     mood: Optional[str] = "neutral"
+    entry_date: Optional[str] = None  # YYYY-MM-DD format, defaults to today
 
 class JournalEntryUpdate(BaseModel):
     title: Optional[str] = None
