@@ -449,7 +449,10 @@ const Dashboard = () => {
                      '😌 Neutral'}
                   </span>
                   <button
-                    onClick={() => setShowJournalModal(true)}
+                    onClick={() => {
+                      setSelectedJournalDay(null);
+                      setShowJournalModal(true);
+                    }}
                     className="text-gray-300 hover:text-white text-xs px-2 py-1 rounded hover:bg-white/10"
                   >
                     Edit
