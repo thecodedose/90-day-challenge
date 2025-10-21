@@ -717,18 +717,20 @@ const JournalHeatmap = ({ userId, isPublic = false }) => {
         90-Day Journal Activity
       </h3>
       
-      <div className="space-y-1">
-        {weeks.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex space-x-1">
-            {week.map((day) => (
-              <div
-                key={day.day}
-                className={`w-4 h-4 rounded border transition-all duration-200 cursor-pointer ${getCellColor(day)}`}
-                title={getTooltipText(day)}
-              />
-            ))}
-          </div>
-        ))}
+      <div className="heatmap-container">
+        <div className="space-y-1 min-w-max">
+          {weeks.map((week, weekIndex) => (
+            <div key={weekIndex} className="flex space-x-1">
+              {week.map((day) => (
+                <div
+                  key={day.day}
+                  className={`heatmap-cell w-4 h-4 rounded border cursor-pointer ${getCellColor(day)}`}
+                  title={getTooltipText(day)}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Legend */}
