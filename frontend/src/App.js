@@ -624,6 +624,113 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
   );
 };
 
+// Journal Modal
+const JournalModal = ({ existingEntry, onClose, onSuccess }) => {
+  const [formData, setFormData] = useState({
+    title: existingEntry?.title || '',
+    content: existingEntry?.content || '',
+    mood: existingEntry?.mood || 'neutral'
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (existingEntry) {
+        // Update existing entry
+        await axios.put(`${API}/journal/${existingEntry.id}`, formData, {
+          withCredentials: true
+        });
+      } else {
+        // Create new entry
+        await axios.post(`${API}/journal`, formData, {
+          withCredentials: true
+        });
+      }
+
+      onSuccess();
+    } catch (error) {
+      console.error('Failed to save journal entry:', error);
+      if (error.response?.status === 400) {
+        alert('You already have a journal entry for today!');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="glass-strong rounded-2xl p-6 w-full max-w-lg">
+        <h2 className="text-xl font-bold text-white mb-4">
+          {existingEntry ? 'Edit Today\'s Journal' : 'Today\'s Journal Entry'}
+        </h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Title</label>
+            <input
+              type="text"
+              required
+              value={formData.title}
+              onChange={(e) => setFormData({...formData, title: e.target.value})}
+              placeholder="What's on your mind today?"
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+            />
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">How are you feeling?</label>
+            <select
+              value={formData.mood}
+              onChange={(e) => setFormData({...formData, mood: e.target.value})}
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+            >
+              <option value="neutral">😌 Neutral</option>
+              <option value="happy">😊 Happy</option>
+              <option value="excited">🚀 Excited</option>
+              <option value="focused">🎯 Focused</option>
+              <option value="tired">😴 Tired</option>
+              <option value="frustrated">😤 Frustrated</option>
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Content</label>
+            <textarea
+              required
+              value={formData.content}
+              onChange={(e) => setFormData({...formData, content: e.target.value})}
+              rows={6}
+              placeholder="Write about your day, progress, challenges, learnings..."
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+            />
+          </div>
+          
+          <div className="flex justify-end space-x-3 pt-4">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="glass-strong disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-all duration-300 hover-lift"
+            >
+              {loading ? 'Saving...' : existingEntry ? 'Update Entry' : 'Save Entry'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // Edit Project Modal
 const EditProjectModal = ({ project, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
