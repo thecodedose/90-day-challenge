@@ -901,13 +901,29 @@ const JournalModal = ({ existingEntry, onClose, onSuccess, selectedDay = null })
         
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
+            <label className="block text-sm font-medium text-gray-300 mb-1">Date</label>
+            <input
+              type="date"
+              required
+              value={formData.entry_date}
+              min="2025-10-09"
+              max="2026-01-06"
+              onChange={(e) => setFormData({...formData, entry_date: e.target.value})}
+              className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+            />
+            <p className="text-xs text-gray-500 mt-1">
+              Day {getChallengeDayFromDate(formData.entry_date)} of 90
+            </p>
+          </div>
+
+          <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Title</label>
             <input
               type="text"
               required
               value={formData.title}
               onChange={(e) => setFormData({...formData, title: e.target.value})}
-              placeholder="What's on your mind today?"
+              placeholder="What's on your mind?"
               className="w-full bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
             />
           </div>
