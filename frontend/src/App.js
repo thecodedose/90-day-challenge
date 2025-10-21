@@ -1012,15 +1012,23 @@ const ExplorePage = () => {
                 onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
               >
                 <div className="flex items-center space-x-3 mb-4">
-                  <img 
-                    src={project.creator_picture} 
-                    alt={project.creator_name} 
-                    className="w-10 h-10 rounded-full"
-                  />
-                  <div>
-                    <p className="text-white font-medium">{project.creator_name}</p>
-                    <p className="text-gray-400 text-sm">Month {project.month}</p>
-                  </div>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(`/profile/${project.user_id}`);
+                    }}
+                    className="flex items-center space-x-3 hover:bg-white/5 rounded-lg p-2 -m-2 transition-colors"
+                  >
+                    <img 
+                      src={project.creator_picture} 
+                      alt={project.creator_name} 
+                      className="w-10 h-10 rounded-full border border-white/20"
+                    />
+                    <div>
+                      <p className="text-white font-medium hover:text-gray-200">{project.creator_name}</p>
+                      <p className="text-gray-400 text-sm">Month {project.month} • View Profile</p>
+                    </div>
+                  </button>
                 </div>
                 
                 <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
