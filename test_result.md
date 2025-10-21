@@ -202,7 +202,7 @@ backend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Implemented complete journal system with CRUD operations: create daily entries, get user entries, update/delete entries, and public journal display on profiles. Includes mood tracking and challenge day calculation."
+        comment: "Implemented complete journal system with CRUD operations: create daily entries, get user entries, update/delete entries, and public journal display on profiles. Includes mood tracking and challenge day calculation. Enhanced to allow entries for any day within 90-day challenge period with date selection and challenge day validation."
 
   - task: "Journal Heatmap API"
     implemented: true
