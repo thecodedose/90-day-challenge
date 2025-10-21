@@ -191,6 +191,8 @@ const Dashboard = () => {
   const [loading, setLoading] = useState(true);
   const [showAddProject, setShowAddProject] = useState(false);
   const [editingProject, setEditingProject] = useState(null);
+  const [showJournalModal, setShowJournalModal] = useState(false);
+  const [todayJournal, setTodayJournal] = useState(null);
   const navigate = useNavigate();
 
   const fetchDashboardData = async () => {
