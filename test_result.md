@@ -313,6 +313,18 @@ frontend:
         agent: "main"
         comment: "Added public profile pages accessible via /profile/{userId} showing user info, stats, and all projects organized by month. Includes clickable profile links in explore page."
 
+  - task: "Consistent Navigation Header"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Created reusable NavigationHeader component used across all pages (Landing, Dashboard, Explore, Profile). Features clickable logo, active page highlighting, user profile access, and consistent glassmorphism styling. Shows appropriate navigation options based on authentication status."
+
   - task: "Daily Journal Feature"
     implemented: true
     working: "NA"
