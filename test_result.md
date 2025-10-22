@@ -311,7 +311,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Added public profile pages accessible via /profile/{userId} showing user info, stats, and all projects organized by month. Includes clickable profile links in explore page."
+        comment: "Added public profile pages accessible via /profile/{userId} showing user info, stats, and all projects organized by month. Includes clickable profile links in explore page. Added public profile notice that only appears to users viewing their own profile, informing them this is their public view visible to others."
 
   - task: "Consistent Navigation Header"
     implemented: true
