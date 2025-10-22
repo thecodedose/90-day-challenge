@@ -1275,6 +1275,21 @@ const ProfilePage = () => {
       <NavigationHeader currentPage="profile" />
 
       <div className="container mx-auto px-6 py-8">
+        {/* Public Profile Notice - Only visible to profile owner */}
+        {isOwnProfile && (
+          <div className="glass-card p-4 mb-6 border-l-4 border-blue-400/50 bg-blue-500/10">
+            <div className="flex items-center space-x-3">
+              <span className="text-2xl">👁️</span>
+              <div>
+                <h4 className="text-sm font-medium text-blue-300">Public Profile View</h4>
+                <p className="text-xs text-gray-300">
+                  This is how your profile appears to other users. Your journal entries, projects, and activity are publicly visible.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Profile Header */}
         <div className="glass-card p-8 mb-8 text-center hover-lift">
           <img 
