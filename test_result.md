@@ -263,7 +263,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Project showcase with expandable cards, user info, tech stack, and links"
+        comment: "Project showcase with expandable cards, user info, tech stack, and links. Updated to show deployed and GitHub links directly on project cards without requiring expansion for better UX."
 
   - task: "Add Project Modal"
     implemented: true
