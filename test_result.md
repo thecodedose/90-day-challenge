@@ -347,7 +347,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Implemented GitHub-style heatmap showing 90-day journal activity with mood-based colors, hover tooltips, responsive design, and interactive elements. Displays on both dashboard and profile pages. Includes activity legend and mood indicators. Updated to show 3 groups of 30 days each (Month 1: Mini App, Month 2: AI Project, Month 3: Open Source) with individual progress tracking and completion stats per month."
+        comment: "Implemented GitHub-style heatmap showing 90-day journal activity with mood-based colors, hover tooltips, responsive design, and interactive elements. Displays on both dashboard and profile pages. Includes activity legend and mood indicators. Updated to show 3 groups of 30 days each (Month 1: Mini App, Month 2: AI Project, Month 3: Open Source) with individual progress tracking and completion stats per month. Enhanced layout to display months in 1x3 grid format (side by side) for better space utilization and easier comparison between months."
 
 metadata:
   created_by: "main_agent"
