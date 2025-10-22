@@ -57,6 +57,80 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+// Navigation Header Component
+const NavigationHeader = ({ currentPage = '' }) => {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  return (
+    <header className="glass border-b border-white/10">
+      <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+        <button
+          onClick={() => navigate('/')}
+          className="text-2xl font-bold text-white gradient-text hover:opacity-80 transition-opacity"
+        >
+          90-Day Challenge
+        </button>
+        
+        <nav className="flex items-center space-x-6">
+          {user ? (
+            <>
+              <button 
+                onClick={() => navigate('/dashboard')}
+                className={`text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10 ${
+                  currentPage === 'dashboard' ? 'bg-white/10 text-white font-medium' : ''
+                }`}
+              >
+                Dashboard
+              </button>
+              <button 
+                onClick={() => navigate('/explore')}
+                className={`text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10 ${
+                  currentPage === 'explore' ? 'bg-white/10 text-white font-medium' : ''
+                }`}
+              >
+                Explore
+              </button>
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => navigate(`/profile/${user?.id}`)}
+                  className="flex items-center space-x-2 hover:bg-white/10 rounded-lg px-2 py-1 transition-colors"
+                >
+                  <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/20" />
+                  <span className="text-white">{user?.name}</span>
+                </button>
+                <button 
+                  onClick={logout}
+                  className="text-gray-300 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-500/10"
+                >
+                  Logout
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <button 
+                onClick={() => navigate('/explore')}
+                className={`text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10 ${
+                  currentPage === 'explore' ? 'bg-white/10 text-white font-medium' : ''
+                }`}
+              >
+                Explore
+              </button>
+              <button 
+                onClick={() => navigate('/')}
+                className="glass-strong text-white px-4 py-2 rounded-lg hover-lift"
+              >
+                Sign In
+              </button>
+            </>
+          )}
+        </nav>
+      </div>
+    </header>
+  );
+};
+
 // Auth handler component
 const AuthHandler = () => {
   const { checkAuth } = useAuth();
