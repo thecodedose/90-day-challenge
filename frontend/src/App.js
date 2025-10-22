@@ -1222,6 +1222,9 @@ const ProfilePage = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  
+  // Check if the current user is viewing their own profile
+  const isOwnProfile = currentUser && currentUser.id === userId;
 
   useEffect(() => {
     const fetchProfile = async () => {
