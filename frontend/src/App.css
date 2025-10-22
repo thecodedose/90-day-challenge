@@ -277,6 +277,19 @@ select:focus {
   outline-offset: 2px;
 }
 
+/* Public profile notice styles */
+.profile-notice {
+  background: rgba(59, 130, 246, 0.1);
+  border-left: 4px solid rgba(59, 130, 246, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.profile-notice:hover {
+  background: rgba(59, 130, 246, 0.15);
+  border-left-color: rgba(59, 130, 246, 0.7);
+}
+
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .glass {
