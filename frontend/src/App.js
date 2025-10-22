@@ -815,7 +815,7 @@ const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
         90-Day Journal Activity
       </h3>
       
-      <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {months.map((month, monthIndex) => {
           const weeks = groupIntoWeeks(month.days);
           const completedDays = month.days.filter(day => day.has_entry && !day.is_future).length;
@@ -823,24 +823,24 @@ const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
           
           return (
             <div key={monthIndex} className="space-y-3">
-              <div className="month-header flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                  <span className="text-lg">{month.icon}</span>
+              <div className="month-header flex flex-col items-center text-center">
+                <div className="flex items-center space-x-2 mb-2">
+                  <span className="text-xl">{month.icon}</span>
                   <div>
                     <h4 className="text-sm font-medium text-white">{month.title}</h4>
-                    <p className="text-xs text-gray-400">{month.description}</p>
                   </div>
                 </div>
-                <div className="text-right">
+                <p className="text-xs text-gray-400 mb-2">{month.description}</p>
+                <div className="text-center">
                   <div className="text-sm text-white">{completedDays}/{totalPastDays}</div>
                   <div className="text-xs text-gray-400">entries</div>
                 </div>
               </div>
               
-              <div className="heatmap-container">
-                <div className="space-y-1 min-w-max">
+              <div className="heatmap-container flex justify-center">
+                <div className="space-y-1">
                   {weeks.map((week, weekIndex) => (
-                    <div key={weekIndex} className="flex space-x-1">
+                    <div key={weekIndex} className="flex space-x-1 justify-center">
                       {week.map((day) => (
                         <div
                           key={day.day}
