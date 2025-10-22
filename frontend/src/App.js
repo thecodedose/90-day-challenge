@@ -1277,7 +1277,7 @@ const ProfilePage = () => {
       <div className="container mx-auto px-6 py-8">
         {/* Public Profile Notice - Only visible to profile owner */}
         {isOwnProfile && (
-          <div className="glass-card p-4 mb-6 border-l-4 border-blue-400/50 bg-blue-500/10">
+          <div className="profile-notice glass-card p-4 mb-6 transition-all duration-300">
             <div className="flex items-center space-x-3">
               <span className="text-2xl">👁️</span>
               <div>
@@ -1285,6 +1285,14 @@ const ProfilePage = () => {
                 <p className="text-xs text-gray-300">
                   This is how your profile appears to other users. Your journal entries, projects, and activity are publicly visible.
                 </p>
+              </div>
+              <div className="flex-shrink-0">
+                <button
+                  onClick={() => navigate('/dashboard')}
+                  className="text-blue-300 hover:text-blue-200 text-xs px-2 py-1 rounded border border-blue-400/30 hover:border-blue-400/50 transition-colors"
+                >
+                  Go to Dashboard
+                </button>
               </div>
             </div>
           </div>
