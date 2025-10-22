@@ -1266,48 +1266,7 @@ const ProfilePage = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <header className="glass border-b border-white/10">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-white gradient-text">90-Day Challenge</h1>
-          <nav className="flex items-center space-x-6">
-            {currentUser && (
-              <>
-                <button 
-                  onClick={() => navigate('/dashboard')}
-                  className="text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10"
-                >
-                  Dashboard
-                </button>
-                <button 
-                  onClick={() => navigate('/explore')}
-                  className="text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10"
-                >
-                  Explore
-                </button>
-                <div className="flex items-center space-x-3">
-                  <img src={currentUser?.picture} alt={currentUser?.name} className="w-8 h-8 rounded-full border border-white/20" />
-                  <span className="text-white">{currentUser?.name}</span>
-                  <button 
-                    onClick={logout}
-                    className="text-gray-300 hover:text-red-400 transition-colors px-2 py-1 rounded hover:bg-red-500/10"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </>
-            )}
-            {!currentUser && (
-              <button 
-                onClick={() => navigate('/')}
-                className="glass-strong text-white px-4 py-2 rounded-lg hover-lift"
-              >
-                Sign In
-              </button>
-            )}
-          </nav>
-        </div>
-      </header>
+      <NavigationHeader currentPage="profile" />
 
       <div className="container mx-auto px-6 py-8">
         {/* Profile Header */}
