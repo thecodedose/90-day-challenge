@@ -866,43 +866,46 @@ const JournalHeatmap = ({ userId, isPublic = false, onDayClick = null }) => {
         })}
       </div>
 
-      {/* Legend */}
-      <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-        <span>Less</span>
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-gray-700/40 border border-gray-600/50"></div>
-          <div className="w-3 h-3 rounded bg-green-500/30 border border-green-400/50"></div>
-          <div className="w-3 h-3 rounded bg-green-500/60 border border-green-400/50"></div>
-          <div className="w-3 h-3 rounded bg-green-500/90 border border-green-400/50"></div>
+      {/* Legends */}
+      <div className="mt-6 space-y-4">
+        {/* Activity Legend */}
+        <div className="flex items-center justify-center space-x-4 text-xs text-gray-400">
+          <span>Less</span>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-gray-700/40 border border-gray-600/50"></div>
+            <div className="w-3 h-3 rounded bg-green-500/30 border border-green-400/50"></div>
+            <div className="w-3 h-3 rounded bg-green-500/60 border border-green-400/50"></div>
+            <div className="w-3 h-3 rounded bg-green-500/90 border border-green-400/50"></div>
+          </div>
+          <span>More</span>
         </div>
-        <span>More</span>
-      </div>
 
-      {/* Mood Legend */}
-      <div className="mt-3 heatmap-legend flex flex-wrap gap-2 text-xs">
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-yellow-500/60 border border-yellow-400/50"></div>
-          <span className="text-gray-400">😊 Happy</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-orange-500/60 border border-orange-400/50"></div>
-          <span className="text-gray-400">🚀 Excited</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-blue-500/60 border border-blue-400/50"></div>
-          <span className="text-gray-400">🎯 Focused</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-green-500/60 border border-green-400/50"></div>
-          <span className="text-gray-400">😌 Neutral</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-gray-500/60 border border-gray-400/50"></div>
-          <span className="text-gray-400">😴 Tired</span>
-        </div>
-        <div className="flex items-center space-x-1">
-          <div className="w-3 h-3 rounded bg-red-500/60 border border-red-400/50"></div>
-          <span className="text-gray-400">😤 Frustrated</span>
+        {/* Mood Legend */}
+        <div className="heatmap-legend flex flex-wrap justify-center gap-4 text-xs">
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-yellow-500/60 border border-yellow-400/50"></div>
+            <span className="text-gray-400">😊 Happy</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-orange-500/60 border border-orange-400/50"></div>
+            <span className="text-gray-400">🚀 Excited</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-blue-500/60 border border-blue-400/50"></div>
+            <span className="text-gray-400">🎯 Focused</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-green-500/60 border border-green-400/50"></div>
+            <span className="text-gray-400">😌 Neutral</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-gray-500/60 border border-gray-400/50"></div>
+            <span className="text-gray-400">😴 Tired</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <div className="w-3 h-3 rounded bg-red-500/60 border border-red-400/50"></div>
+            <span className="text-gray-400">😤 Frustrated</span>
+          </div>
         </div>
       </div>
     </div>
