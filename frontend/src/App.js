@@ -1611,7 +1611,7 @@ const ExplorePage = () => {
                 </div>
                 
                 {expandedProject === project.id && (
-                  <div className="mt-4 pt-4 border-t border-white/10 space-y-4">
+                  <div className="mt-4 pt-4 border-t border-white/10">
                     <div>
                       <p className="text-sm font-medium text-gray-200 mb-2">Tech Stack:</p>
                       <div className="flex flex-wrap gap-1">
@@ -1621,53 +1621,6 @@ const ExplorePage = () => {
                           </span>
                         ))}
                       </div>
-                    </div>
-                    
-                    {/* Links Section */}
-                    <div className="space-y-3">
-                      {project.deployed_link && (
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg">🔗</span>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-300 mb-1">Live Demo:</p>
-                            <a 
-                              href={project.deployed_link} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center glass text-blue-300 hover:text-blue-200 hover:bg-blue-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <span className="mr-1">🚀</span>
-                              View Live Demo
-                            </a>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {project.github_link && (
-                        <div className="flex items-center space-x-2">
-                          <span className="text-lg">📁</span>
-                          <div className="flex-1">
-                            <p className="text-sm font-medium text-gray-300 mb-1">Source Code:</p>
-                            <a 
-                              href={project.github_link} 
-                              target="_blank" 
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center glass text-green-300 hover:text-green-200 hover:bg-green-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              <span className="mr-1">💻</span>
-                              View Code on GitHub
-                            </a>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {!project.deployed_link && !project.github_link && (
-                        <div className="text-center py-2">
-                          <p className="text-gray-500 text-sm">No links available yet</p>
-                        </div>
-                      )}
                     </div>
                   </div>
                 )}
