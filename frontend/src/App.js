@@ -1562,7 +1562,7 @@ const ExplorePage = () => {
                 <h3 className="text-xl font-semibold text-white mb-2">{project.title}</h3>
                 <p className="text-gray-300 text-sm mb-4">{project.description}</p>
                 
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between mb-3">
                   <span className={`text-xs px-2 py-1 rounded-full ${
                     project.status === 'completed' ? 'bg-green-500/20 text-green-300 border border-green-500/30' :
                     project.status === 'in-progress' ? 'bg-yellow-500/20 text-yellow-300 border border-yellow-500/30' :
@@ -1577,6 +1577,37 @@ const ExplorePage = () => {
                   <button className="text-gray-200 hover:text-white text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors">
                     {expandedProject === project.id ? 'Less' : 'More'}
                   </button>
+                </div>
+
+                {/* Project Links */}
+                <div className="flex flex-wrap gap-2 mb-3">
+                  {project.deployed_link && (
+                    <a 
+                      href={project.deployed_link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center glass text-blue-300 hover:text-blue-200 hover:bg-blue-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className="mr-1">🚀</span>
+                      Live Demo
+                    </a>
+                  )}
+                  {project.github_link && (
+                    <a 
+                      href={project.github_link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center glass text-green-300 hover:text-green-200 hover:bg-green-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <span className="mr-1">💻</span>
+                      Source Code
+                    </a>
+                  )}
+                  {!project.deployed_link && !project.github_link && (
+                    <span className="text-gray-500 text-sm italic">No links available</span>
+                  )}
                 </div>
                 
                 {expandedProject === project.id && (
