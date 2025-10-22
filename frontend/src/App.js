@@ -211,6 +211,8 @@ const LandingPage = () => {
 
   return (
     <div className="min-h-screen">
+      <NavigationHeader currentPage="home" />
+      
       <div className="container mx-auto px-6 py-12">
         <div className="text-center mb-16">
           <h1 className="text-6xl font-bold text-white mb-6 gradient-text">
