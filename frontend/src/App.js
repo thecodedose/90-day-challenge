@@ -517,15 +517,6 @@ const Dashboard = () => {
           )}
         </div>
 
-        {/* Add Project Button */}
-        <div className="text-center">
-          <button 
-            onClick={() => setShowAddProject(true)}
-            className="glass-strong text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 hover-lift"
-          >
-            Add New Project
-          </button>
-        </div>
       </div>
 
       {/* Add Project Modal */}
