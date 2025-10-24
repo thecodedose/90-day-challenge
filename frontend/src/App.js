@@ -1480,6 +1480,22 @@ const ExplorePage = () => {
       try {
         const response = await axios.get(`${API}/projects/explore`);
         setProjects(response.data);
+        
+        // Extract unique tech stacks for filtering
+        const allTechStacks = response.data.reduce((acc, project) => {
+          if (project.tech_stack) {
+            project.tech_stack.forEach(tech => {
+              if (!acc.includes(tech)) {
+                acc.push(tech);
+              }
+            });
+          }
+          return acc;
+        }, []);
+        
+        // Sort tech stacks alphabetically
+        setAvailableTechStacks(allTechStacks.sort());
+        setFilteredProjects(response.data);
       } catch (error) {
         console.error('Failed to fetch projects:', error);
       } finally {
@@ -1489,6 +1505,17 @@ const ExplorePage = () => {
 
     fetchProjects();
   }, []);
+
+  // Filter projects based on selected tech stack
+  useEffect(() => {
+    if (selectedTechStack === 'all') {
+      setFilteredProjects(projects);
+    } else {
+      setFilteredProjects(projects.filter(project => 
+        project.tech_stack && project.tech_stack.includes(selectedTechStack)
+      ));
+    }
+  }, [selectedTechStack, projects]);
 
   if (loading) {
     return (
