@@ -1537,6 +1537,58 @@ const ExplorePage = () => {
           <p className="text-gray-400">Discover what others are building in their 90-day challenge</p>
         </div>
 
+        {/* Sticky Filter Section */}
+        <div className="sticky top-0 z-10 bg-black/20 backdrop-blur-lg border border-white/10 rounded-xl p-4 mb-8 glass">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            {/* Project Count */}
+            <div className="flex items-center space-x-4">
+              <div className="text-white">
+                <span className="text-2xl font-bold">{filteredProjects.length}</span>
+                <span className="text-gray-300 ml-2">
+                  {filteredProjects.length === 1 ? 'project' : 'projects'}
+                </span>
+              </div>
+              {selectedTechStack !== 'all' && (
+                <div className="text-sm text-gray-400">
+                  filtered by <span className="text-white font-medium">{selectedTechStack}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Tech Stack Filter */}
+            <div className="flex items-center space-x-3">
+              <label htmlFor="tech-filter" className="text-sm font-medium text-gray-300 whitespace-nowrap">
+                Filter by Tech:
+              </label>
+              <select
+                id="tech-filter"
+                value={selectedTechStack}
+                onChange={(e) => setSelectedTechStack(e.target.value)}
+                className="bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm min-w-[150px]"
+              >
+                <option value="all">All Technologies ({projects.length})</option>
+                {availableTechStacks.map(tech => {
+                  const count = projects.filter(p => p.tech_stack && p.tech_stack.includes(tech)).length;
+                  return (
+                    <option key={tech} value={tech}>
+                      {tech} ({count})
+                    </option>
+                  );
+                })}
+              </select>
+              
+              {selectedTechStack !== 'all' && (
+                <button
+                  onClick={() => setSelectedTechStack('all')}
+                  className="text-gray-400 hover:text-white text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+
         {projects.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-gray-400 text-lg">No projects shared yet. Be the first to add one!</p>
