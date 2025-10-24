@@ -1564,7 +1564,7 @@ const ExplorePage = () => {
                 id="tech-filter"
                 value={selectedTechStack}
                 onChange={(e) => setSelectedTechStack(e.target.value)}
-                className="bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm min-w-[150px]"
+                className="filter-select border border-white/20 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 min-w-[150px]"
               >
                 <option value="all">All Technologies ({projects.length})</option>
                 {availableTechStacks.map(tech => {
