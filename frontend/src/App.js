@@ -1468,8 +1468,11 @@ const ProfilePage = () => {
 const ExplorePage = () => {
   const { user, logout } = useAuth();
   const [projects, setProjects] = useState([]);
+  const [filteredProjects, setFilteredProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedProject, setExpandedProject] = useState(null);
+  const [selectedTechStack, setSelectedTechStack] = useState('all');
+  const [availableTechStacks, setAvailableTechStacks] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
