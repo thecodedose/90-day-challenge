@@ -1589,13 +1589,27 @@ const ExplorePage = () => {
           </div>
         </div>
 
-        {projects.length === 0 ? (
+        {filteredProjects.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-400 text-lg">No projects shared yet. Be the first to add one!</p>
+            {selectedTechStack === 'all' ? (
+              <p className="text-gray-400 text-lg">No projects shared yet. Be the first to add one!</p>
+            ) : (
+              <div>
+                <p className="text-gray-400 text-lg mb-2">
+                  No projects found using <span className="text-white font-medium">{selectedTechStack}</span>
+                </p>
+                <button
+                  onClick={() => setSelectedTechStack('all')}
+                  className="text-purple-400 hover:text-purple-300 text-sm underline"
+                >
+                  Show all projects
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map(project => (
+            {filteredProjects.map(project => (
               <div 
                 key={project.id} 
                 className="glass-card p-6 hover-lift cursor-pointer"
