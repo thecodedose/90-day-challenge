@@ -290,6 +290,29 @@ select:focus {
   border-left-color: rgba(59, 130, 246, 0.7);
 }
 
+/* Sticky filter styles */
+.sticky-filter {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.4);
+}
+
+.filter-select {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.filter-select option {
+  background: #1a1a1a;
+  color: white;
+}
+
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .glass {
