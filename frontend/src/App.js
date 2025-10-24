@@ -1538,7 +1538,7 @@ const ExplorePage = () => {
         </div>
 
         {/* Sticky Filter Section */}
-        <div className="sticky top-0 z-10 bg-black/20 backdrop-blur-lg border border-white/10 rounded-xl p-4 mb-8 glass">
+        <div className="sticky-filter rounded-xl p-4 mb-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             {/* Project Count */}
             <div className="flex items-center space-x-4">
