@@ -378,6 +378,9 @@ frontend:
       - working: "NA"
         agent: "main"
         comment: "Reorganized dashboard to improve UX: moved Journal Heatmap section to appear immediately after the Daily Journal section. New order: 1) Progress stats 2) Projects by Month 3) Daily Journal section 4) Journal Heatmap. This groups related journal features together for better cohesion and user experience."
+      - working: "NA"
+        agent: "testing"
+        comment: "❌ CANNOT TEST: Dashboard layout testing blocked by authentication requirement. Attempted to access dashboard but redirected to external auth.emergentagent.com for Google OAuth. Without valid authentication credentials, cannot verify the reorganized layout order (Progress stats → Projects by Month → Daily Journal → Journal Heatmap). Manual authentication or test credentials needed to complete this test."
 
 metadata:
   created_by: "main_agent"
