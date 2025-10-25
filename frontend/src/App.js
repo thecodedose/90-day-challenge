@@ -1327,7 +1327,9 @@ const StudyTimerPage = () => {
     ];
     
     return (
-      <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
+      <div className={`pizza-container relative w-40 h-40 mx-auto flex items-center justify-center ${
+        completedPomodoros >= totalSlices ? 'pizza-complete' : ''
+      }`}>
         <svg width="160" height="160" viewBox="0 0 160 160" className="drop-shadow-lg">
           {/* Define gradients for each slice */}
           <defs>
