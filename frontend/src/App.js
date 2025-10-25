@@ -1425,6 +1425,14 @@ const StudyTimerPage = () => {
 
             {/* Controls */}
             <div className="flex justify-center space-x-4 mb-4">
+              <button
+                onClick={() => setShowSettings(true)}
+                className="glass text-gray-300 hover:text-white px-4 py-3 rounded-lg transition-colors flex items-center space-x-2"
+                disabled={isRunning}
+              >
+                <span>⚙️</span>
+                <span>Settings</span>
+              </button>
               {!isRunning ? (
                 <button
                   onClick={startTimer}
