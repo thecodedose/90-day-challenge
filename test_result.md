@@ -390,7 +390,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Pizza Pomodoro Timer"
     - "Dashboard Layout Reorganization"
   stuck_tasks: []
   test_all: false
