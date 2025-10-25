@@ -1259,6 +1259,12 @@ const StudyTimerPage = () => {
   const [currentSession, setCurrentSession] = useState(1);
   const [totalSessions, setTotalSessions] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
+  const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+
+  const toggleMusic = () => {
+    setIsMusicPlaying(prev => !prev);
+    // Music functionality to be added later
+  };
 
   // Format time display
   const formatTime = (seconds) => {
