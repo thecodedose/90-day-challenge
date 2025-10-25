@@ -323,7 +323,7 @@ frontend:
     status_history:
       - working: "NA"
         agent: "main"
-        comment: "Created reusable NavigationHeader component used across all pages (Landing, Dashboard, Explore, Profile). Features clickable logo, active page highlighting, user profile access, and consistent glassmorphism styling. Shows appropriate navigation options based on authentication status."
+        comment: "Created reusable NavigationHeader component used across all pages (Landing, Dashboard, Explore, Profile). Features clickable logo, active page highlighting, user profile access, and consistent glassmorphism styling. Shows appropriate navigation options based on authentication status. Added Discord community link (https://discord.gg/NpRgDqYPH5) with chat emoji, visible to both authenticated and non-authenticated users."
 
   - task: "Daily Journal Feature"
     implemented: true
