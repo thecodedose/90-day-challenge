@@ -1459,13 +1459,11 @@ const StudyTimerPage = () => {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Anime Pizzeria Background with Parallax */}
+      {/* Anime Pizzeria Background */}
       <div 
-        className="parallax-bg fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1584983333849-26ca57622ac2?w=1920&q=80)',
-          transform: 'scale(1.1)',
-          willChange: 'transform',
+          backgroundImage: 'url(/assets/pizzeria-bg.png)',
         }}
       />
       
