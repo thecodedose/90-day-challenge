@@ -381,17 +381,6 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Journal Heatmap */}
-        <div className="mb-8">
-          <JournalHeatmap 
-            userId={user?.id} 
-            onDayClick={(day) => {
-              setSelectedJournalDay(day);
-              setShowJournalModal(true);
-            }}
-          />
-        </div>
-
         {/* Projects by Month */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
           {[1, 2, 3].map(month => {
