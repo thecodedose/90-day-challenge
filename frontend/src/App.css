@@ -314,27 +314,45 @@ select:focus {
 }
 
 /* Pizza Timer Styles */
-.pizza-slice {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+.pizza-container svg {
+  transition: transform 0.3s ease;
 }
 
-.pizza-slice.unlocked {
-  animation: slice-unlock 0.6s ease-out;
+.pizza-container:hover svg {
+  transform: scale(1.05);
 }
 
-@keyframes slice-unlock {
+/* Pizza slice reveal animation */
+@keyframes slice-reveal {
   0% {
-    transform: scale(0.5) rotate(180deg);
     opacity: 0;
+    transform: scale(0.8);
   }
-  60% {
-    transform: scale(1.1) rotate(-10deg);
-    opacity: 0.8;
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
   }
   100% {
-    transform: scale(1) rotate(0deg);
     opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.pizza-slice-unlocked {
+  animation: slice-reveal 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Pizza completion glow effect */
+.pizza-complete {
+  animation: pizza-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pizza-glow {
+  0% {
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+  }
+  100% {
+    filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
   }
 }
 
