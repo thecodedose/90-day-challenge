@@ -1329,7 +1329,7 @@ const StudyTimerPage = () => {
         setCurrentSession(prev => prev + 1);
       } else {
         // Break finished, start new pomodoro
-        setTimeLeft(25 * 60);
+        setTimeLeft(settings.focusDuration * 60);
         setIsBreak(false);
       }
     }
