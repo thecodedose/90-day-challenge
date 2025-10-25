@@ -384,12 +384,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Emergent Auth Integration"
-    - "Project CRUD Operations"
-    - "Dashboard API"
-    - "Authentication System"
+    - "Pizza Pomodoro Timer"
+    - "Dashboard Layout Reorganization"
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
@@ -397,3 +395,5 @@ agent_communication:
     message: "Implemented complete 90-Day Challenge app with Emergent Auth, project tracking, dashboard with timeline, and explore page. Landing page verified working. Backend testing completed successfully - all APIs working. Added project editing functionality with status management and delete capability."
   - agent: "testing"
     message: "✅ BACKEND TESTING COMPLETE - All backend APIs working perfectly! Comprehensive testing performed: 1) Authentication system (Emergent Auth integration, session management, protected endpoints) 2) Project CRUD operations (create, read, update, delete with proper authorization) 3) Dashboard API (progress calculation, stats aggregation) 4) Explore API (public project showcase) 5) MongoDB integration (all database operations working) 6) CORS configuration 7) API structure and error handling. Created backend_test.py and test_project_crud.py for comprehensive validation. All 8 test categories passed. Backend is production-ready."
+  - agent: "main"
+    message: "Completed two new features: 1) Reorganized dashboard to group journal section and heatmap together after projects section. 2) Updated Pizza Pomodoro Timer to use the user-provided pizza image (Mureka AI.png) with smooth 1000ms animations for slice reveals. The pizza image is now stored locally at /assets/pizza.png and features enhanced visual effects (scale, rotation, brightness, saturation). Ready for frontend testing to verify: dashboard layout order is correct, pizza timer displays image correctly with smooth slice animations, and all existing features still work."
