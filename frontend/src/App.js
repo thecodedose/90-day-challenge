@@ -1600,6 +1600,7 @@ const StudyTimerPage = () => {
           />
         )}
       </div>
+      </div>
     </div>
   );
 };
