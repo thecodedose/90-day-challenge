@@ -1244,12 +1244,21 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
 
 // Study Timer Page
 const StudyTimerPage = () => {
-  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes in seconds
+  // Timer settings
+  const [settings, setSettings] = useState({
+    focusDuration: 25, // minutes
+    shortBreakDuration: 5, // minutes
+    longBreakDuration: 15, // minutes
+    sessionsUntilLongBreak: 4
+  });
+  
+  const [timeLeft, setTimeLeft] = useState(settings.focusDuration * 60);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [completedPomodoros, setCompletedPomodoros] = useState(0);
   const [currentSession, setCurrentSession] = useState(1);
   const [totalSessions, setTotalSessions] = useState(0);
+  const [showSettings, setShowSettings] = useState(false);
 
   // Format time display
   const formatTime = (seconds) => {
