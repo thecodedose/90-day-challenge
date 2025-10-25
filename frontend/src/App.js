@@ -1267,44 +1267,170 @@ const StudyTimerPage = () => {
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Pizza slice component
-  const PizzaSlice = ({ isUnlocked, rotation }) => (
-    <div
-      className={`absolute w-20 h-20 transition-all duration-500 ${
-        isUnlocked ? 'opacity-100 scale-100' : 'opacity-30 scale-95'
-      }`}
-      style={{
-        transform: `rotate(${rotation}deg)`,
-        transformOrigin: 'center center'
-      }}
-    >
-      <div className="text-6xl">{isUnlocked ? '🍕' : '⚪'}</div>
-    </div>
-  );
+  // Pizza slice component using SVG
+  const PizzaSlice = ({ isUnlocked, startAngle, endAngle, index }) => {
+    const radius = 60;
+    const centerX = 80;
+    const centerY = 80;
+    
+    // Calculate path for the slice sector
+    const startAngleRad = (startAngle - 90) * Math.PI / 180;
+    const endAngleRad = (endAngle - 90) * Math.PI / 180;
+    
+    const x1 = centerX + radius * Math.cos(startAngleRad);
+    const y1 = centerY + radius * Math.sin(startAngleRad);
+    const x2 = centerX + radius * Math.cos(endAngleRad);
+    const y2 = centerY + radius * Math.sin(endAngleRad);
+    
+    const largeArc = endAngle - startAngle > 180 ? 1 : 0;
+    
+    const pathData = [
+      `M ${centerX} ${centerY}`,
+      `L ${x1} ${y1}`,
+      `A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`,
+      `Z`
+    ].join(' ');
+
+    return (
+      <path
+        d={pathData}
+        fill={isUnlocked ? `url(#pizzaGradient${index})` : '#333333'}
+        stroke="#8B4513"
+        strokeWidth="2"
+        className={`transition-all duration-700 ${
+          isUnlocked ? 'opacity-100 drop-shadow-md' : 'opacity-40'
+        }`}
+        style={{
+          filter: isUnlocked ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' : 'none'
+        }}
+      />
+    );
+  };
 
   // Complete pizza visualization
   const PizzaVisual = () => {
     const totalSlices = settings.sessionsUntilLongBreak;
     const anglePerSlice = 360 / totalSlices;
     
+    // Different pizza topping colors for variety
+    const toppingColors = [
+      ['#FF6B35', '#FF8F65'], // Pepperoni (red-orange)
+      ['#4CAF50', '#81C784'], // Green pepper
+      ['#FFD700', '#FFF176'], // Cheese (yellow)
+      ['#8BC34A', '#AED581'], // Basil (green)
+      ['#FF5722', '#FF8A65'], // Tomato (red)
+      ['#FFC107', '#FFECB3'], // Corn (yellow)
+      ['#795548', '#A1887F'], // Mushroom (brown)
+      ['#E91E63', '#F48FB1'], // Ham (pink)
+      ['#9C27B0', '#CE93D8'], // Red onion (purple)
+      ['#FF9800', '#FFCC02']  // Cheddar (orange)
+    ];
+    
     return (
       <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
-        {/* Pizza base */}
-        <div className="absolute w-32 h-32 rounded-full bg-yellow-600/20 border-4 border-yellow-600/40"></div>
-        
-        {/* Pizza slices */}
-        {Array.from({ length: totalSlices }).map((_, index) => (
-          <PizzaSlice 
-            key={index}
-            isUnlocked={completedPomodoros > index} 
-            rotation={index * anglePerSlice} 
+        <svg width="160" height="160" viewBox="0 0 160 160" className="drop-shadow-lg">
+          {/* Define gradients for each slice */}
+          <defs>
+            {Array.from({ length: totalSlices }).map((_, index) => (
+              <linearGradient
+                key={index}
+                id={`pizzaGradient${index}`}
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
+                <stop 
+                  offset="0%" 
+                  stopColor={toppingColors[index % toppingColors.length][0]} 
+                />
+                <stop 
+                  offset="100%" 
+                  stopColor={toppingColors[index % toppingColors.length][1]} 
+                />
+              </linearGradient>
+            ))}
+            
+            {/* Pizza crust gradient */}
+            <radialGradient id="crustGradient" cx="50%" cy="50%" r="50%">
+              <stop offset="70%" stopColor="#D2691E" />
+              <stop offset="100%" stopColor="#8B4513" />
+            </radialGradient>
+          </defs>
+          
+          {/* Pizza crust base */}
+          <circle
+            cx="80"
+            cy="80"
+            r="70"
+            fill="url(#crustGradient)"
+            stroke="#654321"
+            strokeWidth="3"
+            className="drop-shadow-md"
           />
-        ))}
+          
+          {/* Pizza cheese base */}
+          <circle
+            cx="80"
+            cy="80"
+            r="60"
+            fill="#FFF8DC"
+            className="opacity-90"
+          />
+          
+          {/* Pizza slices */}
+          {Array.from({ length: totalSlices }).map((_, index) => {
+            const startAngle = index * anglePerSlice;
+            const endAngle = (index + 1) * anglePerSlice;
+            const isUnlocked = completedPomodoros > index;
+            
+            return (
+              <PizzaSlice
+                key={index}
+                isUnlocked={isUnlocked}
+                startAngle={startAngle}
+                endAngle={endAngle}
+                index={index}
+              />
+            );
+          })}
+          
+          {/* Slice dividers */}
+          {Array.from({ length: totalSlices }).map((_, index) => {
+            const angle = index * anglePerSlice;
+            const angleRad = (angle - 90) * Math.PI / 180;
+            const x = 80 + 60 * Math.cos(angleRad);
+            const y = 80 + 60 * Math.sin(angleRad);
+            
+            return (
+              <line
+                key={index}
+                x1="80"
+                y1="80"
+                x2={x}
+                y2={y}
+                stroke="#8B4513"
+                strokeWidth="2"
+                opacity="0.7"
+              />
+            );
+          })}
+          
+          {/* Center pizza highlight */}
+          <circle
+            cx="80"
+            cy="80"
+            r="8"
+            fill="#FFD700"
+            opacity="0.8"
+            className="animate-pulse"
+          />
+        </svg>
         
         {/* Complete pizza celebration */}
         {completedPomodoros >= totalSlices && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-8xl animate-pulse">🍕</div>
+            <div className="text-4xl animate-bounce">🎉</div>
           </div>
         )}
       </div>
