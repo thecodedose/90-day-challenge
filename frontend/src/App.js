@@ -1471,13 +1471,193 @@ const StudyTimerPage = () => {
           <div className="glass-card p-6 mt-8">
             <h4 className="text-white font-medium mb-3">🍕 How it works:</h4>
             <ul className="text-sm text-gray-300 space-y-2">
-              <li>• Focus for 25 minutes = earn 1 pizza slice 🍕</li>
-              <li>• Take a 5-minute break after each session</li>
-              <li>• Every 4th break is 15 minutes long</li>
-              <li>• Complete 4 slices = full pizza reward! 🎉</li>
+              <li>• Focus for {settings.focusDuration} minutes = earn 1 pizza slice 🍕</li>
+              <li>• Take a {settings.shortBreakDuration}-minute break after each session</li>
+              <li>• Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</li>
+              <li>• Complete {settings.sessionsUntilLongBreak} slices = full pizza reward! 🎉</li>
+              <li>• Use ⚙️ Settings to customize your session durations</li>
             </ul>
           </div>
         </div>
+
+        {/* Settings Modal */}
+        {showSettings && (
+          <SettingsModal 
+            settings={settings}
+            onSave={updateSettings}
+            onClose={() => setShowSettings(false)}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Settings Modal Component
+const SettingsModal = ({ settings, onSave, onClose }) => {
+  const [formData, setFormData] = useState(settings);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+    onClose();
+  };
+
+  const handleChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: Math.max(1, Math.min(120, parseInt(value) || 1)) // Min 1, Max 120 minutes
+    }));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="glass-strong rounded-2xl p-6 w-full max-w-md">
+        <h2 className="text-xl font-bold text-white mb-6 flex items-center space-x-2">
+          <span>⚙️</span>
+          <span>Timer Settings</span>
+        </h2>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              🎯 Focus Session Duration
+            </label>
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                min="1"
+                max="120"
+                value={formData.focusDuration}
+                onChange={(e) => handleChange('focusDuration', e.target.value)}
+                className="flex-1 bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+              />
+              <span className="text-gray-400 text-sm">minutes</span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              ☕ Short Break Duration
+            </label>
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                min="1"
+                max="60"
+                value={formData.shortBreakDuration}
+                onChange={(e) => handleChange('shortBreakDuration', e.target.value)}
+                className="flex-1 bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+              />
+              <span className="text-gray-400 text-sm">minutes</span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              🛋️ Long Break Duration
+            </label>
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                min="1"
+                max="60"
+                value={formData.longBreakDuration}
+                onChange={(e) => handleChange('longBreakDuration', e.target.value)}
+                className="flex-1 bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+              />
+              <span className="text-gray-400 text-sm">minutes</span>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">
+              🍕 Sessions Until Long Break
+            </label>
+            <div className="flex items-center space-x-2">
+              <input
+                type="number"
+                min="2"
+                max="10"
+                value={formData.sessionsUntilLongBreak}
+                onChange={(e) => handleChange('sessionsUntilLongBreak', e.target.value)}
+                className="flex-1 bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-white/40 backdrop-blur-sm"
+              />
+              <span className="text-gray-400 text-sm">sessions</span>
+            </div>
+          </div>
+
+          {/* Preset Buttons */}
+          <div className="pt-4 border-t border-white/10">
+            <p className="text-sm text-gray-400 mb-3">Quick Presets:</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setFormData({
+                  focusDuration: 25,
+                  shortBreakDuration: 5,
+                  longBreakDuration: 15,
+                  sessionsUntilLongBreak: 4
+                })}
+                className="glass text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                🍅 Classic
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({
+                  focusDuration: 50,
+                  shortBreakDuration: 10,
+                  longBreakDuration: 30,
+                  sessionsUntilLongBreak: 4
+                })}
+                className="glass text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                ⚡ Extended
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({
+                  focusDuration: 15,
+                  shortBreakDuration: 3,
+                  longBreakDuration: 10,
+                  sessionsUntilLongBreak: 6
+                })}
+                className="glass text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                ⚡ Quick
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({
+                  focusDuration: 90,
+                  shortBreakDuration: 15,
+                  longBreakDuration: 30,
+                  sessionsUntilLongBreak: 3
+                })}
+                className="glass text-white text-sm px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
+              >
+                🎯 Deep Work
+              </button>
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="glass-strong text-white px-4 py-2 rounded-lg transition-all duration-300 hover-lift"
+            >
+              Save Settings
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
