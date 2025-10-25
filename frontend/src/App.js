@@ -1603,6 +1603,20 @@ const StudyTimerPage = () => {
             onClose={() => setShowSettings(false)}
           />
         )}
+
+        {/* Music Toggle Button */}
+        <button
+          onClick={toggleMusic}
+          className="fixed bottom-8 right-8 glass-strong text-white p-4 rounded-full hover-lift shadow-2xl z-20 flex items-center space-x-2 group"
+          title={isMusicPlaying ? "Pause Music" : "Play Music"}
+        >
+          <span className="text-2xl">
+            {isMusicPlaying ? '⏸️' : '🎵'}
+          </span>
+          <span className="text-sm font-medium overflow-hidden transition-all duration-300 max-w-0 group-hover:max-w-xs group-hover:ml-2">
+            {isMusicPlaying ? 'Pause' : 'Play'} Music
+          </span>
+        </button>
       </div>
       </div>
     </div>
