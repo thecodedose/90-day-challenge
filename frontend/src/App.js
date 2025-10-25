@@ -1260,6 +1260,20 @@ const StudyTimerPage = () => {
   const [totalSessions, setTotalSessions] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
 
+  // Parallax effect for background
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      const background = document.querySelector('.parallax-bg');
+      if (background) {
+        background.style.transform = `scale(1.1) translateY(${scrolled * 0.5}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Format time display
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
