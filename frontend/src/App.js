@@ -1242,6 +1242,222 @@ const EditProjectModal = ({ project, onClose, onSuccess }) => {
   );
 };
 
+// Study Timer Page
+const StudyTimerPage = () => {
+  const [timeLeft, setTimeLeft] = useState(25 * 60); // 25 minutes in seconds
+  const [isRunning, setIsRunning] = useState(false);
+  const [isBreak, setIsBreak] = useState(false);
+  const [completedPomodoros, setCompletedPomodoros] = useState(0);
+  const [currentSession, setCurrentSession] = useState(1);
+  const [totalSessions, setTotalSessions] = useState(0);
+
+  // Format time display
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Pizza slice component
+  const PizzaSlice = ({ isUnlocked, rotation }) => (
+    <div
+      className={`absolute w-20 h-20 transition-all duration-500 ${
+        isUnlocked ? 'opacity-100 scale-100' : 'opacity-30 scale-95'
+      }`}
+      style={{
+        transform: `rotate(${rotation}deg)`,
+        transformOrigin: 'center center'
+      }}
+    >
+      <div className="text-6xl">{isUnlocked ? '🍕' : '⚪'}</div>
+    </div>
+  );
+
+  // Complete pizza visualization
+  const PizzaVisual = () => (
+    <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
+      {/* Pizza base */}
+      <div className="absolute w-32 h-32 rounded-full bg-yellow-600/20 border-4 border-yellow-600/40"></div>
+      
+      {/* Pizza slices */}
+      <PizzaSlice isUnlocked={completedPomodoros >= 1} rotation={0} />
+      <PizzaSlice isUnlocked={completedPomodoros >= 2} rotation={90} />
+      <PizzaSlice isUnlocked={completedPomodoros >= 3} rotation={180} />
+      <PizzaSlice isUnlocked={completedPomodoros >= 4} rotation={270} />
+      
+      {/* Complete pizza celebration */}
+      {completedPomodoros >= 4 && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-8xl animate-pulse">🍕</div>
+        </div>
+      )}
+    </div>
+  );
+
+  // Timer effect
+  useEffect(() => {
+    let interval;
+    if (isRunning && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft(time => time - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      // Timer finished
+      setIsRunning(false);
+      
+      if (!isBreak) {
+        // Completed a pomodoro
+        setCompletedPomodoros(prev => prev + 1);
+        setTotalSessions(prev => prev + 1);
+        
+        // Check if it's time for a long break (after 4 pomodoros)
+        if ((completedPomodoros + 1) % 4 === 0) {
+          setTimeLeft(15 * 60); // 15-minute long break
+        } else {
+          setTimeLeft(5 * 60); // 5-minute short break
+        }
+        setIsBreak(true);
+        setCurrentSession(prev => prev + 1);
+      } else {
+        // Break finished, start new pomodoro
+        setTimeLeft(25 * 60);
+        setIsBreak(false);
+      }
+    }
+    
+    return () => clearInterval(interval);
+  }, [isRunning, timeLeft, isBreak, completedPomodoros]);
+
+  const startTimer = () => setIsRunning(true);
+  const pauseTimer = () => setIsRunning(false);
+  const resetTimer = () => {
+    setIsRunning(false);
+    setTimeLeft(25 * 60);
+    setIsBreak(false);
+  };
+
+  const resetSession = () => {
+    setIsRunning(false);
+    setTimeLeft(25 * 60);
+    setIsBreak(false);
+    setCompletedPomodoros(0);
+    setCurrentSession(1);
+  };
+
+  return (
+    <div className="min-h-screen">
+      <NavigationHeader currentPage="study" />
+      
+      <div className="container mx-auto px-6 py-8">
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-white mb-4">🍕 Pizza Pomodoro Timer</h1>
+          <p className="text-gray-300">Focus for 25 minutes, earn a pizza slice! Complete 4 slices for a full pizza!</p>
+        </div>
+
+        <div className="max-w-md mx-auto">
+          {/* Pizza Progress */}
+          <div className="glass-card p-8 mb-8 text-center">
+            <h3 className="text-lg font-semibold text-white mb-4">Your Pizza Progress</h3>
+            <PizzaVisual />
+            
+            <div className="mt-6 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Slices Earned:</span>
+                <span className="text-white font-medium">{completedPomodoros}/4</span>
+              </div>
+              <div className="flex justify-between text-sm">
+                <span className="text-gray-400">Total Sessions:</span>
+                <span className="text-white font-medium">{totalSessions}</span>
+              </div>
+            </div>
+
+            {completedPomodoros >= 4 && (
+              <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg">
+                <p className="text-green-300 text-sm font-medium">🎉 Pizza Complete! Great work!</p>
+              </div>
+            )}
+          </div>
+
+          {/* Timer */}
+          <div className="glass-card p-8 text-center">
+            <div className="mb-4">
+              <h3 className="text-lg font-medium text-white mb-2">
+                {isBreak ? '☕ Break Time' : '🎯 Focus Time'}
+              </h3>
+              <p className="text-sm text-gray-400">
+                Session {currentSession} • {isBreak ? 'Take a breather' : 'Stay focused!'}
+              </p>
+            </div>
+
+            {/* Timer Display */}
+            <div className="text-6xl font-bold text-white mb-8 font-mono">
+              {formatTime(timeLeft)}
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full bg-gray-700/40 rounded-full h-2 mb-6">
+              <div
+                className={`h-2 rounded-full transition-all duration-1000 ${
+                  isBreak ? 'bg-green-400' : 'bg-orange-400'
+                }`}
+                style={{
+                  width: `${((isBreak ? 5 : 25) * 60 - timeLeft) / ((isBreak ? 5 : 25) * 60) * 100}%`
+                }}
+              />
+            </div>
+
+            {/* Controls */}
+            <div className="flex justify-center space-x-4 mb-4">
+              {!isRunning ? (
+                <button
+                  onClick={startTimer}
+                  className="glass-strong text-white px-6 py-3 rounded-lg hover-lift flex items-center space-x-2"
+                >
+                  <span>▶️</span>
+                  <span>Start</span>
+                </button>
+              ) : (
+                <button
+                  onClick={pauseTimer}
+                  className="glass-strong text-white px-6 py-3 rounded-lg hover-lift flex items-center space-x-2"
+                >
+                  <span>⏸️</span>
+                  <span>Pause</span>
+                </button>
+              )}
+              
+              <button
+                onClick={resetTimer}
+                className="glass text-gray-300 hover:text-white px-4 py-3 rounded-lg transition-colors"
+              >
+                Reset Timer
+              </button>
+            </div>
+
+            <button
+              onClick={resetSession}
+              className="text-gray-400 hover:text-red-400 text-sm transition-colors"
+            >
+              Reset Entire Session
+            </button>
+          </div>
+
+          {/* Instructions */}
+          <div className="glass-card p-6 mt-8">
+            <h4 className="text-white font-medium mb-3">🍕 How it works:</h4>
+            <ul className="text-sm text-gray-300 space-y-2">
+              <li>• Focus for 25 minutes = earn 1 pizza slice 🍕</li>
+              <li>• Take a 5-minute break after each session</li>
+              <li>• Every 4th break is 15 minutes long</li>
+              <li>• Complete 4 slices = full pizza reward! 🎉</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Profile Page
 const ProfilePage = () => {
   const { user: currentUser, logout } = useAuth();
