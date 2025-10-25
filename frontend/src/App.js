@@ -542,6 +542,17 @@ const Dashboard = () => {
           )}
         </div>
 
+        {/* Journal Heatmap */}
+        <div className="mb-8">
+          <JournalHeatmap 
+            userId={user?.id} 
+            onDayClick={(day) => {
+              setSelectedJournalDay(day);
+              setShowJournalModal(true);
+            }}
+          />
+        </div>
+
       </div>
 
       {/* Add Project Modal */}
