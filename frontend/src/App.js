@@ -1312,7 +1312,7 @@ const StudyTimerPage = () => {
         }`}
         style={{
           clipPath: createClipPath(),
-          backgroundImage: 'url(https://images.unsplash.com/photo-1513104890138-7c749659a591?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHwxfHxwaXp6YXxlbnwwfHx8fDE3NjE0MTc5MzR8MA&ixlib=rb-4.1.0&q=85&w=400)',
+          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_codetrack90/artifacts/h98uqxun_Mureka%20AI.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
