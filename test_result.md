@@ -364,6 +364,18 @@ frontend:
         agent: "main"
         comment: "Implemented GitHub-style heatmap showing 90-day journal activity with mood-based colors, hover tooltips, responsive design, and interactive elements. Displays on both dashboard and profile pages. Includes activity legend and mood indicators. Updated to show 3 groups of 30 days each (Month 1: Mini App, Month 2: AI Project, Month 3: Open Source) with individual progress tracking and completion stats per month. Enhanced layout to display months in 1x3 grid format (side by side) for better space utilization and easier comparison between months."
 
+  - task: "Dashboard Layout Reorganization"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/App.js"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: "NA"
+        agent: "main"
+        comment: "Reorganized dashboard to improve UX: moved Journal Heatmap section to appear immediately after the Daily Journal section. New order: 1) Progress stats 2) Projects by Month 3) Daily Journal section 4) Journal Heatmap. This groups related journal features together for better cohesion and user experience."
+
 metadata:
   created_by: "main_agent"
   version: "1.0"
