@@ -91,6 +91,15 @@ const NavigationHeader = ({ currentPage = '' }) => {
               >
                 Explore
               </button>
+              <a
+                href="https://discord.gg/NpRgDqYPH5"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-200 hover:text-purple-300 transition-colors px-3 py-1 rounded-lg hover:bg-purple-500/10 flex items-center space-x-2"
+              >
+                <span className="text-lg">💬</span>
+                <span>Discord</span>
+              </a>
               <div className="flex items-center space-x-3">
                 <button
                   onClick={() => navigate(`/profile/${user?.id}`)}
