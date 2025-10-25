@@ -313,6 +313,57 @@ select:focus {
   color: white;
 }
 
+/* Pizza Timer Styles */
+.pizza-slice {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.pizza-slice.unlocked {
+  animation: slice-unlock 0.6s ease-out;
+}
+
+@keyframes slice-unlock {
+  0% {
+    transform: scale(0.5) rotate(180deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) rotate(-10deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.pizza-complete {
+  animation: pizza-celebration 1s ease-in-out infinite alternate;
+}
+
+@keyframes pizza-celebration {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  100% {
+    transform: scale(1.05) rotate(2deg);
+  }
+}
+
+.timer-pulse {
+  animation: timer-pulse 2s ease-in-out infinite;
+}
+
+@keyframes timer-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 165, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 165, 0, 0.6);
+  }
+}
+
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   .glass {
