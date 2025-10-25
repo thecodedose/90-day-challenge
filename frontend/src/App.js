@@ -1458,10 +1458,25 @@ const StudyTimerPage = () => {
   };
 
   return (
-    <div className="min-h-screen">
-      <NavigationHeader currentPage="study" />
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Anime Pizzeria Background with Parallax */}
+      <div 
+        className="fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1584983333849-26ca57622ac2?w=1920&q=80)',
+          transform: 'scale(1.1)',
+          willChange: 'transform',
+        }}
+      />
       
-      <div className="container mx-auto px-6 py-8">
+      {/* Overlay for better text readability */}
+      <div className="fixed inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50 backdrop-blur-[2px]" />
+      
+      {/* Content */}
+      <div className="relative z-10">
+        <NavigationHeader currentPage="study" />
+        
+        <div className="container mx-auto px-6 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-white mb-4">🍕 Pizza Pomodoro Timer</h1>
           <p className="text-gray-300">Focus for 25 minutes, earn a pizza slice! Complete 4 slices for a full pizza!</p>
