@@ -1418,7 +1418,7 @@ const StudyTimerPage = () => {
                   isBreak ? 'bg-green-400' : 'bg-orange-400'
                 }`}
                 style={{
-                  width: `${((isBreak ? 5 : 25) * 60 - timeLeft) / ((isBreak ? 5 : 25) * 60) * 100}%`
+                  width: `${((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60 - timeLeft) / ((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60) * 100}%`
                 }}
               />
             </div>
