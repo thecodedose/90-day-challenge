@@ -1341,16 +1341,24 @@ const StudyTimerPage = () => {
   const pauseTimer = () => setIsRunning(false);
   const resetTimer = () => {
     setIsRunning(false);
-    setTimeLeft(25 * 60);
+    setTimeLeft(settings.focusDuration * 60);
     setIsBreak(false);
   };
 
   const resetSession = () => {
     setIsRunning(false);
-    setTimeLeft(25 * 60);
+    setTimeLeft(settings.focusDuration * 60);
     setIsBreak(false);
     setCompletedPomodoros(0);
     setCurrentSession(1);
+  };
+
+  const updateSettings = (newSettings) => {
+    setSettings(newSettings);
+    // If timer is not running, update current timer with new focus duration
+    if (!isRunning && !isBreak) {
+      setTimeLeft(newSettings.focusDuration * 60);
+    }
   };
 
   return (
