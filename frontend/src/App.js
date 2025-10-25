@@ -1468,7 +1468,7 @@ const StudyTimerPage = () => {
       />
       
       {/* Overlay for better text readability */}
-      <div className="fixed inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50 backdrop-blur-[2px]" />
+      <div className="fixed inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40" />
       
       {/* Content */}
       <div className="relative z-10">
