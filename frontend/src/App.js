@@ -1283,25 +1283,33 @@ const StudyTimerPage = () => {
   );
 
   // Complete pizza visualization
-  const PizzaVisual = () => (
-    <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
-      {/* Pizza base */}
-      <div className="absolute w-32 h-32 rounded-full bg-yellow-600/20 border-4 border-yellow-600/40"></div>
-      
-      {/* Pizza slices */}
-      <PizzaSlice isUnlocked={completedPomodoros >= 1} rotation={0} />
-      <PizzaSlice isUnlocked={completedPomodoros >= 2} rotation={90} />
-      <PizzaSlice isUnlocked={completedPomodoros >= 3} rotation={180} />
-      <PizzaSlice isUnlocked={completedPomodoros >= 4} rotation={270} />
-      
-      {/* Complete pizza celebration */}
-      {completedPomodoros >= 4 && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-8xl animate-pulse">🍕</div>
-        </div>
-      )}
-    </div>
-  );
+  const PizzaVisual = () => {
+    const totalSlices = settings.sessionsUntilLongBreak;
+    const anglePerSlice = 360 / totalSlices;
+    
+    return (
+      <div className="relative w-40 h-40 mx-auto flex items-center justify-center">
+        {/* Pizza base */}
+        <div className="absolute w-32 h-32 rounded-full bg-yellow-600/20 border-4 border-yellow-600/40"></div>
+        
+        {/* Pizza slices */}
+        {Array.from({ length: totalSlices }).map((_, index) => (
+          <PizzaSlice 
+            key={index}
+            isUnlocked={completedPomodoros > index} 
+            rotation={index * anglePerSlice} 
+          />
+        ))}
+        
+        {/* Complete pizza celebration */}
+        {completedPomodoros >= totalSlices && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-8xl animate-pulse">🍕</div>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // Timer effect
   useEffect(() => {
