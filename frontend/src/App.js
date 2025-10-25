@@ -1380,7 +1380,7 @@ const StudyTimerPage = () => {
             <div className="mt-6 space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Slices Earned:</span>
-                <span className="text-white font-medium">{completedPomodoros}/4</span>
+                <span className="text-white font-medium">{completedPomodoros}/{settings.sessionsUntilLongBreak}</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-gray-400">Total Sessions:</span>
@@ -1388,7 +1388,7 @@ const StudyTimerPage = () => {
               </div>
             </div>
 
-            {completedPomodoros >= 4 && (
+            {completedPomodoros >= settings.sessionsUntilLongBreak && (
               <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg">
                 <p className="text-green-300 text-sm font-medium">🎉 Pizza Complete! Great work!</p>
               </div>
