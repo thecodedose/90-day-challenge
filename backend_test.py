@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 import time
 
 # Configuration
-BASE_URL = "https://codetrack90.preview.emergentagent.com/api"
+BASE_URL = "https://lockin-challenge.preview.emergentagent.com/api"
 TEST_SESSION_ID = "test_session_" + str(uuid.uuid4())
 
 class BackendTester:
@@ -211,7 +211,7 @@ class BackendTester:
         
         for endpoint, expected_status, description in test_cases:
             try:
-                response = self.session.get(f"https://codetrack90.preview.emergentagent.com{endpoint}")
+                response = self.session.get(f"https://lockin-challenge.preview.emergentagent.com{endpoint}")
                 
                 if response.status_code == expected_status:
                     self.log(f"✅ {description} correctly returns {expected_status}")
@@ -227,7 +227,7 @@ class BackendTester:
         # the /api/projects/{project_id} route pattern but GET method isn't defined for it
         # This is expected FastAPI behavior
         try:
-            response = self.session.get(f"https://codetrack90.preview.emergentagent.com/api/projects/invalid")
+            response = self.session.get(f"https://lockin-challenge.preview.emergentagent.com/api/projects/invalid")
             if response.status_code == 405:
                 self.log("✅ /api/projects/invalid correctly returns 405 (Method Not Allowed - expected FastAPI behavior)")
             else:
@@ -399,7 +399,7 @@ class BackendTester:
         
         try:
             # Test root endpoint
-            response = self.session.get("https://codetrack90.preview.emergentagent.com")
+            response = self.session.get("https://lockin-challenge.preview.emergentagent.com")
             
             if response.status_code in [200, 404]:  # Either works or returns 404 for root
                 self.log("✅ Server is responding")

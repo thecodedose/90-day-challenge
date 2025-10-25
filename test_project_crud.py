@@ -13,7 +13,7 @@ from datetime import datetime, timezone, timedelta
 import uuid
 
 # Configuration
-BASE_URL = "https://codetrack90.preview.emergentagent.com/api"
+BASE_URL = "https://lockin-challenge.preview.emergentagent.com/api"
 
 async def test_full_project_crud():
     """Test complete project CRUD operations with mock authentication"""
