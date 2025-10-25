@@ -1273,19 +1273,36 @@ const StudyTimerPage = () => {
     const createClipPath = () => {
       const centerX = 50;
       const centerY = 50;
-      const radius = 50;
+      const radius = 45; // Slightly smaller to fit within border
       
       // Convert angles to radians and adjust for CSS coordinate system
       const startAngleRad = (startAngle - 90) * Math.PI / 180;
       const endAngleRad = (endAngle - 90) * Math.PI / 180;
       
-      // Calculate points on the circle
+      // Calculate multiple points along the arc for smoother curves
+      const points = [`${centerX}% ${centerY}%`]; // Center point
+      
+      // Add start edge
       const x1 = centerX + radius * Math.cos(startAngleRad);
       const y1 = centerY + radius * Math.sin(startAngleRad);
+      points.push(`${x1}% ${y1}%`);
+      
+      // Add intermediate points along the arc for smoother clipping
+      const steps = Math.max(3, Math.floor((endAngle - startAngle) / 15)); // More points for larger slices
+      for (let i = 1; i < steps; i++) {
+        const intermediateAngle = startAngle + (endAngle - startAngle) * (i / steps);
+        const intermediateAngleRad = (intermediateAngle - 90) * Math.PI / 180;
+        const x = centerX + radius * Math.cos(intermediateAngleRad);
+        const y = centerY + radius * Math.sin(intermediateAngleRad);
+        points.push(`${x}% ${y}%`);
+      }
+      
+      // Add end edge
       const x2 = centerX + radius * Math.cos(endAngleRad);
       const y2 = centerY + radius * Math.sin(endAngleRad);
+      points.push(`${x2}% ${y2}%`);
       
-      return `polygon(${centerX}% ${centerY}%, ${x1}% ${y1}%, ${x2}% ${y2}%)`;
+      return `polygon(${points.join(', ')})`;
     };
 
     return (
