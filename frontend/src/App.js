@@ -1996,6 +1996,7 @@ function App() {
             </ProtectedRoute>
           } />
           <Route path="/explore" element={<ExplorePage />} />
+          <Route path="/study" element={<StudyTimerPage />} />
           <Route path="/profile/:userId" element={<ProfilePage />} />
         </Routes>
       </BrowserRouter>
