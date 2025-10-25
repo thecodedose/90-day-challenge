@@ -1319,11 +1319,11 @@ const StudyTimerPage = () => {
         setCompletedPomodoros(prev => prev + 1);
         setTotalSessions(prev => prev + 1);
         
-        // Check if it's time for a long break (after 4 pomodoros)
-        if ((completedPomodoros + 1) % 4 === 0) {
-          setTimeLeft(15 * 60); // 15-minute long break
+        // Check if it's time for a long break
+        if ((completedPomodoros + 1) % settings.sessionsUntilLongBreak === 0) {
+          setTimeLeft(settings.longBreakDuration * 60);
         } else {
-          setTimeLeft(5 * 60); // 5-minute short break
+          setTimeLeft(settings.shortBreakDuration * 60);
         }
         setIsBreak(true);
         setCurrentSession(prev => prev + 1);
