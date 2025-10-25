@@ -1307,17 +1307,17 @@ const StudyTimerPage = () => {
 
     return (
       <div
-        className={`absolute inset-0 transition-all duration-700 ${
+        className={`absolute inset-0 transition-all duration-1000 ease-out ${
           isUnlocked ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
           clipPath: createClipPath(),
-          backgroundImage: 'url(https://customer-assets.emergentagent.com/job_codetrack90/artifacts/h98uqxun_Mureka%20AI.png)',
+          backgroundImage: 'url(/assets/pizza.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          filter: isUnlocked ? 'brightness(1) saturate(1.1)' : 'brightness(0.3) saturate(0.5)',
-          transform: isUnlocked ? 'scale(1)' : 'scale(0.95)',
+          filter: isUnlocked ? 'brightness(1.05) saturate(1.2) contrast(1.05)' : 'brightness(0.3) saturate(0.5)',
+          transform: isUnlocked ? 'scale(1) rotate(0deg)' : 'scale(0.9) rotate(-5deg)',
         }}
       />
     );
