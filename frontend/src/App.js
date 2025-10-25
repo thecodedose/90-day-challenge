@@ -135,6 +135,15 @@ const NavigationHeader = ({ currentPage = '' }) => {
               >
                 Explore
               </button>
+              <button 
+                onClick={() => navigate('/study')}
+                className={`text-gray-200 hover:text-white transition-colors px-3 py-1 rounded-lg hover:bg-white/10 flex items-center space-x-1 ${
+                  currentPage === 'study' ? 'bg-white/10 text-white font-medium' : ''
+                }`}
+              >
+                <span className="text-lg">🍕</span>
+                <span>Study</span>
+              </button>
               <a
                 href="https://discord.gg/NpRgDqYPH5"
                 target="_blank"
