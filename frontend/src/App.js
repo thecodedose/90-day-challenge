@@ -429,7 +429,7 @@ const Dashboard = () => {
                                   href={project.deployed_link} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-blue-300 hover:text-blue-200 text-xs px-2 py-1 rounded hover:bg-blue-500/20"
+                                  className="text-pink-300 hover:text-pink-200 text-xs px-2 py-1 rounded hover:bg-pink-500/20"
                                 >
                                   Demo
                                 </a>
@@ -439,7 +439,7 @@ const Dashboard = () => {
                                   href={project.github_link} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-green-300 hover:text-green-200 text-xs px-2 py-1 rounded hover:bg-green-500/20"
+                                  className="text-pink-300 hover:text-pink-200 text-xs px-2 py-1 rounded hover:bg-pink-500/20"
                                 >
                                   Code
                                 </a>
