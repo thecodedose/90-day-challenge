@@ -1261,11 +1261,41 @@ const StudyTimerPage = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
+  const [currentTrack, setCurrentTrack] = useState(0);
+  const audioRef = useRef(null);
+
+  // Playlist of 5 songs
+  const playlist = [
+    '/assets/music/1.mp3',
+    '/assets/music/2.mp3',
+    '/assets/music/3.mp3',
+    '/assets/music/4.mp3',
+    '/assets/music/5.mp3'
+  ];
 
   const toggleMusic = () => {
-    setIsMusicPlaying(prev => !prev);
-    // Music functionality to be added later
+    if (audioRef.current) {
+      if (isMusicPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsMusicPlaying(!isMusicPlaying);
+    }
   };
+
+  // Handle track end - play next track
+  const handleTrackEnd = () => {
+    setCurrentTrack((prev) => (prev + 1) % playlist.length);
+  };
+
+  // Auto-play when track changes
+  useEffect(() => {
+    if (audioRef.current && isMusicPlaying) {
+      audioRef.current.load();
+      audioRef.current.play();
+    }
+  }, [currentTrack]);
 
   // Format time display
   const formatTime = (seconds) => {
