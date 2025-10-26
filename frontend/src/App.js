@@ -285,7 +285,7 @@ const LandingPage = () => {
         <div className="text-center">
           <button
             onClick={handleLogin}
-            className="glass-strong text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 hover-lift"
+            className="bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-8 rounded-xl text-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-pink-500/50"
           >
             Start Your Challenge
           </button>
