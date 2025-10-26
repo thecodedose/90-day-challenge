@@ -1733,9 +1733,65 @@ const StudyTimerPage = () => {
           preload="auto"
         />
 
+        {/* Volume Control (appears above music button) */}
+        {showVolumeControl && (
+          <div className="fixed bottom-28 right-8 glass-strong p-4 rounded-2xl z-20 shadow-2xl">
+            <div className="flex flex-col items-center space-y-3">
+              <span className="text-white text-sm font-medium">Volume</span>
+              <div className="flex flex-col items-center space-y-2">
+                <input
+                  type="range"
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  value={volume}
+                  onChange={(e) => setVolume(parseFloat(e.target.value))}
+                  className="volume-slider"
+                  style={{
+                    width: '120px',
+                    writingMode: 'bt-lr',
+                    WebkitAppearance: 'slider-vertical',
+                    height: '100px',
+                    background: `linear-gradient(to top, rgb(236 72 153) ${volume * 100}%, rgb(55 65 81) ${volume * 100}%)`,
+                    borderRadius: '10px',
+                    outline: 'none',
+                    cursor: 'pointer'
+                  }}
+                />
+                <span className="text-pink-300 text-xs font-medium">{Math.round(volume * 100)}%</span>
+              </div>
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setVolume(0)}
+                  className="text-white hover:text-pink-300 transition-colors text-xl"
+                  title="Mute"
+                >
+                  🔇
+                </button>
+                <button
+                  onClick={() => setVolume(0.5)}
+                  className="text-white hover:text-pink-300 transition-colors text-xl"
+                  title="50%"
+                >
+                  🔉
+                </button>
+                <button
+                  onClick={() => setVolume(1)}
+                  className="text-white hover:text-pink-300 transition-colors text-xl"
+                  title="100%"
+                >
+                  🔊
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Music Toggle Button */}
         <button
           onClick={toggleMusic}
+          onMouseEnter={() => setShowVolumeControl(true)}
+          onMouseLeave={() => setShowVolumeControl(false)}
           className="fixed bottom-8 right-8 bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-full shadow-2xl shadow-pink-500/50 z-20 flex items-center space-x-2 group transition-all"
           title={isMusicPlaying ? `Pause Music (Track ${currentTrack + 1}/5)` : "Play Music"}
         >
