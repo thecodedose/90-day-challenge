@@ -1602,7 +1602,7 @@ const StudyTimerPage = () => {
               <div className="w-full bg-gray-700/40 rounded-full h-2 mb-6">
                 <div
                   className={`h-2 rounded-full transition-all duration-1000 ${
-                    isBreak ? 'bg-green-400' : 'bg-orange-400'
+                    isBreak ? 'bg-green-400' : 'bg-pink-400'
                   }`}
                   style={{
                     width: `${((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60 - timeLeft) / ((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60) * 100}%`
@@ -1614,7 +1614,7 @@ const StudyTimerPage = () => {
               <div className="flex justify-center space-x-3 mb-3">
                 <button
                   onClick={() => setShowSettings(true)}
-                  className="glass text-gray-300 hover:text-white px-3 py-2 rounded-lg transition-colors flex items-center space-x-1 text-sm"
+                  className="glass text-gray-300 hover:text-pink-300 px-3 py-2 rounded-lg transition-colors flex items-center space-x-1 text-sm"
                   disabled={isRunning}
                 >
                   <span>⚙️</span>
@@ -1623,7 +1623,7 @@ const StudyTimerPage = () => {
                 {!isRunning ? (
                   <button
                     onClick={startTimer}
-                    className="glass-strong text-white px-5 py-2 rounded-lg hover-lift flex items-center space-x-2 text-sm"
+                    className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm"
                   >
                     <span>▶️</span>
                     <span>Start</span>
@@ -1631,7 +1631,7 @@ const StudyTimerPage = () => {
                 ) : (
                   <button
                     onClick={pauseTimer}
-                    className="glass-strong text-white px-5 py-2 rounded-lg hover-lift flex items-center space-x-2 text-sm"
+                    className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm"
                   >
                     <span>⏸️</span>
                     <span>Pause</span>
@@ -1640,7 +1640,7 @@ const StudyTimerPage = () => {
                 
                 <button
                   onClick={resetTimer}
-                  className="glass text-gray-300 hover:text-white px-3 py-2 rounded-lg transition-colors text-sm"
+                  className="glass text-gray-300 hover:text-pink-300 px-3 py-2 rounded-lg transition-colors text-sm"
                 >
                   Reset
                 </button>
@@ -1648,7 +1648,7 @@ const StudyTimerPage = () => {
 
               <button
                 onClick={resetSession}
-                className="text-gray-400 hover:text-red-400 text-xs transition-colors"
+                className="text-gray-400 hover:text-pink-400 text-xs transition-colors"
               >
                 Reset Session
               </button>
