@@ -1735,7 +1735,11 @@ const StudyTimerPage = () => {
 
         {/* Volume Control (appears above music button) */}
         {showVolumeControl && (
-          <div className="fixed bottom-28 right-8 glass-strong p-4 rounded-2xl z-20 shadow-2xl">
+          <div 
+            className="fixed bottom-28 right-8 glass-strong p-4 rounded-2xl z-20 shadow-2xl"
+            onMouseEnter={() => setShowVolumeControl(true)}
+            onMouseLeave={() => setShowVolumeControl(false)}
+          >
             <div className="flex flex-col items-center space-y-3">
               <span className="text-white text-sm font-medium">Volume</span>
               <div className="flex flex-col items-center space-y-2">
