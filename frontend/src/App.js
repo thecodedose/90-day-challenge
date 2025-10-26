@@ -104,7 +104,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                 href="https://discord.gg/NpRgDqYPH5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-200 hover:text-purple-300 transition-colors px-3 py-1 rounded-lg hover:bg-purple-500/10 flex items-center space-x-2"
+                className="text-gray-200 hover:text-pink-300 transition-colors px-3 py-1 rounded-lg hover:bg-pink-500/10 flex items-center space-x-2"
               >
                 <span className="text-lg">💬</span>
                 <span>Discord</span>
@@ -148,7 +148,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                 href="https://discord.gg/NpRgDqYPH5"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-200 hover:text-purple-300 transition-colors px-3 py-1 rounded-lg hover:bg-purple-500/10 flex items-center space-x-2"
+                className="text-gray-200 hover:text-pink-300 transition-colors px-3 py-1 rounded-lg hover:bg-pink-500/10 flex items-center space-x-2"
               >
                 <span className="text-lg">💬</span>
                 <span>Discord</span>
