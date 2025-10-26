@@ -1299,6 +1299,13 @@ const StudyTimerPage = () => {
     }
   }, [currentTrack]);
 
+  // Update audio volume when volume state changes
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
   // Format time display
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
