@@ -716,7 +716,7 @@ const AddProjectModal = ({ onClose, onSuccess }) => {
             <button
               type="submit"
               disabled={loading}
-              className="glass-strong disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-all duration-300 hover-lift"
+              className="bg-pink-500 hover:bg-pink-600 disabled:opacity-50 text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-md shadow-pink-500/30"
             >
               {loading ? 'Creating...' : 'Create Project'}
             </button>
