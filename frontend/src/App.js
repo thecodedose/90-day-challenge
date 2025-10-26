@@ -1659,7 +1659,7 @@ const StudyTimerPage = () => {
           <div className="border-t border-white/10 pt-4">
             <button
               onClick={() => setShowInstructions(!showInstructions)}
-              className="w-full flex items-center justify-between text-white hover:text-gray-300 transition-colors"
+              className="w-full flex items-center justify-between text-white hover:text-pink-300 transition-colors"
             >
               <span className="text-sm font-medium">🍕 How it works</span>
               <span className="text-xl">{showInstructions ? '▼' : '▶'}</span>
