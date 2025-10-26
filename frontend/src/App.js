@@ -98,7 +98,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                 }`}
               >
                 <span className="text-lg">🍕</span>
-                <span>Study</span>
+                <span>Work</span>
               </button>
               <a
                 href="https://discord.gg/NpRgDqYPH5"
@@ -142,7 +142,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                 }`}
               >
                 <span className="text-lg">🍕</span>
-                <span>Study</span>
+                <span>Work</span>
               </button>
               <a
                 href="https://discord.gg/NpRgDqYPH5"
