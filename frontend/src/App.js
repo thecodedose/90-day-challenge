@@ -1864,7 +1864,7 @@ const SettingsModal = ({ settings, onSave, onClose }) => {
             </button>
             <button
               type="submit"
-              className="glass-strong text-white px-4 py-2 rounded-lg transition-all duration-300 hover-lift"
+              className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg transition-all duration-300 shadow-md shadow-pink-500/30"
             >
               Save Settings
             </button>
