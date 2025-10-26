@@ -454,7 +454,7 @@ const Dashboard = () => {
                       <p className="text-gray-400 text-sm mb-3">No projects yet</p>
                       <button 
                         onClick={() => setShowAddProject(true)}
-                        className="bg-purple-600 hover:bg-purple-700 text-white text-xs px-3 py-1 rounded transition-colors"
+                        className="bg-pink-500 hover:bg-pink-600 text-white text-xs px-3 py-1 rounded transition-colors shadow-md shadow-pink-500/30"
                       >
                         Add Project
                       </button>
