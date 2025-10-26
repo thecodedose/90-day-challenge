@@ -1689,7 +1689,7 @@ const StudyTimerPage = () => {
         {/* Music Toggle Button */}
         <button
           onClick={toggleMusic}
-          className="fixed bottom-8 right-8 glass-strong text-white p-4 rounded-full hover-lift shadow-2xl z-20 flex items-center space-x-2 group"
+          className="fixed bottom-8 right-8 bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-full shadow-2xl shadow-pink-500/50 z-20 flex items-center space-x-2 group transition-all"
           title={isMusicPlaying ? "Pause Music" : "Play Music"}
         >
           <span className="text-2xl">
