@@ -1716,6 +1716,14 @@ const StudyTimerPage = () => {
           />
         )}
 
+        {/* Audio Player (Hidden) */}
+        <audio
+          ref={audioRef}
+          src={playlist[currentTrack]}
+          onEnded={handleTrackEnd}
+          preload="auto"
+        />
+
         {/* Music Toggle Button */}
         <button
           onClick={toggleMusic}
