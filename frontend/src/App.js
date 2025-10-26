@@ -1260,6 +1260,7 @@ const StudyTimerPage = () => {
   const [totalSessions, setTotalSessions] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const toggleMusic = () => {
     setIsMusicPlaying(prev => !prev);
