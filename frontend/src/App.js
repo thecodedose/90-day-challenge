@@ -356,7 +356,7 @@ const Dashboard = () => {
             <p className="text-gray-300 text-sm">{dashboardData?.days_remaining || 90} days remaining</p>
             <div className="mt-4 bg-black/30 rounded-full h-2">
               <div 
-                className="bg-gradient-to-r from-gray-300 to-white h-2 rounded-full transition-all duration-300"
+                className="bg-gradient-to-r from-pink-400 to-pink-500 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${dashboardData?.challenge_progress || 0}%` }}
               ></div>
             </div>
