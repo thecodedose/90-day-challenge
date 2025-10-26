@@ -155,7 +155,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
               </a>
               <button 
                 onClick={() => navigate('/')}
-                className="glass-strong text-white px-4 py-2 rounded-lg hover-lift"
+                className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md shadow-pink-500/30 transition-all"
               >
                 Sign In
               </button>
