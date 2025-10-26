@@ -1262,6 +1262,8 @@ const StudyTimerPage = () => {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
+  const [volume, setVolume] = useState(0.5); // Default 50% volume
+  const [showVolumeControl, setShowVolumeControl] = useState(false);
   const audioRef = useRef(null);
 
   // Playlist of 5 songs
