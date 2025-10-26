@@ -1487,112 +1487,193 @@ const StudyTimerPage = () => {
           <p className="text-gray-300">Focus for 25 minutes, earn a pizza slice! Complete 4 slices for a full pizza!</p>
         </div>
 
-        <div className="max-w-md mx-auto">
-          {/* Pizza Progress */}
-          <div className="glass-card p-8 mb-8 text-center">
-            <h3 className="text-lg font-semibold text-white mb-4">Your Pizza Progress</h3>
-            <PizzaVisual />
-            
-            <div className="mt-6 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Slices Earned:</span>
-                <span className="text-white font-medium">{completedPomodoros}/{settings.sessionsUntilLongBreak}</span>
+        {/* Compact Unified Card */}
+        <div className="max-w-2xl mx-auto glass-card p-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center mb-6">
+            {/* Pizza Progress - Left Side */}
+            <div className="text-center">
+              <h3 className="text-base font-semibold text-white mb-4">Your Progress</h3>
+              <div className={`pizza-container relative w-32 h-32 mx-auto ${
+                completedPomodoros >= settings.sessionsUntilLongBreak ? 'pizza-complete' : ''
+              }`}>
+                {/* Base pizza image (greyed out) */}
+                <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-amber-800 shadow-2xl">
+                  {/* Background pizza (always visible but dimmed) */}
+                  <div 
+                    className="absolute inset-0 w-full h-full"
+                    style={{
+                      backgroundImage: 'url(/assets/pizza.png)',
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      backgroundRepeat: 'no-repeat',
+                      filter: 'brightness(0.25) saturate(0.4) grayscale(0.6)',
+                    }}
+                  />
+                  
+                  {/* Revealed pizza slices */}
+                  {Array.from({ length: settings.sessionsUntilLongBreak }).map((_, index) => {
+                    const totalSlices = settings.sessionsUntilLongBreak;
+                    const anglePerSlice = 360 / totalSlices;
+                    const startAngle = index * anglePerSlice;
+                    const endAngle = (index + 1) * anglePerSlice;
+                    const isUnlocked = completedPomodoros > index;
+                    
+                    return (
+                      <PizzaSlice
+                        key={index}
+                        isUnlocked={isUnlocked}
+                        startAngle={startAngle}
+                        endAngle={endAngle}
+                        index={index}
+                        totalSlices={totalSlices}
+                      />
+                    );
+                  })}
+                  
+                  {/* Slice divider lines */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 128 128">
+                    {Array.from({ length: settings.sessionsUntilLongBreak }).map((_, index) => {
+                      const anglePerSlice = 360 / settings.sessionsUntilLongBreak;
+                      const angle = index * anglePerSlice;
+                      const angleRad = (angle - 90) * Math.PI / 180;
+                      const x = 64 + 56 * Math.cos(angleRad);
+                      const y = 64 + 56 * Math.sin(angleRad);
+                      
+                      return (
+                        <line
+                          key={index}
+                          x1="64"
+                          y1="64"
+                          x2={x}
+                          y2={y}
+                          stroke="#8B4513"
+                          strokeWidth="2"
+                          opacity="0.8"
+                          className="drop-shadow-sm"
+                        />
+                      );
+                    })}
+                  </svg>
+                </div>
+                
+                {/* Complete pizza celebration */}
+                {completedPomodoros >= settings.sessionsUntilLongBreak && (
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <div className="text-3xl animate-bounce bg-white/20 backdrop-blur-sm rounded-full p-2">🎉</div>
+                  </div>
+                )}
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-gray-400">Total Sessions:</span>
-                <span className="text-white font-medium">{totalSessions}</span>
-              </div>
-            </div>
-
-            {completedPomodoros >= settings.sessionsUntilLongBreak && (
-              <div className="mt-4 p-3 bg-green-500/20 border border-green-500/30 rounded-lg">
-                <p className="text-green-300 text-sm font-medium">🎉 Pizza Complete! Great work!</p>
-              </div>
-            )}
-          </div>
-
-          {/* Timer */}
-          <div className="glass-card p-8 text-center">
-            <div className="mb-4">
-              <h3 className="text-lg font-medium text-white mb-2">
-                {isBreak ? '☕ Break Time' : '🎯 Focus Time'}
-              </h3>
-              <p className="text-sm text-gray-400">
-                Session {currentSession} • {isBreak ? 'Take a breather' : 'Stay focused!'}
-              </p>
-            </div>
-
-            {/* Timer Display */}
-            <div className="text-6xl font-bold text-white mb-8 font-mono">
-              {formatTime(timeLeft)}
-            </div>
-
-            {/* Progress Bar */}
-            <div className="w-full bg-gray-700/40 rounded-full h-2 mb-6">
-              <div
-                className={`h-2 rounded-full transition-all duration-1000 ${
-                  isBreak ? 'bg-green-400' : 'bg-orange-400'
-                }`}
-                style={{
-                  width: `${((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60 - timeLeft) / ((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60) * 100}%`
-                }}
-              />
-            </div>
-
-            {/* Controls */}
-            <div className="flex justify-center space-x-4 mb-4">
-              <button
-                onClick={() => setShowSettings(true)}
-                className="glass text-gray-300 hover:text-white px-4 py-3 rounded-lg transition-colors flex items-center space-x-2"
-                disabled={isRunning}
-              >
-                <span>⚙️</span>
-                <span>Settings</span>
-              </button>
-              {!isRunning ? (
-                <button
-                  onClick={startTimer}
-                  className="glass-strong text-white px-6 py-3 rounded-lg hover-lift flex items-center space-x-2"
-                >
-                  <span>▶️</span>
-                  <span>Start</span>
-                </button>
-              ) : (
-                <button
-                  onClick={pauseTimer}
-                  className="glass-strong text-white px-6 py-3 rounded-lg hover-lift flex items-center space-x-2"
-                >
-                  <span>⏸️</span>
-                  <span>Pause</span>
-                </button>
-              )}
               
-              <button
-                onClick={resetTimer}
-                className="glass text-gray-300 hover:text-white px-4 py-3 rounded-lg transition-colors"
-              >
-                Reset Timer
-              </button>
+              <div className="mt-4 space-y-1 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Slices:</span>
+                  <span className="text-white font-medium">{completedPomodoros}/{settings.sessionsUntilLongBreak}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Sessions:</span>
+                  <span className="text-white font-medium">{totalSessions}</span>
+                </div>
+              </div>
+
+              {completedPomodoros >= settings.sessionsUntilLongBreak && (
+                <div className="mt-3 p-2 bg-green-500/20 border border-green-500/30 rounded-lg">
+                  <p className="text-green-300 text-xs font-medium">🎉 Complete!</p>
+                </div>
+              )}
             </div>
 
-            <button
-              onClick={resetSession}
-              className="text-gray-400 hover:text-red-400 text-sm transition-colors"
-            >
-              Reset Entire Session
-            </button>
+            {/* Timer - Right Side */}
+            <div className="text-center">
+              <div className="mb-3">
+                <h3 className="text-base font-medium text-white mb-1">
+                  {isBreak ? '☕ Break Time' : '🎯 Focus Time'}
+                </h3>
+                <p className="text-xs text-gray-400">
+                  Session {currentSession} • {isBreak ? 'Relax' : 'Focus!'}
+                </p>
+              </div>
+
+              {/* Timer Display */}
+              <div className="text-5xl font-bold text-white mb-6 font-mono">
+                {formatTime(timeLeft)}
+              </div>
+
+              {/* Progress Bar */}
+              <div className="w-full bg-gray-700/40 rounded-full h-2 mb-6">
+                <div
+                  className={`h-2 rounded-full transition-all duration-1000 ${
+                    isBreak ? 'bg-green-400' : 'bg-orange-400'
+                  }`}
+                  style={{
+                    width: `${((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60 - timeLeft) / ((isBreak ? settings.shortBreakDuration : settings.focusDuration) * 60) * 100}%`
+                  }}
+                />
+              </div>
+
+              {/* Controls */}
+              <div className="flex justify-center space-x-3 mb-3">
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className="glass text-gray-300 hover:text-white px-3 py-2 rounded-lg transition-colors flex items-center space-x-1 text-sm"
+                  disabled={isRunning}
+                >
+                  <span>⚙️</span>
+                  <span>Settings</span>
+                </button>
+                {!isRunning ? (
+                  <button
+                    onClick={startTimer}
+                    className="glass-strong text-white px-5 py-2 rounded-lg hover-lift flex items-center space-x-2 text-sm"
+                  >
+                    <span>▶️</span>
+                    <span>Start</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={pauseTimer}
+                    className="glass-strong text-white px-5 py-2 rounded-lg hover-lift flex items-center space-x-2 text-sm"
+                  >
+                    <span>⏸️</span>
+                    <span>Pause</span>
+                  </button>
+                )}
+                
+                <button
+                  onClick={resetTimer}
+                  className="glass text-gray-300 hover:text-white px-3 py-2 rounded-lg transition-colors text-sm"
+                >
+                  Reset
+                </button>
+              </div>
+
+              <button
+                onClick={resetSession}
+                className="text-gray-400 hover:text-red-400 text-xs transition-colors"
+              >
+                Reset Session
+              </button>
+            </div>
           </div>
 
-          {/* Instructions */}
-          <div className="glass-card p-6 mt-8">
-            <h4 className="text-white font-medium mb-3">🍕 How it works:</h4>
-            <ul className="text-sm text-gray-300 space-y-2">
-              <li>• Focus for {settings.focusDuration} minutes = earn 1 pizza slice 🍕</li>
-              <li>• Take a {settings.shortBreakDuration}-minute break after each session</li>
-              <li>• Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</li>
-              <li>• Complete {settings.sessionsUntilLongBreak} slices = full pizza reward! 🎉</li>
-              <li>• Use ⚙️ Settings to customize your session durations</li>
-            </ul>
+          {/* Instructions Toggle */}
+          <div className="border-t border-white/10 pt-4">
+            <button
+              onClick={() => setShowInstructions(!showInstructions)}
+              className="w-full flex items-center justify-between text-white hover:text-gray-300 transition-colors"
+            >
+              <span className="text-sm font-medium">🍕 How it works</span>
+              <span className="text-xl">{showInstructions ? '▼' : '▶'}</span>
+            </button>
+            
+            {showInstructions && (
+              <ul className="mt-3 text-xs text-gray-300 space-y-1.5 pl-4">
+                <li>• Focus for {settings.focusDuration} minutes = earn 1 pizza slice 🍕</li>
+                <li>• Take a {settings.shortBreakDuration}-minute break after each session</li>
+                <li>• Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</li>
+                <li>• Complete {settings.sessionsUntilLongBreak} slices = full pizza reward! 🎉</li>
+                <li>• Use ⚙️ Settings to customize your session durations</li>
+              </ul>
+            )}
           </div>
         </div>
 
