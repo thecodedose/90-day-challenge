@@ -1941,9 +1941,7 @@ const StudyTimerPage = () => {
           className="fixed bottom-8 right-8 bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-full shadow-2xl shadow-pink-500/50 z-20 flex items-center space-x-2 group transition-all"
           title={isMusicPlaying ? `Pause Music (Track ${currentTrack + 1}/5)` : "Play Music"}
         >
-          <span className="text-2xl">
-            {isMusicPlaying ? '⏸️' : '🎵'}
-          </span>
+          {isMusicPlaying ? <Icons.Pause /> : <Icons.Music />}
           <span className="text-sm font-medium overflow-hidden transition-all duration-300 max-w-0 group-hover:max-w-xs group-hover:ml-2">
             {isMusicPlaying ? `Pause (${currentTrack + 1}/5)` : 'Play'} Music
           </span>
