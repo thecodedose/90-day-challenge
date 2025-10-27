@@ -68,11 +68,12 @@ const NavigationHeader = ({ currentPage = '' }) => {
         <button
           onClick={() => navigate('/')}
           className="text-2xl font-bold text-white gradient-text hover:opacity-80 transition-opacity"
+          style={{ fontFamily: 'Fjalla One, sans-serif' }}
         >
           90-Day Challenge
         </button>
         
-        <nav className="flex items-center space-x-6">
+        <nav className="flex items-center space-x-6" style={{ fontFamily: 'Fjalla One, sans-serif' }}>
           {user ? (
             <>
               <button 
@@ -115,7 +116,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                   className="flex items-center space-x-2 hover:bg-white/10 rounded-lg px-2 py-1 transition-colors"
                 >
                   <img src={user?.picture} alt={user?.name} className="w-8 h-8 rounded-full border border-white/20" />
-                  <span className="text-white">{user?.name}</span>
+                  <span className="text-white" style={{ fontFamily: 'Work Sans, sans-serif' }}>{user?.name}</span>
                 </button>
                 <button 
                   onClick={logout}
