@@ -1709,6 +1709,53 @@ const StudyTimerPage = () => {
           />
         )}
 
+        {/* Instructions Modal */}
+        {showInstructions && (
+          <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="glass-card p-6 max-w-md w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-white">How It Works</h3>
+                <button
+                  onClick={() => setShowInstructions(false)}
+                  className="text-gray-400 hover:text-white text-2xl"
+                >
+                  ×
+                </button>
+              </div>
+              
+              <ul className="text-sm text-gray-300 space-y-3">
+                <li className="flex items-start space-x-2">
+                  <span className="text-pink-400 font-bold">•</span>
+                  <span>Focus for {settings.focusDuration} minutes = earn 1 pizza slice</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-pink-400 font-bold">•</span>
+                  <span>Take a {settings.shortBreakDuration}-minute break after each session</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-pink-400 font-bold">•</span>
+                  <span>Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-pink-400 font-bold">•</span>
+                  <span>Complete {settings.sessionsUntilLongBreak} slices = full pizza reward!</span>
+                </li>
+                <li className="flex items-start space-x-2">
+                  <span className="text-pink-400 font-bold">•</span>
+                  <span>Use the settings button to customize your session durations</span>
+                </li>
+              </ul>
+              
+              <button
+                onClick={() => setShowInstructions(false)}
+                className="mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg transition-all shadow-md shadow-pink-500/30"
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Audio Player (Hidden) */}
         <audio
           ref={audioRef}
