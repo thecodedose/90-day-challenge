@@ -2355,9 +2355,9 @@ const ProfilePage = () => {
                                 href={project.deployed_link} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-xs px-2 py-1 rounded transition-all duration-300"
+                                className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-xs px-2 py-1 rounded transition-all duration-300 gap-1"
                               >
-                                <span className="mr-1">🚀</span>
+                                <Icons.Rocket />
                                 Demo
                               </a>
                             )}
@@ -2366,9 +2366,9 @@ const ProfilePage = () => {
                                 href={project.github_link} 
                                 target="_blank" 
                                 rel="noopener noreferrer"
-                                className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-xs px-2 py-1 rounded transition-all duration-300"
+                                className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-xs px-2 py-1 rounded transition-all duration-300 gap-1"
                               >
-                                <span className="mr-1">💻</span>
+                                <Icons.Code />
                                 Code
                               </a>
                             )}
