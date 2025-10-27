@@ -122,6 +122,28 @@ const Icons = {
   ),
 };
 
+// Helper function to get status icon
+const getStatusIcon = (status) => {
+  switch(status) {
+    case 'completed': return <><Icons.Check /> Completed</>;
+    case 'in-progress': return <>In Progress</>;
+    case 'paused': return <><Icons.Pause /> Paused</>;
+    default: return <>Planning</>;
+  }
+};
+
+// Helper function to get mood icon
+const getMoodIcon = (mood) => {
+  switch(mood) {
+    case 'excited': return <><Icons.Rocket /> Excited</>;
+    case 'focused': return <><Icons.Target /> Focused</>;
+    case 'motivated': return <>Motivated</>;
+    case 'tired': return <>Tired</>;
+    case 'stressed': return <>Stressed</>;
+    default: return mood;
+  }
+};
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
