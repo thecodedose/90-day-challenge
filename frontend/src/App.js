@@ -216,7 +216,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                   currentPage === 'study' ? 'bg-white/10 text-white font-medium' : ''
                 }`}
               >
-                <span className="text-lg">🍕</span>
+                <Icons.Pizza />
                 <span>Work</span>
               </button>
               <a
@@ -260,7 +260,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                   currentPage === 'study' ? 'bg-white/10 text-white font-medium' : ''
                 }`}
               >
-                <span className="text-lg">🍕</span>
+                <Icons.Pizza />
                 <span>Work</span>
               </button>
               <a
