@@ -654,12 +654,7 @@ const Dashboard = () => {
                     todayJournal.mood === 'frustrated' ? 'bg-red-500/20 text-red-300' :
                     'bg-green-500/20 text-green-300'
                   }`}>
-                    {todayJournal.mood === 'happy' ? '😊 Happy' :
-                     todayJournal.mood === 'excited' ? '🚀 Excited' :
-                     todayJournal.mood === 'focused' ? '🎯 Focused' :
-                     todayJournal.mood === 'tired' ? '😴 Tired' :
-                     todayJournal.mood === 'frustrated' ? '😤 Frustrated' :
-                     '😌 Neutral'}
+                    {getMoodIcon(todayJournal.mood)}
                   </span>
                   <button
                     onClick={() => {
