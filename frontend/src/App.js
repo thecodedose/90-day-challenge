@@ -1736,7 +1736,9 @@ const StudyTimerPage = () => {
                 {/* Complete pizza celebration */}
                 {completedPomodoros >= settings.sessionsUntilLongBreak && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="text-3xl animate-bounce bg-white/20 backdrop-blur-sm rounded-full p-2">🎉</div>
+                    <div className="animate-bounce bg-white/20 backdrop-blur-sm rounded-full p-2">
+                      <Icons.Celebration />
+                    </div>
                   </div>
                 )}
               </div>
