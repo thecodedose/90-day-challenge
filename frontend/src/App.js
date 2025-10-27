@@ -1527,8 +1527,31 @@ const StudyTimerPage = () => {
         </div>
 
         {/* Compact Unified Card */}
-        <div className="max-w-2xl mx-auto glass-card p-8">
-          <div className="grid md:grid-cols-2 gap-8 items-center mb-6">
+        <div className="max-w-2xl mx-auto glass-card p-8 relative">
+          {/* Top Controls */}
+          <div className="absolute top-4 left-4">
+            <button
+              onClick={() => setShowSettings(true)}
+              className="glass text-gray-300 hover:text-pink-300 p-2 rounded-lg transition-colors"
+              disabled={isRunning}
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+            </button>
+          </div>
+          
+          <div className="absolute top-4 right-4">
+            <button
+              onClick={() => setShowInstructions(true)}
+              className="glass text-gray-300 hover:text-pink-300 p-2 rounded-lg transition-colors w-8 h-8 flex items-center justify-center font-bold"
+            >
+              ?
+            </button>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 items-center mb-6 mt-8">
             {/* Pizza Progress - Left Side */}
             <div className="text-center">
               <h3 className="text-base font-semibold text-white mb-4">Your Progress</h3>
@@ -1602,17 +1625,6 @@ const StudyTimerPage = () => {
                   </div>
                 )}
               </div>
-              
-              <div className="mt-4 space-y-1 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Slices:</span>
-                  <span className="text-white font-medium">{completedPomodoros}/{settings.sessionsUntilLongBreak}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-400">Sessions:</span>
-                  <span className="text-white font-medium">{totalSessions}</span>
-                </div>
-              </div>
 
               {completedPomodoros >= settings.sessionsUntilLongBreak && (
                 <div className="mt-3 p-2 bg-green-500/20 border border-green-500/30 rounded-lg">
@@ -1624,11 +1636,8 @@ const StudyTimerPage = () => {
             {/* Timer - Right Side */}
             <div className="text-center">
               <div className="mb-3">
-                <h3 className="text-base font-medium text-white mb-1">
-                  {isBreak ? '☕ Break Time' : '🎯 Focus Time'}
-                </h3>
                 <p className="text-xs text-gray-400">
-                  Session {currentSession} • {isBreak ? 'Relax' : 'Focus!'}
+                  {isBreak ? 'Break Time' : 'Focus Session'} • Session {currentSession}
                 </p>
               </div>
 
@@ -1651,20 +1660,14 @@ const StudyTimerPage = () => {
 
               {/* Controls */}
               <div className="flex justify-center space-x-3 mb-3">
-                <button
-                  onClick={() => setShowSettings(true)}
-                  className="glass text-gray-300 hover:text-pink-300 px-3 py-2 rounded-lg transition-colors flex items-center space-x-1 text-sm"
-                  disabled={isRunning}
-                >
-                  <span>⚙️</span>
-                  <span>Settings</span>
-                </button>
                 {!isRunning ? (
                   <button
                     onClick={startTimer}
                     className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm"
                   >
-                    <span>▶️</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M8 5v14l11-7z"/>
+                    </svg>
                     <span>Start</span>
                   </button>
                 ) : (
@@ -1672,7 +1675,9 @@ const StudyTimerPage = () => {
                     onClick={pauseTimer}
                     className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm"
                   >
-                    <span>⏸️</span>
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                    </svg>
                     <span>Pause</span>
                   </button>
                 )}
@@ -1692,27 +1697,6 @@ const StudyTimerPage = () => {
                 Reset Session
               </button>
             </div>
-          </div>
-
-          {/* Instructions Toggle */}
-          <div className="border-t border-white/10 pt-4">
-            <button
-              onClick={() => setShowInstructions(!showInstructions)}
-              className="w-full flex items-center justify-between text-white hover:text-pink-300 transition-colors"
-            >
-              <span className="text-sm font-medium">🍕 How it works</span>
-              <span className="text-xl">{showInstructions ? '▼' : '▶'}</span>
-            </button>
-            
-            {showInstructions && (
-              <ul className="mt-3 text-xs text-gray-300 space-y-1.5 pl-4">
-                <li>• Focus for {settings.focusDuration} minutes = earn 1 pizza slice 🍕</li>
-                <li>• Take a {settings.shortBreakDuration}-minute break after each session</li>
-                <li>• Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</li>
-                <li>• Complete {settings.sessionsUntilLongBreak} slices = full pizza reward! 🎉</li>
-                <li>• Use ⚙️ Settings to customize your session durations</li>
-              </ul>
-            )}
           </div>
         </div>
 
