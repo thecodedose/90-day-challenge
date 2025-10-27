@@ -1909,24 +1909,24 @@ const StudyTimerPage = () => {
               <div className="flex space-x-2">
                 <button
                   onClick={() => setVolume(0)}
-                  className="text-white hover:text-pink-300 transition-colors text-xl"
+                  className="text-white hover:text-pink-300 transition-colors"
                   title="Mute"
                 >
-                  🔇
+                  <Icons.VolumeMute />
                 </button>
                 <button
                   onClick={() => setVolume(0.5)}
-                  className="text-white hover:text-pink-300 transition-colors text-xl"
+                  className="text-white hover:text-pink-300 transition-colors"
                   title="50%"
                 >
-                  🔉
+                  <Icons.VolumeMid />
                 </button>
                 <button
                   onClick={() => setVolume(1)}
-                  className="text-white hover:text-pink-300 transition-colors text-xl"
+                  className="text-white hover:text-pink-300 transition-colors"
                   title="100%"
                 >
-                  🔊
+                  <Icons.VolumeFull />
                 </button>
               </div>
             </div>
