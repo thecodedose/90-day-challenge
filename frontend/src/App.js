@@ -1798,7 +1798,7 @@ const StudyTimerPage = () => {
                   className="glass text-gray-300 hover:text-pink-300 px-3 py-2 rounded-lg transition-colors flex items-center space-x-1 text-sm"
                   disabled={isRunning}
                 >
-                  <span>⚙️</span>
+                  <Icons.Settings />
                   <span>Settings</span>
                 </button>
                 {!isRunning ? (
@@ -1806,7 +1806,7 @@ const StudyTimerPage = () => {
                     onClick={startTimer}
                     className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm"
                   >
-                    <span>▶️</span>
+                    <Icons.Play />
                     <span>Start</span>
                   </button>
                 ) : (
@@ -1814,7 +1814,7 @@ const StudyTimerPage = () => {
                     onClick={pauseTimer}
                     className="bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm"
                   >
-                    <span>⏸️</span>
+                    <Icons.Pause />
                     <span>Pause</span>
                   </button>
                 )}
