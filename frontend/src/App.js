@@ -569,8 +569,9 @@ const Dashboard = () => {
                                   href={project.deployed_link} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-pink-300 hover:text-pink-200 text-xs px-2 py-1 rounded hover:bg-pink-500/20"
+                                  className="text-pink-300 hover:text-pink-200 text-xs px-2 py-1 rounded hover:bg-pink-500/20 flex items-center gap-1"
                                 >
+                                  <Icons.Rocket />
                                   Demo
                                 </a>
                               )}
@@ -579,8 +580,9 @@ const Dashboard = () => {
                                   href={project.github_link} 
                                   target="_blank" 
                                   rel="noopener noreferrer"
-                                  className="text-pink-300 hover:text-pink-200 text-xs px-2 py-1 rounded hover:bg-pink-500/20"
+                                  className="text-pink-300 hover:text-pink-200 text-xs px-2 py-1 rounded hover:bg-pink-500/20 flex items-center gap-1"
                                 >
+                                  <Icons.Code />
                                   Code
                                 </a>
                               )}
