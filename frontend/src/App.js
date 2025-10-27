@@ -1762,8 +1762,12 @@ const StudyTimerPage = () => {
             {/* Timer - Right Side */}
             <div className="text-center">
               <div className="mb-3">
-                <h3 className="text-base font-medium text-white mb-1">
-                  {isBreak ? '☕ Break Time' : '🎯 Focus Time'}
+                <h3 className="text-base font-medium text-white mb-1 flex items-center justify-center gap-2">
+                  {isBreak ? (
+                    <><Icons.Coffee /> Break Time</>
+                  ) : (
+                    <><Icons.Target /> Focus Time</>
+                  )}
                 </h3>
                 <p className="text-xs text-gray-400">
                   Session {currentSession} • {isBreak ? 'Relax' : 'Focus!'}
