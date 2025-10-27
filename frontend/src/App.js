@@ -2593,10 +2593,10 @@ const ExplorePage = () => {
                       href={project.deployed_link} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
+                      className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300 gap-1"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <span className="mr-1">🚀</span>
+                      <Icons.Rocket />
                       Live Demo
                     </a>
                   )}
@@ -2605,10 +2605,10 @@ const ExplorePage = () => {
                       href={project.github_link} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300"
+                      className="inline-flex items-center glass text-pink-300 hover:text-pink-200 hover:bg-pink-500/20 text-sm px-3 py-1 rounded-lg transition-all duration-300 gap-1"
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <span className="mr-1">💻</span>
+                      <Icons.Code />
                       Source Code
                     </a>
                   )}
