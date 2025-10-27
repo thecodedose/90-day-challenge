@@ -1844,17 +1844,34 @@ const StudyTimerPage = () => {
               onClick={() => setShowInstructions(!showInstructions)}
               className="w-full flex items-center justify-between text-white hover:text-pink-300 transition-colors"
             >
-              <span className="text-sm font-medium">🍕 How it works</span>
-              <span className="text-xl">{showInstructions ? '▼' : '▶'}</span>
+              <span className="text-sm font-medium flex items-center gap-2">
+                <Icons.Pizza /> How it works
+              </span>
+              {showInstructions ? <Icons.ChevronDown /> : <Icons.ChevronRight />}
             </button>
             
             {showInstructions && (
               <ul className="mt-3 text-xs text-gray-300 space-y-1.5 pl-4">
-                <li>• Focus for {settings.focusDuration} minutes = earn 1 pizza slice 🍕</li>
-                <li>• Take a {settings.shortBreakDuration}-minute break after each session</li>
-                <li>• Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</li>
-                <li>• Complete {settings.sessionsUntilLongBreak} slices = full pizza reward! 🎉</li>
-                <li>• Use ⚙️ Settings to customize your session durations</li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Focus for {settings.focusDuration} minutes = earn 1 pizza slice</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Take a {settings.shortBreakDuration}-minute break after each session</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Every {settings.sessionsUntilLongBreak}th break is {settings.longBreakDuration} minutes long</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Complete {settings.sessionsUntilLongBreak} slices = full pizza reward!</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span>•</span>
+                  <span>Use Settings to customize your session durations</span>
+                </li>
               </ul>
             )}
           </div>
