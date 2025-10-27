@@ -81,7 +81,7 @@ const NavigationHeader = ({ currentPage = "" }) => {
   const navigate = useNavigate()
 
   return (
-    <header className='glass border-b border-white/10'>
+    <header className='bg-black/70 border-b border-white/10'>
       <div className='container mx-auto px-6 py-4 flex justify-between items-center'>
         <button
           onClick={() => navigate("/")}
@@ -1589,89 +1589,6 @@ const StudyTimerPage = () => {
     )
   }
 
-  // Complete pizza visualization
-  const PizzaVisual = () => {
-    const totalSlices = settings.sessionsUntilLongBreak
-    const anglePerSlice = 360 / totalSlices
-
-    return (
-      <div
-        className={`pizza-container relative w-40 h-40 mx-auto ${
-          completedPomodoros >= totalSlices ? "pizza-complete" : ""
-        }`}
-      >
-        {/* Base pizza image (greyed out) */}
-        <div className='relative w-full h-full rounded-full overflow-hidden border-4 border-amber-800 shadow-2xl'>
-          {/* Background pizza (always visible but dimmed) */}
-          <div
-            className='absolute inset-0 w-full h-full'
-            style={{
-              backgroundImage: "url(/assets/pizza.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-              filter: "brightness(0.25) saturate(0.4) grayscale(0.6)",
-            }}
-          />
-
-          {/* Revealed pizza slices */}
-          {Array.from({ length: totalSlices }).map((_, index) => {
-            const startAngle = index * anglePerSlice
-            const endAngle = (index + 1) * anglePerSlice
-            const isUnlocked = completedPomodoros > index
-
-            return (
-              <PizzaSlice
-                key={index}
-                isUnlocked={isUnlocked}
-                startAngle={startAngle}
-                endAngle={endAngle}
-                index={index}
-                totalSlices={totalSlices}
-              />
-            )
-          })}
-
-          {/* Slice divider lines */}
-          <svg
-            className='absolute inset-0 w-full h-full pointer-events-none'
-            viewBox='0 0 160 160'
-          >
-            {Array.from({ length: totalSlices }).map((_, index) => {
-              const angle = index * anglePerSlice
-              const angleRad = ((angle - 90) * Math.PI) / 180
-              const x = 80 + 70 * Math.cos(angleRad)
-              const y = 80 + 70 * Math.sin(angleRad)
-
-              return (
-                <line
-                  key={index}
-                  x1='80'
-                  y1='80'
-                  x2={x}
-                  y2={y}
-                  stroke='#8B4513'
-                  strokeWidth='2'
-                  opacity='0.8'
-                  className='drop-shadow-sm'
-                />
-              )
-            })}
-          </svg>
-        </div>
-
-        {/* Complete pizza celebration */}
-        {completedPomodoros >= totalSlices && (
-          <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
-            <div className='text-4xl animate-bounce bg-white/20 backdrop-blur-sm rounded-full p-2'>
-              🎉
-            </div>
-          </div>
-        )}
-      </div>
-    )
-  }
-
   // Timer effect
   useEffect(() => {
     let interval
@@ -1736,436 +1653,423 @@ const StudyTimerPage = () => {
       <div
         className='fixed inset-0 w-full h-full bg-cover bg-center bg-no-repeat'
         style={{
-          backgroundImage: "url(/assets/work-bg.png)",
+          backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='20' height='20' patternTransform='scale(2) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='%23f4e4baff'/><path d='M 10,-2.55e-7 V 20 Z M -1.1677362e-8,10 H 20 Z'  stroke-width='1' stroke='%23e5a9a9ff' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,0)' fill='url(%23a)'/></svg>")`,
         }}
       />
-
-      {/* Overlay for better text readability */}
-      <div className='fixed inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/40' />
 
       {/* Content */}
       <div className='relative z-10'>
         <NavigationHeader currentPage='study' />
 
-        <div className='container mx-auto px-6 py-8'>
-          <div className='text-center mb-8'>
-            <h1 className='text-4xl font-bold text-white mb-4'>
-              🍕 Pizza Pomodoro Timer
-            </h1>
-            <p className='text-gray-300'>
-              Focus for 25 minutes, earn a pizza slice! Complete 4 slices for a
-              full pizza!
-            </p>
-          </div>
-
-          {/* Compact Unified Card */}
-          <div className='max-w-2xl mx-auto glass-card p-8 relative'>
-            {/* Top Controls */}
-            <div className='absolute top-4 left-4'>
-              <button
-                onClick={() => setShowSettings(true)}
-                className='glass text-gray-300 hover:text-pink-300 p-2 rounded-lg transition-colors'
-                disabled={isRunning}
-              >
-                <svg
-                  className='w-5 h-5'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
+        <div className='flex h-[90vh] items-center justify-center'>
+          <div className='container px-6 py-8'>
+            {/* Compact Unified Card */}
+            <div className='w-[70vw] md:w-[35vw] mx-auto border-2 border-yellow-700 bg-stone-100 relative rounded-2xl'>
+              <div className='border-b-2 border-yellow-700 bg-[#a8bb8f] text-xl rounded-t-2xl py-2 px-5 flex gap-1 items-center'>
+                <div className='border-2 border-yellow-700 w-4 h-4 bg-red-200 rounded-full'></div>
+                <div className='border-2 border-yellow-700 w-4 h-4 bg-yellow-200 rounded-full'></div>
+                <div className='border-2 border-yellow-700 w-4 h-4 bg-green-200 rounded-full'></div>
+                <h1 className='ml-4 text-yellow-700'>Pomodoro Timer</h1>
+              </div>
+              {/* Top Controls */}
+              <div className='absolute top-52 -left-10 w-16 h-16 md:w-24 md:h-24 bg-[#a8bb8f] rounded-lg'>
+                <button
+                  onClick={() => setShowSettings(true)}
+                  className='border-2 border-yellow-700 text-gray-300 hover:text-pink-300 p-2 rounded-lg transition-colors'
+                  disabled={isRunning}
                 >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z'
+                  <img
+                    className='w-full'
+                    src='/assets/settings.png'
+                    alt='Settings'
                   />
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M15 12a3 3 0 11-6 0 3 3 0 016 0z'
-                  />
-                </svg>
-              </button>
-            </div>
+                </button>
+              </div>
 
-            <div className='absolute top-4 right-4'>
-              <button
-                onClick={() => setShowInstructions(true)}
-                className='glass text-gray-300 hover:text-pink-300 p-2 rounded-lg transition-colors w-8 h-8 flex items-center justify-center font-bold'
-              >
-                ?
-              </button>
-            </div>
-
-            <div className='grid md:grid-cols-2 gap-8 items-center mb-6 mt-8'>
-              {/* Pizza Progress - Left Side */}
-              <div className='text-center'>
-                <h3 className='text-base font-semibold text-white mb-4'>
-                  Your Progress
-                </h3>
-                <div
-                  className={`pizza-container relative w-32 h-32 mx-auto ${
-                    completedPomodoros >= settings.sessionsUntilLongBreak
-                      ? "pizza-complete"
-                      : ""
-                  }`}
+              <div className='absolute top-4 -right-10'>
+                <button
+                  onClick={() => setShowInstructions(true)}
+                  className='border-2 border-yellow-700 w-16 h-16 md:w-24 md:h-24 bg-[#E5A9A9] rounded-lg text-gray-300 hover:text-pink-300 p-2 transition-colors flex items-center justify-center font-bold'
                 >
-                  {/* Base pizza image (greyed out) */}
-                  <div className='relative w-full h-full rounded-full overflow-hidden border-4 border-amber-800 shadow-2xl'>
-                    {/* Background pizza (always visible but dimmed) */}
-                    <div
-                      className='absolute inset-0 w-full h-full'
-                      style={{
-                        backgroundImage: "url(/assets/pizza.png)",
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                        filter: "brightness(0.25) saturate(0.4) grayscale(0.6)",
-                      }}
-                    />
+                  <img
+                    className='w-full'
+                    src='/assets/bulb.png'
+                    alt='Instructions'
+                  />
+                </button>
+              </div>
 
-                    {/* Revealed pizza slices */}
-                    {Array.from({
-                      length: settings.sessionsUntilLongBreak,
-                    }).map((_, index) => {
-                      const totalSlices = settings.sessionsUntilLongBreak
-                      const anglePerSlice = 360 / totalSlices
-                      const startAngle = index * anglePerSlice
-                      const endAngle = (index + 1) * anglePerSlice
-                      const isUnlocked = completedPomodoros > index
+              <div className='grid items-center'>
+                {/* Pizza Progress - Left Side */}
+                <div className='text-center'>
+                  <div
+                    className={`pizza-container relative w-52 h-52 mx-auto ${
+                      completedPomodoros >= settings.sessionsUntilLongBreak
+                        ? "pizza-complete"
+                        : ""
+                    }`}
+                  >
+                    {/* Base pizza image (greyed out) */}
+                    <div className='relative w-full h-full rounded-full overflow-hidden'>
+                      {/* Background pizza (always visible but dimmed) */}
+                      <div
+                        className='absolute inset-0 w-full h-full'
+                        style={{
+                          backgroundImage: "url(/assets/pizza.png)",
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                          opacity: 0.2,
+                        }}
+                      />
 
-                      return (
-                        <PizzaSlice
-                          key={index}
-                          isUnlocked={isUnlocked}
-                          startAngle={startAngle}
-                          endAngle={endAngle}
-                          index={index}
-                          totalSlices={totalSlices}
-                        />
-                      )
-                    })}
-
-                    {/* Slice divider lines */}
-                    <svg
-                      className='absolute inset-0 w-full h-full pointer-events-none'
-                      viewBox='0 0 128 128'
-                    >
+                      {/* Revealed pizza slices */}
                       {Array.from({
                         length: settings.sessionsUntilLongBreak,
                       }).map((_, index) => {
-                        const anglePerSlice =
-                          360 / settings.sessionsUntilLongBreak
-                        const angle = index * anglePerSlice
-                        const angleRad = ((angle - 90) * Math.PI) / 180
-                        const x = 64 + 56 * Math.cos(angleRad)
-                        const y = 64 + 56 * Math.sin(angleRad)
+                        const totalSlices = settings.sessionsUntilLongBreak
+                        const anglePerSlice = 360 / totalSlices
+                        const startAngle = index * anglePerSlice
+                        const endAngle = (index + 1) * anglePerSlice
+                        const isUnlocked = completedPomodoros > index
 
                         return (
-                          <line
+                          <PizzaSlice
                             key={index}
-                            x1='64'
-                            y1='64'
-                            x2={x}
-                            y2={y}
-                            stroke='#8B4513'
-                            strokeWidth='2'
-                            opacity='0.8'
-                            className='drop-shadow-sm'
+                            isUnlocked={isUnlocked}
+                            startAngle={startAngle}
+                            endAngle={endAngle}
+                            index={index}
+                            totalSlices={totalSlices}
                           />
                         )
                       })}
-                    </svg>
+
+                      {/* Slice divider lines */}
+                      <svg
+                        className='absolute inset-0 w-full h-full pointer-events-none'
+                        viewBox='0 0 128 128'
+                      >
+                        {Array.from({
+                          length: settings.sessionsUntilLongBreak,
+                        }).map((_, index) => {
+                          const anglePerSlice =
+                            360 / settings.sessionsUntilLongBreak
+                          const angle = index * anglePerSlice
+                          const angleRad = ((angle - 90) * Math.PI) / 180
+                          const x = 64 + 50 * Math.cos(angleRad)
+                          const y = 64 + 50 * Math.sin(angleRad)
+
+                          return (
+                            <line
+                              key={index}
+                              x1='64'
+                              y1='64'
+                              x2={x}
+                              y2={y}
+                              stroke='#8B4513'
+                              strokeWidth='1'
+                              strokeDasharray={"4 4"}
+                              opacity='0.8'
+                              className='drop-shadow-sm'
+                            />
+                          )
+                        })}
+                      </svg>
+                    </div>
+
+                    {/* Complete pizza celebration */}
+                    {completedPomodoros >= settings.sessionsUntilLongBreak && (
+                      <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
+                        <div className='text-3xl animate-bounce bg-white/20 backdrop-blur-sm rounded-full p-2'>
+                          🎉
+                        </div>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Complete pizza celebration */}
                   {completedPomodoros >= settings.sessionsUntilLongBreak && (
-                    <div className='absolute inset-0 flex items-center justify-center pointer-events-none'>
-                      <div className='text-3xl animate-bounce bg-white/20 backdrop-blur-sm rounded-full p-2'>
-                        🎉
-                      </div>
+                    <div className='mt-3 p-2 bg-green-500/20 border border-green-500/30 rounded-lg'>
+                      <p className='text-green-300 text-xs font-medium'>
+                        🎉 Complete!
+                      </p>
                     </div>
                   )}
                 </div>
 
-                {completedPomodoros >= settings.sessionsUntilLongBreak && (
-                  <div className='mt-3 p-2 bg-green-500/20 border border-green-500/30 rounded-lg'>
-                    <p className='text-green-300 text-xs font-medium'>
-                      🎉 Complete!
+                {/* Timer - Right Side */}
+                <div className='text-center'>
+                  <div className='mb-3'>
+                    <p className='text-xs text-gray-400'>
+                      {isBreak ? "Break Time" : "Focus Session"} • Session{" "}
+                      {currentSession}
                     </p>
                   </div>
-                )}
-              </div>
 
-              {/* Timer - Right Side */}
-              <div className='text-center'>
-                <div className='mb-3'>
-                  <p className='text-xs text-gray-400'>
-                    {isBreak ? "Break Time" : "Focus Session"} • Session{" "}
-                    {currentSession}
-                  </p>
-                </div>
+                  {/* Timer Display */}
+                  <div>
+                    <h3 className='font-black text-8xl mb-5'>
+                      {formatTime(timeLeft)}
+                    </h3>
+                  </div>
 
-                {/* Timer Display */}
-                <div className='text-5xl font-bold text-white mb-6 font-mono'>
-                  {formatTime(timeLeft)}
-                </div>
-
-                {/* Progress Bar */}
-                <div className='w-full bg-gray-700/40 rounded-full h-2 mb-6'>
-                  <div
-                    className={`h-2 rounded-full transition-all duration-1000 ${
-                      isBreak ? "bg-green-400" : "bg-pink-400"
-                    }`}
-                    style={{
-                      width: `${
-                        (((isBreak
-                          ? settings.shortBreakDuration
-                          : settings.focusDuration) *
-                          60 -
-                          timeLeft) /
-                          ((isBreak
+                  {/* Progress Bar */}
+                  <div className='mx-auto w-[90%] bg-gray-700/40 rounded-full h-3 mb-6'>
+                    <div
+                      className={`h-3 rounded-full transition-all duration-1000 ${
+                        isBreak ? "bg-green-400" : "bg-pink-400"
+                      }`}
+                      style={{
+                        width: `${
+                          (((isBreak
                             ? settings.shortBreakDuration
                             : settings.focusDuration) *
-                            60)) *
-                        100
-                      }%`,
-                    }}
-                  />
+                            60 -
+                            timeLeft) /
+                            ((isBreak
+                              ? settings.shortBreakDuration
+                              : settings.focusDuration) *
+                              60)) *
+                          100
+                        }%`,
+                      }}
+                    />
+                  </div>
                 </div>
-
-                {/* Controls */}
-                <div className='flex justify-center space-x-3 mb-3'>
-                  {!isRunning ? (
-                    <button
-                      onClick={startTimer}
-                      className='bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm'
-                    >
-                      <svg
-                        className='w-4 h-4'
-                        fill='currentColor'
-                        viewBox='0 0 24 24'
-                      >
-                        <path d='M8 5v14l11-7z' />
-                      </svg>
-                      <span>Start</span>
-                    </button>
-                  ) : (
-                    <button
-                      onClick={pauseTimer}
-                      className='bg-pink-500 hover:bg-pink-600 text-white px-5 py-2 rounded-lg shadow-lg shadow-pink-500/50 transition-all flex items-center space-x-2 text-sm'
-                    >
-                      <svg
-                        className='w-4 h-4'
-                        fill='currentColor'
-                        viewBox='0 0 24 24'
-                      >
-                        <path d='M6 4h4v16H6V4zm8 0h4v16h-4V4z' />
-                      </svg>
-                      <span>Pause</span>
-                    </button>
-                  )}
-
-                  <button
-                    onClick={resetTimer}
-                    className='glass text-gray-300 hover:text-pink-300 px-3 py-2 rounded-lg transition-colors text-sm'
-                  >
-                    Reset
-                  </button>
-                </div>
-
-                <button
-                  onClick={resetSession}
-                  className='text-gray-400 hover:text-pink-400 text-xs transition-colors'
-                >
-                  Reset Session
-                </button>
               </div>
             </div>
-          </div>
 
-          {/* Settings Modal */}
-          {showSettings && (
-            <SettingsModal
-              settings={settings}
-              onSave={updateSettings}
-              onClose={() => setShowSettings(false)}
-            />
-          )}
+            {/* Settings Modal */}
+            {showSettings && (
+              <SettingsModal
+                settings={settings}
+                onSave={updateSettings}
+                onClose={() => setShowSettings(false)}
+              />
+            )}
 
-          {/* Instructions Modal */}
-          {showInstructions && (
-            <div className='fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4'>
-              <div className='glass-card p-6 max-w-md w-full'>
-                <div className='flex justify-between items-center mb-4'>
-                  <h3 className='text-xl font-bold text-white'>How It Works</h3>
+            {/* Instructions Modal */}
+            {showInstructions && (
+              <div className='fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 p-4'>
+                <div className='glass-card p-6 max-w-md w-full'>
+                  <div className='flex justify-between items-center mb-4'>
+                    <h3 className='text-xl font-bold text-white'>
+                      How It Works
+                    </h3>
+                    <button
+                      onClick={() => setShowInstructions(false)}
+                      className='text-gray-400 hover:text-white text-2xl'
+                    >
+                      ×
+                    </button>
+                  </div>
+
+                  <ul className='text-sm text-gray-300 space-y-3'>
+                    <li className='flex items-start space-x-2'>
+                      <span className='text-pink-400 font-bold'>•</span>
+                      <span>
+                        Focus for {settings.focusDuration} minutes = earn 1
+                        pizza slice
+                      </span>
+                    </li>
+                    <li className='flex items-start space-x-2'>
+                      <span className='text-pink-400 font-bold'>•</span>
+                      <span>
+                        Take a {settings.shortBreakDuration}-minute break after
+                        each session
+                      </span>
+                    </li>
+                    <li className='flex items-start space-x-2'>
+                      <span className='text-pink-400 font-bold'>•</span>
+                      <span>
+                        Every {settings.sessionsUntilLongBreak}th break is{" "}
+                        {settings.longBreakDuration} minutes long
+                      </span>
+                    </li>
+                    <li className='flex items-start space-x-2'>
+                      <span className='text-pink-400 font-bold'>•</span>
+                      <span>
+                        Complete {settings.sessionsUntilLongBreak} slices = full
+                        pizza reward!
+                      </span>
+                    </li>
+                    <li className='flex items-start space-x-2'>
+                      <span className='text-pink-400 font-bold'>•</span>
+                      <span>
+                        Use the settings button to customize your session
+                        durations
+                      </span>
+                    </li>
+                  </ul>
+
                   <button
                     onClick={() => setShowInstructions(false)}
-                    className='text-gray-400 hover:text-white text-2xl'
+                    className='mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg transition-all shadow-md shadow-pink-500/30'
                   >
-                    ×
+                    Got it!
                   </button>
                 </div>
+              </div>
+            )}
 
-                <ul className='text-sm text-gray-300 space-y-3'>
-                  <li className='flex items-start space-x-2'>
-                    <span className='text-pink-400 font-bold'>•</span>
-                    <span>
-                      Focus for {settings.focusDuration} minutes = earn 1 pizza
-                      slice
-                    </span>
-                  </li>
-                  <li className='flex items-start space-x-2'>
-                    <span className='text-pink-400 font-bold'>•</span>
-                    <span>
-                      Take a {settings.shortBreakDuration}-minute break after
-                      each session
-                    </span>
-                  </li>
-                  <li className='flex items-start space-x-2'>
-                    <span className='text-pink-400 font-bold'>•</span>
-                    <span>
-                      Every {settings.sessionsUntilLongBreak}th break is{" "}
-                      {settings.longBreakDuration} minutes long
-                    </span>
-                  </li>
-                  <li className='flex items-start space-x-2'>
-                    <span className='text-pink-400 font-bold'>•</span>
-                    <span>
-                      Complete {settings.sessionsUntilLongBreak} slices = full
-                      pizza reward!
-                    </span>
-                  </li>
-                  <li className='flex items-start space-x-2'>
-                    <span className='text-pink-400 font-bold'>•</span>
-                    <span>
-                      Use the settings button to customize your session
-                      durations
-                    </span>
-                  </li>
-                </ul>
+            <div className='mt-5 flex items-center flex-col'>
+              {/* Controls */}
+              <div className='flex justify-center space-x-3 mb-3'>
+                {!isRunning ? (
+                  <button
+                    onClick={startTimer}
+                    className='border-2 border-yellow-700 bg-[#af4d98] text-[#f4e4ba] px-5 py-2 rounded-lg shadow-lg transition-all flex items-center space-x-2 text-sm'
+                  >
+                    <h5 className='text-3xl font-black uppercase'>Start</h5>
+                  </button>
+                ) : (
+                  <button
+                    onClick={pauseTimer}
+                    className='border-2 border-yellow-700 bg-stone-700 text-white px-5 py-2 rounded-lg shadow-lg transition-all flex items-center space-x-2 text-sm'
+                  >
+                    <h5 className='text-3xl font-black uppercase'>Pause</h5>
+                  </button>
+                )}
 
                 <button
-                  onClick={() => setShowInstructions(false)}
-                  className='mt-6 w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg transition-all shadow-md shadow-pink-500/30'
+                  onClick={resetTimer}
+                  className='border-2 border-yellow-700 bg-stone-500 text-stone-100 hover:text-pink-300 px-3 py-2 rounded-lg transition-colors text-sm'
                 >
-                  Got it!
+                  <img
+                    className='w-8'
+                    src='/assets/reset.png'
+                    alt='Settings'
+                  />
                 </button>
               </div>
+
+              <button
+                onClick={resetSession}
+                className='text-stone-800 font-bold hover:text-pink-400 text-xs transition-colors'
+              >
+                Reset Session
+              </button>
             </div>
-          )}
 
-          {/* Audio Player (Hidden) */}
-          <audio
-            ref={audioRef}
-            src={playlist[currentTrack]}
-            onEnded={handleTrackEnd}
-            preload='auto'
-          />
+            {/* Audio Player (Hidden) */}
+            <audio
+              ref={audioRef}
+              src={playlist[currentTrack]}
+              onEnded={handleTrackEnd}
+              preload='auto'
+            />
 
-          {/* Volume Control (appears above music button) */}
-          {showVolumeControl && (
-            <div
-              className='fixed bottom-28 left-8 glass-strong p-4 rounded-2xl z-20 shadow-2xl'
-              onMouseEnter={() => setShowVolumeControl(true)}
-              onMouseLeave={() => setShowVolumeControl(false)}
-            >
-              <div className='flex flex-col items-center space-y-3'>
-                <span className='text-white text-sm font-medium'>Volume</span>
-                <div className='flex flex-col items-center space-y-2'>
-                  <input
-                    type='range'
-                    min='0'
-                    max='1'
-                    step='0.01'
-                    value={volume}
-                    onChange={(e) => setVolume(parseFloat(e.target.value))}
-                    className='volume-slider'
-                    style={{
-                      width: "120px",
-                      writingMode: "bt-lr",
-                      WebkitAppearance: "slider-vertical",
-                      height: "100px",
-                      background: `linear-gradient(to top, rgb(236 72 153) ${
-                        volume * 100
-                      }%, rgb(55 65 81) ${volume * 100}%)`,
-                      borderRadius: "10px",
-                      outline: "none",
-                      cursor: "pointer",
-                    }}
-                  />
-                  <span className='text-pink-300 text-xs font-medium'>
-                    {Math.round(volume * 100)}%
-                  </span>
-                </div>
-                <div className='flex space-x-2'>
-                  <button
-                    onClick={() => setVolume(0)}
-                    className='text-white hover:text-pink-300 transition-colors'
-                    title='Mute'
-                  >
-                    <svg
-                      className='w-5 h-5'
-                      fill='currentColor'
-                      viewBox='0 0 24 24'
+            {/* Volume Control (appears above music button) */}
+            {showVolumeControl && (
+              <div
+                className='fixed bottom-28 left-8 glass-strong p-4 rounded-2xl z-20 shadow-2xl'
+                onMouseEnter={() => setShowVolumeControl(true)}
+                onMouseLeave={() => setShowVolumeControl(false)}
+              >
+                <div className='flex flex-col items-center space-y-3'>
+                  <span className='text-white text-sm font-medium'>Volume</span>
+                  <div className='flex flex-col items-center space-y-2'>
+                    <input
+                      type='range'
+                      min='0'
+                      max='1'
+                      step='0.01'
+                      value={volume}
+                      onChange={(e) => setVolume(parseFloat(e.target.value))}
+                      className='volume-slider'
+                      style={{
+                        width: "120px",
+                        writingMode: "bt-lr",
+                        WebkitAppearance: "slider-vertical",
+                        height: "100px",
+                        background: `linear-gradient(to top, rgb(236 72 153) ${
+                          volume * 100
+                        }%, rgb(55 65 81) ${volume * 100}%)`,
+                        borderRadius: "10px",
+                        outline: "none",
+                        cursor: "pointer",
+                      }}
+                    />
+                    <span className='text-pink-300 text-xs font-medium'>
+                      {Math.round(volume * 100)}%
+                    </span>
+                  </div>
+                  <div className='flex space-x-2'>
+                    <button
+                      onClick={() => setVolume(0)}
+                      className='text-white hover:text-pink-300 transition-colors'
+                      title='Mute'
                     >
-                      <path d='M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z' />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => setVolume(0.5)}
-                    className='text-white hover:text-pink-300 transition-colors'
-                    title='50%'
-                  >
-                    <svg
-                      className='w-5 h-5'
-                      fill='currentColor'
-                      viewBox='0 0 24 24'
+                      <svg
+                        className='w-5 h-5'
+                        fill='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path d='M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z' />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => setVolume(0.5)}
+                      className='text-white hover:text-pink-300 transition-colors'
+                      title='50%'
                     >
-                      <path d='M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z' />
-                    </svg>
-                  </button>
-                  <button
-                    onClick={() => setVolume(1)}
-                    className='text-white hover:text-pink-300 transition-colors'
-                    title='100%'
-                  >
-                    <svg
-                      className='w-5 h-5'
-                      fill='currentColor'
-                      viewBox='0 0 24 24'
+                      <svg
+                        className='w-5 h-5'
+                        fill='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path d='M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5z' />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => setVolume(1)}
+                      className='text-white hover:text-pink-300 transition-colors'
+                      title='100%'
                     >
-                      <path d='M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z' />
-                    </svg>
-                  </button>
+                      <svg
+                        className='w-5 h-5'
+                        fill='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path d='M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z' />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* Music Toggle Button */}
-          <button
-            onClick={toggleMusic}
-            onMouseEnter={() => setShowVolumeControl(true)}
-            onMouseLeave={() => setShowVolumeControl(false)}
-            className='fixed bottom-8 left-8 bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-full shadow-2xl shadow-pink-500/50 z-20 transition-all'
-            title={
-              isMusicPlaying
-                ? `Pause Music (Track ${currentTrack + 1}/5)`
-                : "Play Music"
-            }
-          >
-            {isMusicPlaying ? (
-              <svg className='w-6 h-6' fill='currentColor' viewBox='0 0 24 24'>
-                <path d='M6 4h4v16H6V4zm8 0h4v16h-4V4z' />
-              </svg>
-            ) : (
-              <svg className='w-6 h-6' fill='currentColor' viewBox='0 0 24 24'>
-                <path d='M8 5v14l11-7z' />
-              </svg>
             )}
-          </button>
+
+            {/* Music Toggle Button */}
+            <button
+              onClick={toggleMusic}
+              onMouseEnter={() => setShowVolumeControl(true)}
+              onMouseLeave={() => setShowVolumeControl(false)}
+              className='fixed bottom-8 left-8 bg-pink-500 hover:bg-pink-600 text-white p-4 rounded-full shadow-2xl shadow-pink-500/50 z-20 transition-all'
+              title={
+                isMusicPlaying
+                  ? `Pause Music (Track ${currentTrack + 1}/5)`
+                  : "Play Music"
+              }
+            >
+              {isMusicPlaying ? (
+                <svg
+                  className='w-6 h-6'
+                  fill='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path d='M6 4h4v16H6V4zm8 0h4v16h-4V4z' />
+                </svg>
+              ) : (
+                <svg
+                  className='w-6 h-6'
+                  fill='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path d='M8 5v14l11-7z' />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>
