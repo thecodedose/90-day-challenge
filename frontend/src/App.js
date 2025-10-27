@@ -394,7 +394,9 @@ const LandingPage = () => {
           </div>
           
           <div className="glass-card p-8 text-center hover-lift">
-            <div className="text-4xl mb-4">🚀</div>
+            <div className="flex items-center justify-center w-16 h-16 mb-4">
+              <Icons.Rocket />
+            </div>
             <h3 className="text-xl font-semibold text-white mb-3">Month 3</h3>
             <p className="text-gray-300">Open Source / Dev Tools</p>
             <p className="text-sm text-gray-400 mt-2">Contribute or build development tools</p>
