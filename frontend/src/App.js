@@ -225,7 +225,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                 rel="noopener noreferrer"
                 className="text-gray-200 hover:text-pink-300 transition-colors px-3 py-1 rounded-lg hover:bg-pink-500/10 flex items-center space-x-2"
               >
-                <span className="text-lg">💬</span>
+                <Icons.Chat />
                 <span>Discord</span>
               </a>
               <div className="flex items-center space-x-3">
@@ -269,7 +269,7 @@ const NavigationHeader = ({ currentPage = '' }) => {
                 rel="noopener noreferrer"
                 className="text-gray-200 hover:text-pink-300 transition-colors px-3 py-1 rounded-lg hover:bg-pink-500/10 flex items-center space-x-2"
               >
-                <span className="text-lg">💬</span>
+                <Icons.Chat />
                 <span>Discord</span>
               </a>
               <button 
