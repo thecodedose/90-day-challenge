@@ -2558,10 +2558,7 @@ const ExplorePage = () => {
                     project.status === 'paused' ? 'bg-red-500/20 text-red-300 border border-red-500/30' :
                     'bg-gray-500/20 text-gray-300 border border-gray-500/30'
                   }`}>
-                    {project.status === 'completed' ? '✅ Completed' :
-                     project.status === 'in-progress' ? '🚧 In Progress' :
-                     project.status === 'paused' ? '⏸️ Paused' :
-                     '📋 Planning'}
+                    {getStatusIcon(project.status)}
                   </span>
                   <button className="text-gray-200 hover:text-white text-sm px-2 py-1 rounded hover:bg-white/10 transition-colors">
                     {expandedProject === project.id ? 'Less' : 'More'}
