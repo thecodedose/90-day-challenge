@@ -1657,7 +1657,10 @@ const StudyTimerPage = () => {
         
         <div className="container mx-auto px-6 py-8">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4">🍕 Pizza Pomodoro Timer</h1>
+          <h1 className="text-4xl font-bold text-white mb-4 flex items-center justify-center gap-3">
+            <Icons.Pizza />
+            Pizza Pomodoro Timer
+          </h1>
           <p className="text-gray-300">Focus for 25 minutes, earn a pizza slice! Complete 4 slices for a full pizza!</p>
         </div>
 
